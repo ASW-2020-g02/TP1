@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.unlam.asw.tp1;
-
 import java.awt.event.KeyEvent;
 
 /**
@@ -41,12 +40,16 @@ public class VentanaTriangulo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tipo de triángulos");
+        setMaximumSize(new java.awt.Dimension(650, 250));
+        setMinimumSize(new java.awt.Dimension(650, 250));
+        setPreferredSize(new java.awt.Dimension(650, 250));
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null);
 
         jLabelLado1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelLado1.setText("Lado 1");
-        getContentPane().add(jLabelLado1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 71, -1, 29));
+        getContentPane().add(jLabelLado1);
+        jLabelLado1.setBounds(50, 71, 54, 29);
 
         jTextFieldLado1.setTransferHandler(null);
         jTextFieldLado1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -54,16 +57,19 @@ public class VentanaTriangulo extends javax.swing.JFrame {
                 jTextFieldLado1KeyTyped(evt);
             }
         });
-        getContentPane().add(jTextFieldLado1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 75, 72, -1));
+        getContentPane().add(jTextFieldLado1);
+        jTextFieldLado1.setBounds(120, 75, 72, 20);
 
         jLabelTitulo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabelTitulo.setText("Tipo de triángulos");
         jLabelTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(jLabelTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(211, 20, 190, -1));
+        getContentPane().add(jLabelTitulo);
+        jLabelTitulo.setBounds(211, 20, 190, 29);
 
         jLabelLado2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelLado2.setText("Lado 2");
-        getContentPane().add(jLabelLado2, new org.netbeans.lib.awtextra.AbsoluteConstraints(241, 75, -1, -1));
+        getContentPane().add(jLabelLado2);
+        jLabelLado2.setBounds(241, 75, 54, 22);
 
         jTextFieldLado2.setTransferHandler(null);
         jTextFieldLado2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -71,11 +77,13 @@ public class VentanaTriangulo extends javax.swing.JFrame {
                 jTextFieldLado2KeyTyped(evt);
             }
         });
-        getContentPane().add(jTextFieldLado2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 75, 72, -1));
+        getContentPane().add(jTextFieldLado2);
+        jTextFieldLado2.setBounds(310, 75, 72, 20);
 
         jLabelLado3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelLado3.setText("Lado 3");
-        getContentPane().add(jLabelLado3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 75, -1, -1));
+        getContentPane().add(jLabelLado3);
+        jLabelLado3.setBounds(450, 75, 54, 22);
 
         jTextFieldLado3.setTransferHandler(null);
         jTextFieldLado3.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -83,7 +91,8 @@ public class VentanaTriangulo extends javax.swing.JFrame {
                 jTextFieldLado3KeyTyped(evt);
             }
         });
-        getContentPane().add(jTextFieldLado3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 75, 72, -1));
+        getContentPane().add(jTextFieldLado3);
+        jTextFieldLado3.setBounds(520, 75, 72, 20);
 
         jButtonCalcular.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButtonCalcular.setText("CALCULAR");
@@ -92,12 +101,14 @@ public class VentanaTriangulo extends javax.swing.JFrame {
                 jButtonCalcularActionPerformed(evt);
             }
         });
-        getContentPane().add(jButtonCalcular, new org.netbeans.lib.awtextra.AbsoluteConstraints(241, 119, 144, 49));
+        getContentPane().add(jButtonCalcular);
+        jButtonCalcular.setBounds(241, 119, 144, 49);
 
         jLabelResultado.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelResultado.setToolTipText("");
-        getContentPane().add(jLabelResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(13, 174, 590, 40));
+        getContentPane().add(jLabelResultado);
+        jLabelResultado.setBounds(13, 174, 590, 40);
 
         pack();
         setLocationRelativeTo(null);
@@ -127,7 +138,7 @@ public class VentanaTriangulo extends javax.swing.JFrame {
                         jLabelResultado.setText("Triángulo isósceles");
                         break;
                     case Triangulo.NO_ES_TRIANGULO:
-                        jLabelResultado.setText("No se puede construir un Triángulo con los lados ingresados");
+                        jLabelResultado.setText("No se puede construir un triángulo con los valores ingresados");
                         break;
                     default:
                         jLabelResultado.setText("Todos los valores deben ser mayores a cero");
