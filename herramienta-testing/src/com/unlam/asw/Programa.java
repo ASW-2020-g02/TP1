@@ -170,27 +170,27 @@ public class Programa extends JFrame {
 		lblResultadoComplejidadCiclomatica.setBounds(523, 366, 46, 21);
 		contentPane.add(lblResultadoComplejidadCiclomatica);
 
-		JLabel lblFanIn = new JLabel("Fan in");
-		lblFanIn.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblFanIn.setBounds(590, 396, 56, 21);
-		contentPane.add(lblFanIn);
-
-		JLabel lblResultadoFanOut = new JLabel("-");
-		lblResultadoFanOut.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoFanOut.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoFanOut.setBounds(638, 366, 46, 21);
-		contentPane.add(lblResultadoFanOut);
-
 		JLabel lblFanOut = new JLabel("Fan out");
 		lblFanOut.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblFanOut.setBounds(590, 366, 56, 21);
+		lblFanOut.setBounds(590, 396, 56, 21);
 		contentPane.add(lblFanOut);
 
 		JLabel lblResultadoFanIn = new JLabel("-");
 		lblResultadoFanIn.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoFanIn.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoFanIn.setBounds(638, 396, 46, 21);
+		lblResultadoFanIn.setBounds(638, 366, 46, 21);
 		contentPane.add(lblResultadoFanIn);
+
+		JLabel lblFanIn = new JLabel("Fan in");
+		lblFanIn.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblFanIn.setBounds(590, 366, 56, 21);
+		contentPane.add(lblFanIn);
+
+		JLabel lblResultadoFanOut = new JLabel("-");
+		lblResultadoFanOut.setHorizontalAlignment(SwingConstants.CENTER);
+		lblResultadoFanOut.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblResultadoFanOut.setBounds(638, 396, 46, 21);
+		contentPane.add(lblResultadoFanOut);
 
 		JLabel lblLongitud = new JLabel("Longitud");
 		lblLongitud.setFont(new Font("Tahoma", Font.PLAIN, 17));
