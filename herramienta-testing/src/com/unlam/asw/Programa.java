@@ -1,25 +1,38 @@
 package com.unlam.asw;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.util.List;
 
+import javax.swing.AbstractListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuItem;
-import java.awt.Font;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public class Programa extends JFrame {
 
@@ -29,6 +42,14 @@ public class Programa extends JFrame {
 	private static final long serialVersionUID = -7097174973249116900L;
 
 	private JPanel contentPane;
+
+	private JList listaArchivos;
+
+	private JList listaMetodos;
+
+	private JList listaClases;
+
+	private JPanel panelAnalisis;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -55,7 +76,7 @@ public class Programa extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		// MENU //
+		// Barra de menu
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 700, 21);
 		contentPane.add(menuBar);
@@ -64,6 +85,11 @@ public class Programa extends JFrame {
 		menuBar.add(mnArchivo);
 
 		JMenuItem menuItemSeleccionarCarpeta = new JMenuItem("Seleccionar carpeta...");
+		menuItemSeleccionarCarpeta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				seleccionarCarpeta();
+			}
+		});
 		mnArchivo.add(menuItemSeleccionarCarpeta);
 
 		JMenuItem menuItemSalir = new JMenuItem("Salir");
@@ -79,7 +105,12 @@ public class Programa extends JFrame {
 		lblListadoDeArchivos.setBounds(10, 21, 166, 31);
 		contentPane.add(lblListadoDeArchivos);
 
-		JList listaArchivos = new JList();
+		listaArchivos = new JList();
+		listaArchivos.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				onClickArchivo();
+			}
+		});
 		listaArchivos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaArchivos.setBounds(10, 50, 345, 284);
 		contentPane.add(listaArchivos);
@@ -89,12 +120,22 @@ public class Programa extends JFrame {
 		lblClases.setBounds(365, 21, 166, 31);
 		contentPane.add(lblClases);
 
-		JList listaClases = new JList();
+		listaClases = new JList();
+		listaClases.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				onClickClase();
+			}
+		});
 		listaClases.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaClases.setBounds(365, 50, 319, 122);
 		contentPane.add(listaClases);
 
-		JList listaMetodos = new JList();
+		listaMetodos = new JList();
+		listaMetodos.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				onClickMetodo();
+			}
+		});
 		listaMetodos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaMetodos.setBounds(365, 212, 319, 122);
 		contentPane.add(listaMetodos);
@@ -226,20 +267,120 @@ public class Programa extends JFrame {
 		contentPane.add(lblResultadoEsfuerzo);
 
 		JPanel panelHalstead = new JPanel();
-		panelHalstead.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Halstead", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelHalstead.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Halstead",
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		((TitledBorder) panelHalstead.getBorder()).setTitleFont(((TitledBorder) panelHalstead.getBorder())
 				.getTitleFont().deriveFont(Font.BOLD).deriveFont((float) 15.00));
 		panelHalstead.setBounds(315, 419, 356, 58);
 		contentPane.add(panelHalstead);
 
-		JPanel panelAnalisis = new JPanel();
+		panelAnalisis = new JPanel();
 		panelAnalisis.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
-				"Resultados del an\u00E1lisis", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				"An\u00E1lisis del m\u00E9todo \"X\"", TitledBorder.LEADING, TitledBorder.TOP, null,
+				new Color(0, 0, 0)));
 		((TitledBorder) panelAnalisis.getBorder()).setTitleFont(((TitledBorder) panelAnalisis.getBorder())
 				.getTitleFont().deriveFont(Font.BOLD).deriveFont((float) 15.00));
-		panelAnalisis.setToolTipText("Resultados");
+		panelAnalisis.setToolTipText("Análisis del método");
 		panelAnalisis.setBounds(10, 345, 674, 145);
 		contentPane.add(panelAnalisis);
 
 	}
+
+	private void onClickArchivo() {
+		try {
+			// Al tocar la lista de archivos, se obtiene la lista de clases
+			String archivo = (String) listaArchivos.getSelectedValue();
+			if (archivo != "") {
+				String[] clases = new String[1];
+				clases[0] = archivo.substring(archivo.lastIndexOf("\\") + 1, archivo.lastIndexOf("."));
+				actualizarLista(listaClases, clases);
+				actualizarLista(listaMetodos, new String[0]);
+			}
+		} catch (Exception e) {
+		}
+	}
+
+	private void onClickClase() {
+		try {
+			FileInputStream in = new FileInputStream((String) listaArchivos.getSelectedValue());
+			CompilationUnit cu = JavaParser.parse(in);
+			if (listaClases.getSelectedValue() != null) {
+				ClassOrInterfaceDeclaration clase = cu.getClassByName((String) listaClases.getSelectedValue()).get();
+
+				List<MethodDeclaration> metodos = clase.getMethods();
+				List<ConstructorDeclaration> constructores = clase.getConstructors();
+
+				String nombres[] = new String[metodos.size() + constructores.size()];
+				for (int i = 0; i < constructores.size(); i++) {
+					nombres[i] = constructores.get(i).getName().toString();
+				}
+				for (int i = 0; i < metodos.size(); i++) {
+					nombres[i + constructores.size()] = metodos.get(i).getName().toString();
+				}
+
+				actualizarLista(listaMetodos, nombres);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void onClickMetodo() {
+		// Seteo el nombre del recuadro de resultados
+		String nombre = "An\u00E1lisis del m\u00E9todo \"" + (String) listaMetodos.getSelectedValue() + "\"";
+
+		TitledBorder titledBorder = (TitledBorder) panelAnalisis.getBorder();
+		titledBorder.setTitle(nombre);
+		repaint();
+
+	}
+
+	private void seleccionarCarpeta() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new java.io.File("."));
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setAcceptAllFileFilterUsed(false);
+		if (chooser.showOpenDialog(Programa.this) == JFileChooser.APPROVE_OPTION) {
+
+			// Se busca todos los .java
+			File[] archivos = chooser.getSelectedFile().listFiles(new FilenameFilter() {
+				public boolean accept(File dir, String name) {
+					return name.toLowerCase().endsWith(".java");
+				}
+			});
+
+			if (archivos.length > 0) {
+				String[] nombres = new String[archivos.length];
+				for (int i = 0; i < archivos.length; i++) {
+					nombres[i] = archivos[i].getPath();
+				}
+
+				actualizarLista(listaArchivos, nombres);
+				actualizarLista(listaClases, new String[1]);
+				actualizarLista(listaMetodos, new String[1]);
+			} else {
+				JOptionPane.showMessageDialog(Programa.this, "La carpeta seleccionada no contiene archivos .java",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	private static void actualizarLista(JList<String> lista, String[] elementos) {
+		lista.setModel(new AbstractListModel<String>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2834588284593084928L;
+			String[] values = elementos;
+
+			public int getSize() {
+				return values.length;
+			}
+
+			public String getElementAt(int index) {
+				return values[index];
+			}
+		});
+	}
+
 }
