@@ -280,7 +280,7 @@ public class Programa extends JFrame {
 				new Color(0, 0, 0)));
 		((TitledBorder) panelAnalisis.getBorder()).setTitleFont(((TitledBorder) panelAnalisis.getBorder())
 				.getTitleFont().deriveFont(Font.BOLD).deriveFont((float) 15.00));
-		panelAnalisis.setToolTipText("Análisis del método");
+		panelAnalisis.setToolTipText("");
 		panelAnalisis.setBounds(10, 345, 674, 145);
 		contentPane.add(panelAnalisis);
 
