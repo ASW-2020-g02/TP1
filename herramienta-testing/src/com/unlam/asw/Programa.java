@@ -275,9 +275,7 @@ public class Programa extends JFrame {
 		contentPane.add(panelHalstead);
 
 		panelAnalisis = new JPanel();
-		panelAnalisis.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
-				"An\u00E1lisis del m\u00E9todo \"X\"", TitledBorder.LEADING, TitledBorder.TOP, null,
-				new Color(0, 0, 0)));
+		panelAnalisis.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "An\u00E1lisis del m\u00E9todo", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		((TitledBorder) panelAnalisis.getBorder()).setTitleFont(((TitledBorder) panelAnalisis.getBorder())
 				.getTitleFont().deriveFont(Font.BOLD).deriveFont((float) 15.00));
 		panelAnalisis.setToolTipText("");
