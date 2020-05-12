@@ -5,9 +5,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -20,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -50,6 +57,28 @@ public class Programa extends JFrame {
 	private JList listaClases;
 
 	private JPanel panelAnalisis;
+
+	private JLabel lblResultadoFanIn;
+
+	private JLabel lblResultadoFanOut;
+
+	private JLabel lblResultadoLongitud;
+
+	private JLabel lblResultadoVolumen;
+
+	private JLabel lblResultadoEsfuerzo;
+
+	private JLabel lblResultadoPjeComentarios;
+
+	private JLabel lblResultadoComplejidadCiclomatica;
+
+	private JLabel lblResultadoLineasCodigo;
+
+	private JLabel lblResultadoLineasComentadas;
+
+	private JLabel lblResultadoLineasBlanco;
+
+	private JLabel lblResultadoCantidadLineasTotales;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -129,7 +158,7 @@ public class Programa extends JFrame {
 		listaClases.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaClases.setBounds(365, 50, 319, 122);
 		contentPane.add(listaClases);
-
+		
 		listaMetodos = new JList();
 		listaMetodos.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
@@ -165,25 +194,25 @@ public class Programa extends JFrame {
 		lblCantidadDeLneas_3.setBounds(20, 456, 231, 21);
 		contentPane.add(lblCantidadDeLneas_3);
 
-		JLabel lblResultadoCantidadLineasTotales = new JLabel("-");
+		lblResultadoCantidadLineasTotales = new JLabel("-");
 		lblResultadoCantidadLineasTotales.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoCantidadLineasTotales.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoCantidadLineasTotales.setBounds(250, 366, 46, 21);
 		contentPane.add(lblResultadoCantidadLineasTotales);
 
-		JLabel lblResultadoLineasCodigo = new JLabel("-");
+		lblResultadoLineasCodigo = new JLabel("-");
 		lblResultadoLineasCodigo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoLineasCodigo.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoLineasCodigo.setBounds(250, 396, 46, 21);
 		contentPane.add(lblResultadoLineasCodigo);
 
-		JLabel lblResultadoLineasComentadas = new JLabel("-");
+		lblResultadoLineasComentadas = new JLabel("-");
 		lblResultadoLineasComentadas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoLineasComentadas.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoLineasComentadas.setBounds(250, 426, 46, 21);
 		contentPane.add(lblResultadoLineasComentadas);
 
-		JLabel lblResultadoLineasBlanco = new JLabel("-");
+		lblResultadoLineasBlanco = new JLabel("-");
 		lblResultadoLineasBlanco.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoLineasBlanco.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoLineasBlanco.setBounds(250, 456, 46, 21);
@@ -194,10 +223,10 @@ public class Programa extends JFrame {
 		lblPorcentajeDeComentarios.setBounds(318, 396, 198, 21);
 		contentPane.add(lblPorcentajeDeComentarios);
 
-		JLabel lblResultadoPjeComentarios = new JLabel("-");
+		lblResultadoPjeComentarios = new JLabel("-");
 		lblResultadoPjeComentarios.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoPjeComentarios.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoPjeComentarios.setBounds(523, 396, 46, 21);
+		lblResultadoPjeComentarios.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblResultadoPjeComentarios.setBounds(516, 396, 72, 21);
 		contentPane.add(lblResultadoPjeComentarios);
 
 		JLabel lblComplejidadCiclomtica = new JLabel("Complejidad ciclomática");
@@ -205,10 +234,10 @@ public class Programa extends JFrame {
 		lblComplejidadCiclomtica.setBounds(318, 366, 179, 21);
 		contentPane.add(lblComplejidadCiclomtica);
 
-		JLabel lblResultadoComplejidadCiclomatica = new JLabel("-");
+		lblResultadoComplejidadCiclomatica = new JLabel("-");
 		lblResultadoComplejidadCiclomatica.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoComplejidadCiclomatica.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoComplejidadCiclomatica.setBounds(523, 366, 46, 21);
+		lblResultadoComplejidadCiclomatica.setBounds(516, 366, 70, 21);
 		contentPane.add(lblResultadoComplejidadCiclomatica);
 
 		JLabel lblFanOut = new JLabel("Fan out");
@@ -216,7 +245,7 @@ public class Programa extends JFrame {
 		lblFanOut.setBounds(590, 396, 56, 21);
 		contentPane.add(lblFanOut);
 
-		JLabel lblResultadoFanIn = new JLabel("-");
+		lblResultadoFanIn = new JLabel("-");
 		lblResultadoFanIn.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoFanIn.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoFanIn.setBounds(638, 366, 46, 21);
@@ -227,7 +256,7 @@ public class Programa extends JFrame {
 		lblFanIn.setBounds(590, 366, 56, 21);
 		contentPane.add(lblFanIn);
 
-		JLabel lblResultadoFanOut = new JLabel("-");
+		lblResultadoFanOut = new JLabel("-");
 		lblResultadoFanOut.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoFanOut.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoFanOut.setBounds(638, 396, 46, 21);
@@ -238,7 +267,7 @@ public class Programa extends JFrame {
 		lblLongitud.setBounds(335, 439, 72, 21);
 		contentPane.add(lblLongitud);
 
-		JLabel lblResultadoLongitud = new JLabel("-");
+		lblResultadoLongitud = new JLabel("-");
 		lblResultadoLongitud.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoLongitud.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoLongitud.setBounds(401, 439, 40, 21);
@@ -249,7 +278,7 @@ public class Programa extends JFrame {
 		lblVolumen.setBounds(451, 439, 72, 21);
 		contentPane.add(lblVolumen);
 
-		JLabel lblResultadoVolumen = new JLabel("-");
+		lblResultadoVolumen = new JLabel("-");
 		lblResultadoVolumen.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoVolumen.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoVolumen.setBounds(516, 439, 40, 21);
@@ -260,7 +289,7 @@ public class Programa extends JFrame {
 		lblEsfuerzo.setBounds(562, 439, 72, 21);
 		contentPane.add(lblEsfuerzo);
 
-		JLabel lblResultadoEsfuerzo = new JLabel("-");
+		lblResultadoEsfuerzo = new JLabel("-");
 		lblResultadoEsfuerzo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoEsfuerzo.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblResultadoEsfuerzo.setBounds(628, 439, 40, 21);
@@ -275,7 +304,8 @@ public class Programa extends JFrame {
 		contentPane.add(panelHalstead);
 
 		panelAnalisis = new JPanel();
-		panelAnalisis.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "An\u00E1lisis del m\u00E9todo", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelAnalisis.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
+				"An\u00E1lisis del m\u00E9todo", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		((TitledBorder) panelAnalisis.getBorder()).setTitleFont(((TitledBorder) panelAnalisis.getBorder())
 				.getTitleFont().deriveFont(Font.BOLD).deriveFont((float) 15.00));
 		panelAnalisis.setToolTipText("");
@@ -287,6 +317,7 @@ public class Programa extends JFrame {
 	private void onClickArchivo() {
 		try {
 			// Al tocar la lista de archivos, se obtiene la lista de clases
+
 			String archivo = (String) listaArchivos.getSelectedValue();
 			if (archivo != "") {
 				String[] clases = new String[1];
@@ -326,11 +357,93 @@ public class Programa extends JFrame {
 	private void onClickMetodo() {
 		// Seteo el nombre del recuadro de resultados
 		String nombre = "An\u00E1lisis del m\u00E9todo \"" + (String) listaMetodos.getSelectedValue() + "\"";
+		DecimalFormat df = new DecimalFormat("0.00");
 
 		TitledBorder titledBorder = (TitledBorder) panelAnalisis.getBorder();
 		titledBorder.setTitle(nombre);
 		repaint();
 
+		String codigo = obtenerCodigo((String) listaArchivos.getSelectedValue(),
+				(String) listaMetodos.getSelectedValue(),
+				obtenerOverloading(listaMetodos.getSelectedIndex(), listaMetodos.getModel()));
+		Analisis analisis = new Analisis(codigo);
+		analisis.calcularEstadisticas();
+		lblResultadoCantidadLineasTotales.setText(String.valueOf(analisis.getLineasTotales()));
+		lblResultadoLineasBlanco.setText(String.valueOf(analisis.getLineasEnBlanco()));
+		lblResultadoLineasCodigo.setText(String.valueOf(analisis.getLineasCodigo()));
+		lblResultadoLineasComentadas.setText(String.valueOf(analisis.getLineasComentadas()));
+		lblResultadoPjeComentarios.setText(String.valueOf(
+				df.format(((float) analisis.getLineasComentadas() / analisis.getLineasTotales()) * 100) + "%"));
+	}
+
+	private static String obtenerCodigo(String rutaArchivo, String nombre, int i) {
+		String codigo = "";
+		try {
+			String[] archivo = leerArchivo(rutaArchivo);
+
+			int inicio = -1;
+			while (i != 0) {
+				if (archivo[inicio + 1].contains(" " + nombre + "(") && archivo[inicio + 1].endsWith("{")) {
+					i--;
+				}
+				inicio++;
+			}
+
+			int fin = inicio + 1, contadorLlaves = 1;
+			while (contadorLlaves != 0) {
+				contadorLlaves += contarOcurrencias(archivo[fin], '{');
+				contadorLlaves -= contarOcurrencias(archivo[fin], '}');
+				fin++;
+			}
+
+			String[] arrayCodigo = Arrays.copyOfRange(archivo, inicio, fin);
+			for (int j = 0; j < arrayCodigo.length; j++) {
+				try {
+					arrayCodigo[j] = arrayCodigo[j].substring(1);
+				} catch (Exception e) {
+				}
+			}
+
+			codigo = String.join("\n", arrayCodigo);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return codigo;
+	}
+
+	private static String[] leerArchivo(String rutaArchivo) throws IOException {
+		FileReader fileReader = new FileReader(rutaArchivo);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		List<String> lines = new ArrayList<String>();
+		String line = null;
+		while ((line = bufferedReader.readLine()) != null) {
+			lines.add(line);
+		}
+		bufferedReader.close();
+		return lines.toArray(new String[lines.size()]);
+	}
+
+	private static int contarOcurrencias(String string, char caracter) {
+		int c = 0;
+		for (int i = 0; i < string.length(); i++) {
+			if (string.charAt(i) == caracter) {
+				c++;
+			}
+		}
+		return c;
+	}
+
+	private static int obtenerOverloading(int index, ListModel lista) {
+		// Averiguamos si hay varios metodos con el mismo nombre y, de ser as�,
+		// obtenemos el numero del que seleccionamos.
+		int c = 1;
+		String nombre = (String) lista.getElementAt(index);
+		for (int i = 0; i < index; i++) {
+			if (nombre.compareTo((String) lista.getElementAt(i)) == 0) {
+				c++;
+			}
+		}
+		return c;
 	}
 
 	private void seleccionarCarpeta() {
@@ -380,5 +493,4 @@ public class Programa extends JFrame {
 			}
 		});
 	}
-
 }
