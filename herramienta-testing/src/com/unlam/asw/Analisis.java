@@ -11,6 +11,7 @@ public class Analisis {
 	private int lineasComentadas;
 	private int lineasEnBlanco;
 	private int lineasCodigo;
+	private int complejidadCiclomatica;
 
 	public Analisis(String codigo) {
 		this.codigo = codigo;
@@ -21,7 +22,7 @@ public class Analisis {
 		lineasComentadas = obtenerCantLineasComentadas(this.codigo);
 		lineasEnBlanco = obtenerCantLineasEnBlanco(this.codigo);
 		lineasCodigo = lineasTotales - lineasComentadas - lineasEnBlanco;
-
+		complejidadCiclomatica = calcularComplejidadCiclomatica(codigo);
 //		System.out.println("Lineas totales: " + lineasTotales);
 //		System.out.println("Lineas comentadas: " + lineasComentadas);
 //		System.out.println("Lineas en blanco: " + lineasEnBlanco);
@@ -59,6 +60,35 @@ public class Analisis {
 		return contador + 1;
 	}
 
+	private int obtenerCantLineasComentadas(String codigo) {
+		int posicion, posicionSalto = 0, contador = 0;
+		posicion = codigo.indexOf("//");
+
+		while (posicion != -1) {
+			contador++;
+			posicionSalto = codigo.indexOf('\n', posicion + 1);
+			posicion = codigo.indexOf("//", posicionSalto + 1);
+		}
+
+		return contador;
+	}
+
+	/* TODO: Poner una condicion para que no lea las lineas comentadas */
+	private int calcularComplejidadCiclomatica(String codigo) {
+		int contador = 1;
+		String[] lineas = codigo.split("\\n");
+		for (int i = 0; i < lineas.length; i++) {
+			contador += (Programa.contarOcurrencias(lineas[i], '&') + Programa.contarOcurrencias(lineas[i], '|')) / 2;
+
+			if (lineas[i].contains("while (") || lineas[i].contains("for (") || lineas[i].contains("case ")
+					|| lineas[i].contains("catch ") || lineas[i].contains("if (")) {
+				contador++;
+			}
+		}
+
+		return contador;
+	}
+
 	public String getCodigo() {
 		return codigo;
 	}
@@ -79,16 +109,7 @@ public class Analisis {
 		return lineasCodigo;
 	}
 
-	private int obtenerCantLineasComentadas(String codigo) {
-		int posicion, posicionSalto = 0, contador = 0;
-		posicion = codigo.indexOf("//");
-
-		while (posicion != -1) {
-			contador++;
-			posicionSalto = codigo.indexOf('\n', posicion + 1);
-			posicion = codigo.indexOf("//", posicionSalto + 1);
-		}
-
-		return contador;
+	public int getComplejidadCiclomatica() {
+		return complejidadCiclomatica;
 	}
 }

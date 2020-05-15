@@ -158,7 +158,7 @@ public class Programa extends JFrame {
 		listaClases.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaClases.setBounds(365, 50, 319, 122);
 		contentPane.add(listaClases);
-		
+
 		listaMetodos = new JList();
 		listaMetodos.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
@@ -374,6 +374,7 @@ public class Programa extends JFrame {
 		lblResultadoLineasComentadas.setText(String.valueOf(analisis.getLineasComentadas()));
 		lblResultadoPjeComentarios.setText(String.valueOf(
 				df.format(((float) analisis.getLineasComentadas() / analisis.getLineasTotales()) * 100) + "%"));
+		lblResultadoComplejidadCiclomatica.setText(String.valueOf(analisis.getComplejidadCiclomatica()));
 	}
 
 	private static String obtenerCodigo(String rutaArchivo, String nombre, int i) {
@@ -423,18 +424,18 @@ public class Programa extends JFrame {
 		return lines.toArray(new String[lines.size()]);
 	}
 
-	private static int contarOcurrencias(String string, char caracter) {
-		int c = 0;
+	public static int contarOcurrencias(String string, char caracter) {
+		int contador = 0;
 		for (int i = 0; i < string.length(); i++) {
 			if (string.charAt(i) == caracter) {
-				c++;
+				contador++;
 			}
 		}
-		return c;
+		return contador;
 	}
 
 	private static int obtenerOverloading(int index, ListModel lista) {
-		// Averiguamos si hay varios metodos con el mismo nombre y, de ser as�,
+		// Averiguamos si hay varios metodos con el mismo nombre y, de ser asi,
 		// obtenemos el numero del que seleccionamos.
 		int c = 1;
 		String nombre = (String) lista.getElementAt(index);
