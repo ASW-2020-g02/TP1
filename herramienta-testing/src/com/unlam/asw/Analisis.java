@@ -12,6 +12,9 @@ public class Analisis {
 	private int lineasEnBlanco;
 	private int lineasCodigo;
 	private int complejidadCiclomatica;
+	private float halsteadEsfuerzo;
+	private float halsteadVolumen;
+	private float halsteadLongitud;
 
 	public Analisis(String codigo) {
 		this.codigo = codigo;
@@ -23,6 +26,10 @@ public class Analisis {
 		lineasEnBlanco = obtenerCantLineasEnBlanco(this.codigo);
 		lineasCodigo = lineasTotales - lineasComentadas - lineasEnBlanco;
 		complejidadCiclomatica = calcularComplejidadCiclomatica(codigo);
+		Halstead analisisHalstead = new Halstead(codigo);
+		halsteadEsfuerzo = analisisHalstead.getVolumen() / analisisHalstead.getLongitud();
+		halsteadVolumen = analisisHalstead.getVolumen();
+		halsteadLongitud = analisisHalstead.getLongitud();
 //		System.out.println("Lineas totales: " + lineasTotales);
 //		System.out.println("Lineas comentadas: " + lineasComentadas);
 //		System.out.println("Lineas en blanco: " + lineasEnBlanco);
@@ -111,5 +118,17 @@ public class Analisis {
 
 	public int getComplejidadCiclomatica() {
 		return complejidadCiclomatica;
+	}
+
+	public float getHalsteadEsfuerzo() {
+		return halsteadEsfuerzo;
+	}
+
+	public float getHalsteadVolumen() {
+		return halsteadVolumen;
+	}
+
+	public float getHalsteadLongitud() {
+		return halsteadLongitud;
 	}
 }

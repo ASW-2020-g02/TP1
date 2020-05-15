@@ -220,29 +220,29 @@ public class Programa extends JFrame {
 
 		JLabel lblPorcentajeDeComentarios = new JLabel("Porcentaje de comentarios");
 		lblPorcentajeDeComentarios.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblPorcentajeDeComentarios.setBounds(318, 396, 198, 21);
+		lblPorcentajeDeComentarios.setBounds(296, 396, 198, 21);
 		contentPane.add(lblPorcentajeDeComentarios);
 
 		lblResultadoPjeComentarios = new JLabel("-");
 		lblResultadoPjeComentarios.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoPjeComentarios.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblResultadoPjeComentarios.setBounds(516, 396, 72, 21);
+		lblResultadoPjeComentarios.setBounds(502, 397, 72, 21);
 		contentPane.add(lblResultadoPjeComentarios);
 
 		JLabel lblComplejidadCiclomtica = new JLabel("Complejidad ciclomática");
 		lblComplejidadCiclomtica.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblComplejidadCiclomtica.setBounds(318, 366, 179, 21);
+		lblComplejidadCiclomtica.setBounds(296, 366, 179, 21);
 		contentPane.add(lblComplejidadCiclomtica);
 
 		lblResultadoComplejidadCiclomatica = new JLabel("-");
 		lblResultadoComplejidadCiclomatica.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoComplejidadCiclomatica.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoComplejidadCiclomatica.setBounds(516, 366, 70, 21);
+		lblResultadoComplejidadCiclomatica.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblResultadoComplejidadCiclomatica.setBounds(502, 367, 70, 21);
 		contentPane.add(lblResultadoComplejidadCiclomatica);
 
 		JLabel lblFanOut = new JLabel("Fan out");
 		lblFanOut.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblFanOut.setBounds(590, 396, 56, 21);
+		lblFanOut.setBounds(584, 396, 56, 21);
 		contentPane.add(lblFanOut);
 
 		lblResultadoFanIn = new JLabel("-");
@@ -253,7 +253,7 @@ public class Programa extends JFrame {
 
 		JLabel lblFanIn = new JLabel("Fan in");
 		lblFanIn.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblFanIn.setBounds(590, 366, 56, 21);
+		lblFanIn.setBounds(582, 366, 56, 21);
 		contentPane.add(lblFanIn);
 
 		lblResultadoFanOut = new JLabel("-");
@@ -264,35 +264,35 @@ public class Programa extends JFrame {
 
 		JLabel lblLongitud = new JLabel("Longitud");
 		lblLongitud.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblLongitud.setBounds(335, 439, 72, 21);
+		lblLongitud.setBounds(306, 438, 65, 21);
 		contentPane.add(lblLongitud);
 
 		lblResultadoLongitud = new JLabel("-");
 		lblResultadoLongitud.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoLongitud.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoLongitud.setBounds(401, 439, 40, 21);
+		lblResultadoLongitud.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblResultadoLongitud.setBounds(365, 439, 65, 21);
 		contentPane.add(lblResultadoLongitud);
 
 		JLabel lblVolumen = new JLabel("Volumen");
 		lblVolumen.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblVolumen.setBounds(451, 439, 72, 21);
+		lblVolumen.setBounds(430, 438, 64, 21);
 		contentPane.add(lblVolumen);
 
 		lblResultadoVolumen = new JLabel("-");
 		lblResultadoVolumen.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoVolumen.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoVolumen.setBounds(516, 439, 40, 21);
+		lblResultadoVolumen.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblResultadoVolumen.setBounds(489, 439, 71, 21);
 		contentPane.add(lblResultadoVolumen);
 
 		JLabel lblEsfuerzo = new JLabel("Esfuerzo");
 		lblEsfuerzo.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblEsfuerzo.setBounds(562, 439, 72, 21);
+		lblEsfuerzo.setBounds(562, 438, 72, 21);
 		contentPane.add(lblEsfuerzo);
 
 		lblResultadoEsfuerzo = new JLabel("-");
 		lblResultadoEsfuerzo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoEsfuerzo.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoEsfuerzo.setBounds(628, 439, 40, 21);
+		lblResultadoEsfuerzo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblResultadoEsfuerzo.setBounds(624, 439, 46, 21);
 		contentPane.add(lblResultadoEsfuerzo);
 
 		JPanel panelHalstead = new JPanel();
@@ -300,7 +300,7 @@ public class Programa extends JFrame {
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		((TitledBorder) panelHalstead.getBorder()).setTitleFont(((TitledBorder) panelHalstead.getBorder())
 				.getTitleFont().deriveFont(Font.BOLD).deriveFont((float) 15.00));
-		panelHalstead.setBounds(315, 419, 356, 58);
+		panelHalstead.setBounds(296, 419, 380, 58);
 		contentPane.add(panelHalstead);
 
 		panelAnalisis = new JPanel();
@@ -375,6 +375,9 @@ public class Programa extends JFrame {
 		lblResultadoPjeComentarios.setText(String.valueOf(
 				df.format(((float) analisis.getLineasComentadas() / analisis.getLineasTotales()) * 100) + "%"));
 		lblResultadoComplejidadCiclomatica.setText(String.valueOf(analisis.getComplejidadCiclomatica()));
+		lblResultadoEsfuerzo.setText(String.valueOf(df.format(analisis.getHalsteadEsfuerzo())));
+		lblResultadoLongitud.setText(String.valueOf(df.format(analisis.getHalsteadLongitud())));
+		lblResultadoVolumen.setText(String.valueOf(df.format(analisis.getHalsteadVolumen())));
 	}
 
 	private static String obtenerCodigo(String rutaArchivo, String nombre, int i) {
