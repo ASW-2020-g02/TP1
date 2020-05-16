@@ -4,38 +4,48 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 
+import javax.swing.JList;
+
 public class Analisis {
 
-	private String codigo;
 	private int lineasTotales;
 	private int lineasComentadas;
 	private int lineasEnBlanco;
 	private int lineasCodigo;
+	private int fanIn;
+	private int fanOut;
 	private int complejidadCiclomatica;
 	private float halsteadEsfuerzo;
 	private float halsteadVolumen;
 	private float halsteadLongitud;
+	private JList<String> listaMetodos;
+	private JList<String> listaArchivos;
+	private String codigo;
 
-	public Analisis(String codigo) {
+	public Analisis(String codigo, JList<String> listaMetodos, JList<String> listaArchivos) {
 		this.codigo = codigo;
+		this.listaMetodos = listaMetodos;
+		this.listaArchivos = listaArchivos;
+		calcularEstadisticas();
 	}
 
-	public void calcularEstadisticas() {
+	private void calcularEstadisticas() {
 		lineasTotales = obtenerCantLineasTotales(this.codigo);
 		lineasComentadas = obtenerCantLineasComentadas(this.codigo);
 		lineasEnBlanco = obtenerCantLineasEnBlanco(this.codigo);
 		lineasCodigo = lineasTotales - lineasComentadas - lineasEnBlanco;
-		complejidadCiclomatica = calcularComplejidadCiclomatica(codigo);
-		Halstead analisisHalstead = new Halstead(codigo);
+		complejidadCiclomatica = calcularComplejidadCiclomatica(this.codigo);
+
+		Halstead analisisHalstead = new Halstead(this.codigo);
 		halsteadEsfuerzo = analisisHalstead.getVolumen() / analisisHalstead.getLongitud();
 		halsteadVolumen = analisisHalstead.getVolumen();
 		halsteadLongitud = analisisHalstead.getLongitud();
-//		System.out.println("Lineas totales: " + lineasTotales);
-//		System.out.println("Lineas comentadas: " + lineasComentadas);
-//		System.out.println("Lineas en blanco: " + lineasEnBlanco);
-//		System.out.println("Lineas codigo: " + lineasCodigo);
+
+		fanIn = FanInFanOut.getFanIn(this.codigo, listaMetodos);
+		fanOut = FanInFanOut.getFanOut(this.codigo, listaMetodos, listaArchivos);
 	}
 
+	// INICIO Metodos de lineas
 	private int obtenerCantLineasEnBlanco(String codigo) {
 		final BufferedReader br = new BufferedReader(new StringReader(codigo));
 		String linea;
@@ -48,7 +58,6 @@ public class Analisis {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -79,13 +88,14 @@ public class Analisis {
 
 		return contador;
 	}
+	// FIN Metodos de lineas
 
 	/* TODO: Poner una condicion para que no lea las lineas comentadas */
 	private int calcularComplejidadCiclomatica(String codigo) {
 		int contador = 1;
 		String[] lineas = codigo.split("\\n");
 		for (int i = 0; i < lineas.length; i++) {
-			contador += (Programa.contarOcurrencias(lineas[i], '&') + Programa.contarOcurrencias(lineas[i], '|')) / 2;
+			contador += (Utils.contarOcurrencias(lineas[i], '&') + Utils.contarOcurrencias(lineas[i], '|')) / 2;
 
 			if (lineas[i].contains("while (") || lineas[i].contains("for (") || lineas[i].contains("case ")
 					|| lineas[i].contains("catch ") || lineas[i].contains("if (")) {
@@ -131,4 +141,13 @@ public class Analisis {
 	public float getHalsteadLongitud() {
 		return halsteadLongitud;
 	}
+
+	public int getFanIn() {
+		return fanIn;
+	}
+
+	public int getFanOut() {
+		return fanOut;
+	}
+
 }

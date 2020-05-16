@@ -12,14 +12,6 @@ public class Halstead {
 	private float longitud;
 	private float volumen;
 
-	public float getLongitud() {
-		return longitud;
-	}
-
-	public float getVolumen() {
-		return volumen;
-	}
-
 	public Halstead(String codigo) {
 		calcularMetricasHalstead(codigo);
 	}
@@ -87,7 +79,7 @@ public class Halstead {
 		for (int v : operadores.values()) {
 			operadoresTotales += v;
 		}
-		
+
 		volumen = (float) (longitud * Math.log10(operandosTotales + operadoresTotales) / Math.log10(2));
 	}
 
@@ -144,4 +136,14 @@ public class Halstead {
 			return false;
 		}
 	}
+
+	public float getLongitud() {
+		return longitud;
+	}
+
+	public float getVolumen() {
+		return volumen;
+	}
 }
+
+

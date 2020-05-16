@@ -311,14 +311,14 @@ public class Programa extends JFrame {
 		panelAnalisis.setToolTipText("");
 		panelAnalisis.setBounds(10, 345, 674, 145);
 		contentPane.add(panelAnalisis);
-
 	}
 
+	/// INICIO Metodos onClick para las distintas listas
 	private void onClickArchivo() {
 		try {
-			// Al tocar la lista de archivos, se obtiene la lista de clases
-
+			// Al tocar un archivo, se obtiene la lista de clases incluidas en el mismo
 			String archivo = (String) listaArchivos.getSelectedValue();
+
 			if (archivo != "") {
 				String[] clases = new String[1];
 				clases[0] = archivo.substring(archivo.lastIndexOf("\\") + 1, archivo.lastIndexOf("."));
@@ -357,17 +357,21 @@ public class Programa extends JFrame {
 	private void onClickMetodo() {
 		// Seteo el nombre del recuadro de resultados
 		String nombre = "An\u00E1lisis del m\u00E9todo \"" + (String) listaMetodos.getSelectedValue() + "\"";
-		DecimalFormat df = new DecimalFormat("0.00");
-
 		TitledBorder titledBorder = (TitledBorder) panelAnalisis.getBorder();
 		titledBorder.setTitle(nombre);
 		repaint();
 
-		String codigo = obtenerCodigo((String) listaArchivos.getSelectedValue(),
+		String codigo = Utils.obtenerCodigo((String) listaArchivos.getSelectedValue(),
 				(String) listaMetodos.getSelectedValue(),
-				obtenerOverloading(listaMetodos.getSelectedIndex(), listaMetodos.getModel()));
-		Analisis analisis = new Analisis(codigo);
-		analisis.calcularEstadisticas();
+				Utils.obtenerOverloading(listaMetodos.getSelectedIndex(), listaMetodos.getModel()));
+
+		Analisis analisis = new Analisis(codigo, listaMetodos, listaArchivos);
+		this.completarCampos(analisis);
+	}
+	/// FIN Metodos onClick para las distintas listas
+
+	private void completarCampos(Analisis analisis) {
+		DecimalFormat df = new DecimalFormat("0.00");
 		lblResultadoCantidadLineasTotales.setText(String.valueOf(analisis.getLineasTotales()));
 		lblResultadoLineasBlanco.setText(String.valueOf(analisis.getLineasEnBlanco()));
 		lblResultadoLineasCodigo.setText(String.valueOf(analisis.getLineasCodigo()));
@@ -378,76 +382,8 @@ public class Programa extends JFrame {
 		lblResultadoEsfuerzo.setText(String.valueOf(df.format(analisis.getHalsteadEsfuerzo())));
 		lblResultadoLongitud.setText(String.valueOf(df.format(analisis.getHalsteadLongitud())));
 		lblResultadoVolumen.setText(String.valueOf(df.format(analisis.getHalsteadVolumen())));
-	}
-
-	private static String obtenerCodigo(String rutaArchivo, String nombre, int i) {
-		String codigo = "";
-		try {
-			String[] archivo = leerArchivo(rutaArchivo);
-
-			int inicio = -1;
-			while (i != 0) {
-				if (archivo[inicio + 1].contains(" " + nombre + "(") && archivo[inicio + 1].endsWith("{")) {
-					i--;
-				}
-				inicio++;
-			}
-
-			int fin = inicio + 1, contadorLlaves = 1;
-			while (contadorLlaves != 0) {
-				contadorLlaves += contarOcurrencias(archivo[fin], '{');
-				contadorLlaves -= contarOcurrencias(archivo[fin], '}');
-				fin++;
-			}
-
-			String[] arrayCodigo = Arrays.copyOfRange(archivo, inicio, fin);
-			for (int j = 0; j < arrayCodigo.length; j++) {
-				try {
-					arrayCodigo[j] = arrayCodigo[j].substring(1);
-				} catch (Exception e) {
-				}
-			}
-
-			codigo = String.join("\n", arrayCodigo);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return codigo;
-	}
-
-	private static String[] leerArchivo(String rutaArchivo) throws IOException {
-		FileReader fileReader = new FileReader(rutaArchivo);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		List<String> lines = new ArrayList<String>();
-		String line = null;
-		while ((line = bufferedReader.readLine()) != null) {
-			lines.add(line);
-		}
-		bufferedReader.close();
-		return lines.toArray(new String[lines.size()]);
-	}
-
-	public static int contarOcurrencias(String string, char caracter) {
-		int contador = 0;
-		for (int i = 0; i < string.length(); i++) {
-			if (string.charAt(i) == caracter) {
-				contador++;
-			}
-		}
-		return contador;
-	}
-
-	private static int obtenerOverloading(int index, ListModel lista) {
-		// Averiguamos si hay varios metodos con el mismo nombre y, de ser asi,
-		// obtenemos el numero del que seleccionamos.
-		int c = 1;
-		String nombre = (String) lista.getElementAt(index);
-		for (int i = 0; i < index; i++) {
-			if (nombre.compareTo((String) lista.getElementAt(i)) == 0) {
-				c++;
-			}
-		}
-		return c;
+		lblResultadoFanIn.setText(String.valueOf(analisis.getFanIn()));
+		lblResultadoFanOut.setText(String.valueOf(analisis.getFanOut()));
 	}
 
 	private void seleccionarCarpeta() {
