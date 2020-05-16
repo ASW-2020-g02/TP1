@@ -145,10 +145,10 @@ public class Programa extends JFrame {
 		listaArchivos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaArchivos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaArchivos.setBounds(10, 50, 345, 284);
-        JScrollPane listScrollerArchivos = new JScrollPane();
-        listScrollerArchivos.setBounds(10, 50, 345, 284);
-        listScrollerArchivos.setViewportView(listaArchivos);
-        listaArchivos.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane listScrollerArchivos = new JScrollPane();
+		listScrollerArchivos.setBounds(10, 50, 345, 284);
+		listScrollerArchivos.setViewportView(listaArchivos);
+		listaArchivos.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerArchivos);
 
 		JLabel lblClases = new JLabel("Clases");
@@ -164,10 +164,10 @@ public class Programa extends JFrame {
 		});
 		listaClases.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaClases.setBounds(365, 50, 319, 122);
-        JScrollPane listScrollerClases = new JScrollPane();
-        listScrollerClases.setBounds(365, 50, 319, 122);
-        listScrollerClases.setViewportView(listaClases);
-        listaClases.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane listScrollerClases = new JScrollPane();
+		listScrollerClases.setBounds(365, 50, 319, 122);
+		listScrollerClases.setViewportView(listaClases);
+		listaClases.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerClases);
 
 		listaMetodos = new JList();
@@ -178,8 +178,8 @@ public class Programa extends JFrame {
 		});
 		listaMetodos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaMetodos.setBounds(365, 212, 319, 122);
-        JScrollPane listScrollerMetodos = new JScrollPane();
-        listScrollerMetodos.setBounds(365, 212, 319, 122);
+		JScrollPane listScrollerMetodos = new JScrollPane();
+		listScrollerMetodos.setBounds(365, 212, 319, 122);
 		listScrollerMetodos.setViewportView(listaMetodos);
 		listaMetodos.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerMetodos);
@@ -339,6 +339,7 @@ public class Programa extends JFrame {
 				clases[0] = archivo.substring(archivo.lastIndexOf("\\") + 1, archivo.lastIndexOf("."));
 				actualizarLista(listaClases, clases);
 				actualizarLista(listaMetodos, new String[0]);
+				resetearCampos();
 			}
 		} catch (Exception e) {
 		}
@@ -370,20 +371,41 @@ public class Programa extends JFrame {
 	}
 
 	private void onClickMetodo() {
-		// Seteo el nombre del recuadro de resultados
-		String nombre = "An\u00E1lisis del m\u00E9todo \"" + (String) listaMetodos.getSelectedValue() + "\"";
+		if (!listaMetodos.getSelectedValue().toString().isEmpty()) {
+			// Seteo el nombre del recuadro de resultados
+			String nombre = "An\u00E1lisis del m\u00E9todo \"" + (String) listaMetodos.getSelectedValue() + "\"";
+			TitledBorder titledBorder = (TitledBorder) panelAnalisis.getBorder();
+			titledBorder.setTitle(nombre);
+			repaint();
+
+			String codigo = Utils.obtenerCodigo((String) listaArchivos.getSelectedValue(),
+					(String) listaMetodos.getSelectedValue(),
+					Utils.obtenerOverloading(listaMetodos.getSelectedIndex(), listaMetodos.getModel()));
+
+			Analisis analisis = new Analisis(codigo, listaMetodos, listaArchivos);
+			this.completarCampos(analisis);
+		}
+	}
+
+	/// FIN Metodos onClick para las distintas listas
+	private void resetearCampos() {
+		String nombre = "An\u00E1lisis del m\u00E9todo";
 		TitledBorder titledBorder = (TitledBorder) panelAnalisis.getBorder();
 		titledBorder.setTitle(nombre);
 		repaint();
 
-		String codigo = Utils.obtenerCodigo((String) listaArchivos.getSelectedValue(),
-				(String) listaMetodos.getSelectedValue(),
-				Utils.obtenerOverloading(listaMetodos.getSelectedIndex(), listaMetodos.getModel()));
-
-		Analisis analisis = new Analisis(codigo, listaMetodos, listaArchivos);
-		this.completarCampos(analisis);
+		lblResultadoCantidadLineasTotales.setText("-");
+		lblResultadoLineasBlanco.setText("-");
+		lblResultadoLineasCodigo.setText("-");
+		lblResultadoLineasComentadas.setText("-");
+		lblResultadoPjeComentarios.setText("-");
+		lblResultadoEsfuerzo.setText("-");
+		lblResultadoLongitud.setText("-");
+		lblResultadoComplejidadCiclomatica.setText("-");
+		lblResultadoVolumen.setText("-");
+		lblResultadoFanIn.setText("-");
+		lblResultadoFanOut.setText("-");
 	}
-	/// FIN Metodos onClick para las distintas listas
 
 	private void completarCampos(Analisis analisis) {
 		DecimalFormat df = new DecimalFormat("0.00");
@@ -405,7 +427,6 @@ public class Programa extends JFrame {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new java.io.File("."));
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		chooser.setAcceptAllFileFilterUsed(false);
 		if (chooser.showOpenDialog(Programa.this) == JFileChooser.APPROVE_OPTION) {
 
 			// Se busca todos los .java
