@@ -26,7 +26,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -141,8 +143,13 @@ public class Programa extends JFrame {
 			}
 		});
 		listaArchivos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		listaArchivos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaArchivos.setBounds(10, 50, 345, 284);
-		contentPane.add(listaArchivos);
+        JScrollPane listScrollerArchivos = new JScrollPane();
+        listScrollerArchivos.setBounds(10, 50, 345, 284);
+        listScrollerArchivos.setViewportView(listaArchivos);
+        listaArchivos.setLayoutOrientation(JList.VERTICAL);
+		contentPane.add(listScrollerArchivos);
 
 		JLabel lblClases = new JLabel("Clases");
 		lblClases.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -157,7 +164,11 @@ public class Programa extends JFrame {
 		});
 		listaClases.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaClases.setBounds(365, 50, 319, 122);
-		contentPane.add(listaClases);
+        JScrollPane listScrollerClases = new JScrollPane();
+        listScrollerClases.setBounds(365, 50, 319, 122);
+        listScrollerClases.setViewportView(listaClases);
+        listaClases.setLayoutOrientation(JList.VERTICAL);
+		contentPane.add(listScrollerClases);
 
 		listaMetodos = new JList();
 		listaMetodos.addListSelectionListener(new ListSelectionListener() {
@@ -167,7 +178,11 @@ public class Programa extends JFrame {
 		});
 		listaMetodos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaMetodos.setBounds(365, 212, 319, 122);
-		contentPane.add(listaMetodos);
+        JScrollPane listScrollerMetodos = new JScrollPane();
+        listScrollerMetodos.setBounds(365, 212, 319, 122);
+		listScrollerMetodos.setViewportView(listaMetodos);
+		listaMetodos.setLayoutOrientation(JList.VERTICAL);
+		contentPane.add(listScrollerMetodos);
 
 		JLabel lblMtodos = new JLabel("Métodos");
 		lblMtodos.setFont(new Font("Tahoma", Font.BOLD, 15));
