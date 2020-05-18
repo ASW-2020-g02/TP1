@@ -30,14 +30,15 @@ public class Analisis {
 	}
 
 	private void calcularEstadisticas() {
-		lineasTotales = obtenerCantLineasTotales(this.codigo);
+		// Saco la primer y ultima linea
+		lineasTotales = obtenerCantLineasTotales(this.codigo) - 2;
 		lineasComentadas = obtenerCantLineasComentadas(this.codigo);
 		lineasEnBlanco = obtenerCantLineasEnBlanco(this.codigo);
 		lineasCodigo = lineasTotales - lineasComentadas - lineasEnBlanco;
 		complejidadCiclomatica = calcularComplejidadCiclomatica(this.codigo);
 
 		Halstead analisisHalstead = new Halstead(this.codigo);
-		halsteadEsfuerzo = analisisHalstead.getVolumen() / analisisHalstead.getLongitud();
+		halsteadEsfuerzo = analisisHalstead.getEsfuerzo();
 		halsteadVolumen = analisisHalstead.getVolumen();
 		halsteadLongitud = analisisHalstead.getLongitud();
 

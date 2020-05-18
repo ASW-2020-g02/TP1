@@ -1,58 +1,72 @@
 package com.unlam.asw;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StreamTokenizer;
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Halstead {
 	private float longitud;
 	private float volumen;
+	private float esfuerzo;
 
 	public Halstead(String codigo) {
 		calcularMetricasHalstead(codigo);
 	}
 
 	private void calcularMetricasHalstead(String codigo) {
+		boolean flagElse = false;
+		String key = "else if";
+
 		HashMap<String, Integer> operadores = new HashMap<String, Integer>();
 		HashMap<String, Integer> operandos = new HashMap<String, Integer>();
+		codigo = codigo.substring(codigo.indexOf('\n') + 1, codigo.lastIndexOf('\n'));
+		String[] lineas = codigo.split("\n");
+		for (String string : lineas) {
+			Pattern pattern = Pattern.compile("//.*|/\\*((.|\\n)(?!=*/))+\\*/");
+			Matcher matcher = pattern.matcher(string);
+			// Salteo lineas con comentarios
+			if (!matcher.find()) {
+				String[] contenidoString = string.split(" ");
+				for (String string2 : contenidoString) {
+					string2 = string2.trim();
+					if (!string2.equals("")) {
+						if (isNumeric(string2)) {
+							incrementarContador(operandos, String.valueOf(string2), 1);
+						} else if (esKeyword(string2)) {
+							if (string2.equals("else")) {
+								flagElse = true;
+							}
+							incrementarContador(operadores, string2, 1);
+						} else if (esOperador(string2)) {
+							incrementarContador(operadores, string2, 1);
+						} else if (!Character.isUpperCase(string2.charAt(0))) {
+							string2 = string2.replaceAll("[^a-zA-Z0-9]", "");
 
-		Reader reader = new StringReader(codigo);
-		StreamTokenizer st = new StreamTokenizer(reader);
-		try {
-			int token;
-			while ((token = st.nextToken()) != StreamTokenizer.TT_EOF) {
-				if (st.ttype == StreamTokenizer.TT_NUMBER) {
-					incrementarContador(operandos, String.valueOf(st.nval), 1);
-				} else if (st.ttype == StreamTokenizer.TT_WORD) {
-					if (esKeyword(st.sval)) {
-						incrementarContador(operadores, st.sval, 1);
-					} else if (!Character.isUpperCase(st.sval.charAt(0))) {
-						incrementarContador(operandos, st.sval, 1);
-					}
-				} else if (st.ttype != StreamTokenizer.TT_EOF && st.ttype != StreamTokenizer.TT_EOL) {
-					switch ((char) token) {
-					case '+':
-					case '-':
-					case '*':
-					case '/':
-					case '%':
-					case '=':
-					case '<':
-					case '>':
-					case '&':
-					case '|':
-					case '!':
-						incrementarContador(operadores, Character.toString((char) token), 1);
-						break;
+							if (!string2.equals("")) {
+								incrementarContador(operandos, string2, 1);
+							}
+						} else if (string2.toUpperCase().equals(string2)) {
+							string2 = string2.replaceAll("[^a-zA-Z0-9]", "");
+
+							if (!string2.equals("")) {
+								incrementarContador(operandos, string2, 1);
+							}
+						}
 					}
 				}
+				// Debo verificar si hay un else if, y de esta forma no duplico
+				if (flagElse) {
+					int res = (string.length() - string.replace(key, "").length()) / key.length();
+					if (res > 0) {
+						incrementarContador(operadores, "if", -1);
+						incrementarContador(operadores, "else", -1);
+						incrementarContador(operadores, "else if", 1);
+					}
+					flagElse = false;
+				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 		int operadoresUnicos = 0, operandosUnicos = 0;
@@ -81,6 +95,42 @@ public class Halstead {
 		}
 
 		volumen = (float) (longitud * Math.log10(operandosTotales + operadoresTotales) / Math.log10(2));
+		esfuerzo = (float) (operadoresUnicos / 2) * (operandosTotales / 2) * volumen;
+	}
+
+	private boolean isNumeric(String str) {
+		return str.matches("-?\\d+(\\.\\d+)?");
+	}
+
+	private boolean esOperador(String s) {
+		switch (s) {
+		case "+":
+		case "-":
+		case "*":
+		case "/":
+		case "%":
+		case "=":
+		case "<":
+		case ">":
+		case "?":
+		case ":":
+		case "&":
+		case "&&":
+		case "|":
+		case "||":
+		case "!":
+		case "==":
+		case ">=":
+		case "<=":
+		case "+=":
+		case "-=":
+		case "/=":
+		case "*=":
+		case "!=":
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	private void incrementarContador(HashMap<String, Integer> mapa, String key, int incremento) {
@@ -101,7 +151,6 @@ public class Halstead {
 		case "do":
 		case "if":
 		case "private":
-		case "this":
 		case "break":
 		case "double":
 		case "implements":
@@ -141,9 +190,11 @@ public class Halstead {
 		return longitud;
 	}
 
+	public float getEsfuerzo() {
+		return esfuerzo;
+	}
+
 	public float getVolumen() {
 		return volumen;
 	}
 }
-
-
