@@ -423,18 +423,27 @@ public class Programa extends JFrame {
 		lblResultadoFanOut.setText(String.valueOf(analisis.getFanOut()));
 	}
 
+	private void leer(File archivo, List<File> listArchivos) {
+		if (archivo.isDirectory()) {
+			for (File archivoDirectorio : archivo.listFiles()) {
+				this.leer(archivoDirectorio, listArchivos);
+			}
+		} else if (archivo.getName().endsWith(".java")) {
+			listArchivos.add(archivo);
+		}
+	}
+
 	private void seleccionarCarpeta() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new java.io.File("."));
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		if (chooser.showOpenDialog(Programa.this) == JFileChooser.APPROVE_OPTION) {
+			List<File> listArchivos = new ArrayList<File>();
 
 			// Se busca todos los .java
-			File[] archivos = chooser.getSelectedFile().listFiles(new FilenameFilter() {
-				public boolean accept(File dir, String name) {
-					return name.toLowerCase().endsWith(".java");
-				}
-			});
+			leer(chooser.getSelectedFile(), listArchivos);
+
+			File[] archivos = listArchivos.toArray(new File[listArchivos.size()]);
 
 			if (archivos.length > 0) {
 				String[] nombres = new String[archivos.length];
