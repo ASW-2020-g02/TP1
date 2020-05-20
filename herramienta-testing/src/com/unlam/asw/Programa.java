@@ -453,20 +453,23 @@ public class Programa extends JFrame {
 	}
 
 	private static void actualizarLista(JList<String> lista, String[] elementos) {
-		lista.setModel(new AbstractListModel<String>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -2834588284593084928L;
-			String[] values = elementos;
+		try {
+			lista.setModel(new AbstractListModel<String>() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -2834588284593084928L;
+				String[] values = elementos;
 
-			public int getSize() {
-				return values.length;
-			}
+				public int getSize() {
+					return values.length;
+				}
 
-			public String getElementAt(int index) {
-				return values[index];
-			}
-		});
+				public String getElementAt(int index) {
+					return values[index];
+				}
+			});
+		} catch (Exception ex) {
+		}
 	}
 }

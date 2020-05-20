@@ -32,7 +32,7 @@ public class Utils {
 		}
 		return contador;
 	}
-	
+
 	public static String[] leerArchivo(String rutaArchivo) throws IOException {
 		FileReader fileReader = new FileReader(rutaArchivo);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -44,36 +44,38 @@ public class Utils {
 		bufferedReader.close();
 		return lines.toArray(new String[lines.size()]);
 	}
-	
+
 	public static String obtenerCodigo(String rutaArchivo, String nombre, int i) {
 		String codigo = "";
 		try {
 			String[] archivo = leerArchivo(rutaArchivo);
 
-			int inicio = -1;
-			while (i != 0) {
-				if (archivo[inicio + 1].contains(" " + nombre + "(") && archivo[inicio + 1].endsWith("{")) {
-					i--;
+			if (archivo.length > 0) {
+				int inicio = -1;
+				while (i != 0) {
+					if (archivo[inicio + 1].contains(" " + nombre + "(") && archivo[inicio + 1].endsWith("{")) {
+						i--;
+					}
+					inicio++;
 				}
-				inicio++;
-			}
 
-			int fin = inicio + 1, contadorLlaves = 1;
-			while (contadorLlaves != 0) {
-				contadorLlaves += contarOcurrencias(archivo[fin], '{');
-				contadorLlaves -= contarOcurrencias(archivo[fin], '}');
-				fin++;
-			}
-
-			String[] arrayCodigo = Arrays.copyOfRange(archivo, inicio, fin);
-			for (int j = 0; j < arrayCodigo.length; j++) {
-				try {
-					arrayCodigo[j] = arrayCodigo[j].substring(1);
-				} catch (Exception e) {
+				int fin = inicio + 1, contadorLlaves = 1;
+				while (contadorLlaves != 0) {
+					contadorLlaves += contarOcurrencias(archivo[fin], '{');
+					contadorLlaves -= contarOcurrencias(archivo[fin], '}');
+					fin++;
 				}
-			}
 
-			codigo = String.join("\n", arrayCodigo);
+				String[] arrayCodigo = Arrays.copyOfRange(archivo, inicio, fin);
+				for (int j = 0; j < arrayCodigo.length; j++) {
+					try {
+						arrayCodigo[j] = arrayCodigo[j].substring(1);
+					} catch (Exception e) {
+					}
+				}
+
+				codigo = String.join("\n", arrayCodigo);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

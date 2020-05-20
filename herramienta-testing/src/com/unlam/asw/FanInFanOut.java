@@ -3,6 +3,8 @@ package com.unlam.asw;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JList;
 
@@ -16,7 +18,6 @@ public class FanInFanOut {
 		String[] metodos = new String[listaMetodos.getModel().getSize() - 1];
 
 		int indice = 0, seleccionado = listaMetodos.getSelectedIndex();
-
 		for (int i = 0; i <= metodos.length; i++) {
 			String metodo = listaMetodos.getModel().getElementAt(i);
 			if (i != seleccionado) {
@@ -25,9 +26,10 @@ public class FanInFanOut {
 			}
 		}
 
+
 		for (int i = 0; i < lineas.length; i++) {
 			for (int j = 0; j < metodos.length; j++) {
-				if (lineas[i].contains(metodos[j])) {
+				if ((lineas[i].contains(" " + metodos[j] + "(") || lineas[i].contains("." + metodos[j] + "("))) {
 					fanIn++;
 				}
 			}
@@ -50,10 +52,15 @@ public class FanInFanOut {
 			br = new BufferedReader(fr);
 
 			String linea;
+			Pattern p = Pattern.compile(".*\\b" + metodoSelecionado + ".*");
+
 			while ((linea = br.readLine()) != null) {
-				if (linea.contains(metodoSelecionado) && !linea.contains("class") && !linea.contains("public")
-						&& !linea.contains("private") && !linea.contains("protected"))
+				Matcher m = p.matcher(linea);
+
+				if (m.find() && !linea.contains("class") && !linea.contains("public") && !linea.contains("private")
+						&& !linea.contains("protected")) {
 					contadorFanOut++;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
