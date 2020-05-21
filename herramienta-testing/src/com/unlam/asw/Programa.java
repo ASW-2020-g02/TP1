@@ -347,23 +347,26 @@ public class Programa extends JFrame {
 
 	private void onClickClase() {
 		try {
-			FileInputStream in = new FileInputStream((String) listaArchivos.getSelectedValue());
-			CompilationUnit cu = JavaParser.parse(in);
-			if (listaClases.getSelectedValue() != null) {
-				ClassOrInterfaceDeclaration clase = cu.getClassByName((String) listaClases.getSelectedValue()).get();
+			if (!listaArchivos.getSelectedValue().equals("")) {
+				FileInputStream in = new FileInputStream((String) listaArchivos.getSelectedValue());
+				CompilationUnit cu = JavaParser.parse(in);
+				if (!listaClases.getSelectedValue().equals("")) {
+					ClassOrInterfaceDeclaration clase = cu.getClassByName((String) listaClases.getSelectedValue())
+							.get();
 
-				List<MethodDeclaration> metodos = clase.getMethods();
-				List<ConstructorDeclaration> constructores = clase.getConstructors();
+					List<MethodDeclaration> metodos = clase.getMethods();
+					List<ConstructorDeclaration> constructores = clase.getConstructors();
 
-				String nombres[] = new String[metodos.size() + constructores.size()];
-				for (int i = 0; i < constructores.size(); i++) {
-					nombres[i] = constructores.get(i).getName().toString();
+					String nombres[] = new String[metodos.size() + constructores.size()];
+					for (int i = 0; i < constructores.size(); i++) {
+						nombres[i] = constructores.get(i).getName().toString();
+					}
+					for (int i = 0; i < metodos.size(); i++) {
+						nombres[i + constructores.size()] = metodos.get(i).getName().toString();
+					}
+
+					actualizarLista(listaMetodos, nombres);
 				}
-				for (int i = 0; i < metodos.size(); i++) {
-					nombres[i + constructores.size()] = metodos.get(i).getName().toString();
-				}
-
-				actualizarLista(listaMetodos, nombres);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -435,7 +438,7 @@ public class Programa extends JFrame {
 
 	private void seleccionarCarpeta() {
 		JFileChooser chooser = new JFileChooser();
-		chooser.setCurrentDirectory(new java.io.File("."));
+		chooser.setCurrentDirectory(new File(System.getProperty("user.home") + "\\Desktop"));
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		if (chooser.showOpenDialog(Programa.this) == JFileChooser.APPROVE_OPTION) {
 			List<File> listArchivos = new ArrayList<File>();

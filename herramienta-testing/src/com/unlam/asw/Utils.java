@@ -53,8 +53,12 @@ public class Utils {
 			if (archivo.length > 0) {
 				int inicio = -1;
 				while (i != 0) {
-					if (archivo[inicio + 1].contains(" " + nombre + "(") && archivo[inicio + 1].endsWith("{")) {
+					if (archivo.length > inicio + 1 && archivo[inicio + 1].contains(" " + nombre + "(") && archivo[inicio + 1].endsWith("{")) {
 						i--;
+					} else if(archivo.length <= inicio + 1){
+						inicio--;
+						i=0;
+						break;
 					}
 					inicio++;
 				}

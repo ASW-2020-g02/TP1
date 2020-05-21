@@ -21,7 +21,12 @@ public class Halstead {
 
 		HashMap<String, Integer> operadores = new HashMap<String, Integer>();
 		HashMap<String, Integer> operandos = new HashMap<String, Integer>();
-		codigo = codigo.substring(codigo.indexOf('\n') + 1, codigo.lastIndexOf('\n'));
+		int indexFirstNewLine = codigo.indexOf('\n');
+		int indexLastNewLine = codigo.lastIndexOf('\n');	
+
+		if (indexFirstNewLine != -1 && indexLastNewLine != -1 && indexFirstNewLine != indexLastNewLine) {
+			codigo = codigo.substring(codigo.indexOf('\n') + 1, codigo.lastIndexOf('\n'));
+		}
 		String[] lineas = codigo.split("\n");
 		for (String string : lineas) {
 			Pattern pattern = Pattern.compile("//.*|/\\*((.|\\n)(?!=*/))+\\*/");
