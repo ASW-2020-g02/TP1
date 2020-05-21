@@ -99,7 +99,7 @@ public class Programa extends JFrame {
 	public Programa() {
 		setTitle("Herramienta de testing - Grupo 2 - 1º Cuatrimestre 2020");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 530);
+		setBounds(100, 100, 800, 530);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		contentPane = new JPanel();
@@ -109,7 +109,7 @@ public class Programa extends JFrame {
 
 		// Barra de menu
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 700, 21);
+		menuBar.setBounds(0, 0, 800, 21);
 		contentPane.add(menuBar);
 
 		JMenu mnArchivo = new JMenu("Archivo");
@@ -144,16 +144,16 @@ public class Programa extends JFrame {
 		});
 		listaArchivos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaArchivos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listaArchivos.setBounds(10, 50, 345, 284);
+		listaArchivos.setBounds(10, 50, 445, 284);
 		JScrollPane listScrollerArchivos = new JScrollPane();
-		listScrollerArchivos.setBounds(10, 50, 345, 284);
+		listScrollerArchivos.setBounds(10, 50, 445, 284);
 		listScrollerArchivos.setViewportView(listaArchivos);
 		listaArchivos.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerArchivos);
 
 		JLabel lblClases = new JLabel("Clases");
 		lblClases.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblClases.setBounds(365, 21, 166, 31);
+		lblClases.setBounds(465, 21, 266, 31);
 		contentPane.add(lblClases);
 
 		listaClases = new JList();
@@ -163,9 +163,9 @@ public class Programa extends JFrame {
 			}
 		});
 		listaClases.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		listaClases.setBounds(365, 50, 319, 122);
+		listaClases.setBounds(465, 50, 319, 122);
 		JScrollPane listScrollerClases = new JScrollPane();
-		listScrollerClases.setBounds(365, 50, 319, 122);
+		listScrollerClases.setBounds(465, 50, 319, 122);
 		listScrollerClases.setViewportView(listaClases);
 		listaClases.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerClases);
@@ -177,16 +177,16 @@ public class Programa extends JFrame {
 			}
 		});
 		listaMetodos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		listaMetodos.setBounds(365, 212, 319, 122);
+		listaMetodos.setBounds(465, 212, 319, 122);
 		JScrollPane listScrollerMetodos = new JScrollPane();
-		listScrollerMetodos.setBounds(365, 212, 319, 122);
+		listScrollerMetodos.setBounds(465, 212, 319, 122);
 		listScrollerMetodos.setViewportView(listaMetodos);
 		listaMetodos.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerMetodos);
 
 		JLabel lblMtodos = new JLabel("Métodos");
 		lblMtodos.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblMtodos.setBounds(365, 183, 166, 31);
+		lblMtodos.setBounds(465, 183, 166, 31);
 		contentPane.add(lblMtodos);
 
 		JLabel lblCantidadDeLneas = new JLabel("Cantidad de líneas totales");
@@ -211,103 +211,103 @@ public class Programa extends JFrame {
 
 		lblResultadoCantidadLineasTotales = new JLabel("-");
 		lblResultadoCantidadLineasTotales.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoCantidadLineasTotales.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblResultadoCantidadLineasTotales.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblResultadoCantidadLineasTotales.setBounds(250, 366, 46, 21);
 		contentPane.add(lblResultadoCantidadLineasTotales);
 
 		lblResultadoLineasCodigo = new JLabel("-");
 		lblResultadoLineasCodigo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoLineasCodigo.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblResultadoLineasCodigo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblResultadoLineasCodigo.setBounds(250, 396, 46, 21);
 		contentPane.add(lblResultadoLineasCodigo);
 
 		lblResultadoLineasComentadas = new JLabel("-");
 		lblResultadoLineasComentadas.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoLineasComentadas.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblResultadoLineasComentadas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblResultadoLineasComentadas.setBounds(250, 426, 46, 21);
 		contentPane.add(lblResultadoLineasComentadas);
 
 		lblResultadoLineasBlanco = new JLabel("-");
 		lblResultadoLineasBlanco.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoLineasBlanco.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblResultadoLineasBlanco.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblResultadoLineasBlanco.setBounds(250, 456, 46, 21);
 		contentPane.add(lblResultadoLineasBlanco);
 
 		JLabel lblPorcentajeDeComentarios = new JLabel("Porcentaje de comentarios");
 		lblPorcentajeDeComentarios.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblPorcentajeDeComentarios.setBounds(296, 396, 198, 21);
+		lblPorcentajeDeComentarios.setBounds(306, 396, 198, 21);
 		contentPane.add(lblPorcentajeDeComentarios);
 
 		lblResultadoPjeComentarios = new JLabel("-");
 		lblResultadoPjeComentarios.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoPjeComentarios.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblResultadoPjeComentarios.setBounds(502, 397, 72, 21);
+		lblResultadoPjeComentarios.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblResultadoPjeComentarios.setBounds(512, 396, 89, 21);
 		contentPane.add(lblResultadoPjeComentarios);
 
 		JLabel lblComplejidadCiclomtica = new JLabel("Complejidad ciclomática");
 		lblComplejidadCiclomtica.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblComplejidadCiclomtica.setBounds(296, 366, 179, 21);
+		lblComplejidadCiclomtica.setBounds(306, 366, 179, 21);
 		contentPane.add(lblComplejidadCiclomtica);
 
 		lblResultadoComplejidadCiclomatica = new JLabel("-");
 		lblResultadoComplejidadCiclomatica.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoComplejidadCiclomatica.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblResultadoComplejidadCiclomatica.setBounds(502, 367, 70, 21);
+		lblResultadoComplejidadCiclomatica.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblResultadoComplejidadCiclomatica.setBounds(512, 366, 89, 21);
 		contentPane.add(lblResultadoComplejidadCiclomatica);
 
 		JLabel lblFanOut = new JLabel("Fan out");
 		lblFanOut.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblFanOut.setBounds(584, 396, 56, 21);
+		lblFanOut.setBounds(614, 396, 56, 21);
 		contentPane.add(lblFanOut);
 
 		lblResultadoFanIn = new JLabel("-");
 		lblResultadoFanIn.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoFanIn.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoFanIn.setBounds(638, 366, 46, 21);
+		lblResultadoFanIn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblResultadoFanIn.setBounds(680, 366, 89, 21);
 		contentPane.add(lblResultadoFanIn);
 
 		JLabel lblFanIn = new JLabel("Fan in");
 		lblFanIn.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblFanIn.setBounds(582, 366, 56, 21);
+		lblFanIn.setBounds(614, 366, 56, 21);
 		contentPane.add(lblFanIn);
 
 		lblResultadoFanOut = new JLabel("-");
 		lblResultadoFanOut.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResultadoFanOut.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblResultadoFanOut.setBounds(638, 396, 46, 21);
+		lblResultadoFanOut.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblResultadoFanOut.setBounds(680, 396, 89, 21);
 		contentPane.add(lblResultadoFanOut);
 
 		JLabel lblLongitud = new JLabel("Longitud");
 		lblLongitud.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblLongitud.setBounds(306, 438, 65, 21);
+		lblLongitud.setBounds(306, 439, 65, 21);
 		contentPane.add(lblLongitud);
 
 		lblResultadoLongitud = new JLabel("-");
 		lblResultadoLongitud.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoLongitud.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblResultadoLongitud.setBounds(365, 439, 65, 21);
+		lblResultadoLongitud.setBounds(369, 439, 78, 21);
 		contentPane.add(lblResultadoLongitud);
 
 		JLabel lblVolumen = new JLabel("Volumen");
 		lblVolumen.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblVolumen.setBounds(430, 438, 64, 21);
+		lblVolumen.setBounds(449, 438, 64, 21);
 		contentPane.add(lblVolumen);
 
 		lblResultadoVolumen = new JLabel("-");
 		lblResultadoVolumen.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoVolumen.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblResultadoVolumen.setBounds(489, 439, 71, 21);
+		lblResultadoVolumen.setBounds(512, 438, 89, 21);
 		contentPane.add(lblResultadoVolumen);
 
 		JLabel lblEsfuerzo = new JLabel("Esfuerzo");
 		lblEsfuerzo.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblEsfuerzo.setBounds(562, 438, 72, 21);
+		lblEsfuerzo.setBounds(614, 438, 65, 21);
 		contentPane.add(lblEsfuerzo);
 
 		lblResultadoEsfuerzo = new JLabel("-");
 		lblResultadoEsfuerzo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblResultadoEsfuerzo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblResultadoEsfuerzo.setBounds(624, 439, 46, 21);
+		lblResultadoEsfuerzo.setBounds(680, 438, 89, 21);
 		contentPane.add(lblResultadoEsfuerzo);
 
 		JPanel panelHalstead = new JPanel();
@@ -315,7 +315,7 @@ public class Programa extends JFrame {
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		((TitledBorder) panelHalstead.getBorder()).setTitleFont(((TitledBorder) panelHalstead.getBorder())
 				.getTitleFont().deriveFont(Font.BOLD).deriveFont((float) 15.00));
-		panelHalstead.setBounds(296, 419, 380, 58);
+		panelHalstead.setBounds(296, 419, 480, 58);
 		contentPane.add(panelHalstead);
 
 		panelAnalisis = new JPanel();
@@ -324,7 +324,7 @@ public class Programa extends JFrame {
 		((TitledBorder) panelAnalisis.getBorder()).setTitleFont(((TitledBorder) panelAnalisis.getBorder())
 				.getTitleFont().deriveFont(Font.BOLD).deriveFont((float) 15.00));
 		panelAnalisis.setToolTipText("");
-		panelAnalisis.setBounds(10, 345, 674, 145);
+		panelAnalisis.setBounds(10, 345, 774, 145);
 		contentPane.add(panelAnalisis);
 	}
 
