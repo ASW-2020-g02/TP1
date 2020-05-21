@@ -1,6 +1,7 @@
 package com.unlam.asw;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -30,11 +31,7 @@ public class Analisis {
 	}
 
 	private void calcularEstadisticas() {
-		// Saco la primer y ultima linea
-		lineasTotales = obtenerCantLineasTotales(this.codigo) - 2;
-		lineasComentadas = obtenerCantLineasComentadas(this.codigo);
-		lineasEnBlanco = obtenerCantLineasEnBlanco(this.codigo);
-		lineasCodigo = lineasTotales - lineasComentadas - lineasEnBlanco;
+		obtenerCantLineasComentadas(this.codigo);
 		complejidadCiclomatica = calcularComplejidadCiclomatica(this.codigo);
 
 		Halstead analisisHalstead = new Halstead(this.codigo);
@@ -46,60 +43,65 @@ public class Analisis {
 		fanOut = FanInFanOut.getFanOut(this.codigo, listaMetodos, listaArchivos);
 	}
 
-	// INICIO Metodos de lineas
-	private int obtenerCantLineasEnBlanco(String codigo) {
-		final BufferedReader br = new BufferedReader(new StringReader(codigo));
-		String linea;
-		int contador = 0;
-
+	private void obtenerCantLineasComentadas(String codigo) {
+		String line = "";
+		int comment_count = 0;
+		int line_count = 0;
+		int blank_lines = 0;
+		int code_line = 0;
 		try {
-			while ((linea = br.readLine()) != null) {
-				if (linea.trim().isEmpty()) {
-					contador++;
+			BufferedReader br = new BufferedReader(new StringReader(codigo));
+			while ((line = br.readLine()) != null) {
+				line_count++;
+				if (line.trim().isEmpty()) {
+					blank_lines++;
+				} else if (line.contains("//")) {
+					comment_count++;
+					if (!line.trim().startsWith("//")) {
+						code_line++;
+					}
+				} else if (line.contains("/*")) {
+					if (!line.trim().startsWith("/*")) {
+						code_line++;
+					}
+					comment_count++;
+					if (!line.trim().endsWith("*/")) {
+						while (!(line = br.readLine()).trim().endsWith("'*/'")) {
+							line_count++;
+							comment_count++;
+							if (line.endsWith("*/")) {
+								break;
+							}
+						}
+					}
+				} else {
+					code_line++;
 				}
 			}
+			br.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return contador;
-	}
-
-	private int obtenerCantLineasTotales(String codigo) {
-		int posicion, contador = 0;
-		posicion = codigo.indexOf('\n');
-
-		while (posicion != -1) {
-			contador++;
-			posicion = codigo.indexOf('\n', posicion + 1);
-		}
-
-		return contador + 1;
-	}
-
-	private int obtenerCantLineasComentadas(String codigo) {
-		int posicion, posicionSalto = 0, contador = 0;
-		posicion = codigo.indexOf("//");
-
-		while (posicion != -1) {
-			contador++;
-			posicionSalto = codigo.indexOf('\n', posicion + 1);
-			posicion = codigo.indexOf("//", posicionSalto + 1);
-		}
-
-		return contador;
+		lineasTotales = line_count - 2;
+		lineasComentadas = comment_count;
+		lineasEnBlanco = blank_lines;
+		lineasCodigo = code_line - 2;
 	}
 	// FIN Metodos de lineas
 
-	/* TODO: Poner una condicion para que no lea las lineas comentadas */
 	private int calcularComplejidadCiclomatica(String codigo) {
 		int contador = 1;
 		String[] lineas = codigo.split("\\n");
 		for (int i = 0; i < lineas.length; i++) {
 			contador += (Utils.contarOcurrencias(lineas[i], '&') + Utils.contarOcurrencias(lineas[i], '|')) / 2;
 
-			if (lineas[i].contains("while (") || lineas[i].contains("for (") || lineas[i].contains("case ")
-					|| lineas[i].contains("catch ") || lineas[i].contains("if (")) {
+			if ((lineas[i].trim().startsWith("//") || lineas[i].trim().startsWith("/*")
+					|| lineas[i].trim().startsWith("*")) && lineas[i].contains("while (") || lineas[i].contains("for (")
+					|| lineas[i].contains("case ") || lineas[i].contains("catch ") || lineas[i].contains("if (")) {
 				contador++;
 			}
 		}

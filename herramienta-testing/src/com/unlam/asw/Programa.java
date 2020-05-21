@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JFileChooser;
@@ -139,7 +140,9 @@ public class Programa extends JFrame {
 		listaArchivos = new JList();
 		listaArchivos.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
-				onClickArchivo();
+				if (!arg0.getValueIsAdjusting()) {
+					onClickArchivo();
+				}
 			}
 		});
 		listaArchivos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -159,7 +162,9 @@ public class Programa extends JFrame {
 		listaClases = new JList();
 		listaClases.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
-				onClickClase();
+				if (!arg0.getValueIsAdjusting()) {
+					onClickClase();
+				}
 			}
 		});
 		listaClases.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -173,7 +178,9 @@ public class Programa extends JFrame {
 		listaMetodos = new JList();
 		listaMetodos.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
-				onClickMetodo();
+				if (!arg0.getValueIsAdjusting()) {
+					onClickMetodo();
+				}
 			}
 		});
 		listaMetodos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -347,25 +354,30 @@ public class Programa extends JFrame {
 
 	private void onClickClase() {
 		try {
-			if (!listaArchivos.getSelectedValue().equals("")) {
+			if (listaArchivos.getSelectedValue() != null) {
 				FileInputStream in = new FileInputStream((String) listaArchivos.getSelectedValue());
 				CompilationUnit cu = JavaParser.parse(in);
-				if (!listaClases.getSelectedValue().equals("")) {
-					ClassOrInterfaceDeclaration clase = cu.getClassByName((String) listaClases.getSelectedValue())
-							.get();
+				if (listaClases.getSelectedValue() != null && !listaClases.getSelectedValue().equals("")) {
+					try {
 
-					List<MethodDeclaration> metodos = clase.getMethods();
-					List<ConstructorDeclaration> constructores = clase.getConstructors();
+						ClassOrInterfaceDeclaration clase = cu.getClassByName((String) listaClases.getSelectedValue())
+								.get();
 
-					String nombres[] = new String[metodos.size() + constructores.size()];
-					for (int i = 0; i < constructores.size(); i++) {
-						nombres[i] = constructores.get(i).getName().toString();
+						List<MethodDeclaration> metodos = clase.getMethods();
+						List<ConstructorDeclaration> constructores = clase.getConstructors();
+
+						String nombres[] = new String[metodos.size() + constructores.size()];
+						for (int i = 0; i < constructores.size(); i++) {
+							nombres[i] = constructores.get(i).getName().toString();
+						}
+						for (int i = 0; i < metodos.size(); i++) {
+							nombres[i + constructores.size()] = metodos.get(i).getName().toString();
+						}
+
+						actualizarLista(listaMetodos, nombres);
+					} catch (NoSuchElementException ex) {
+
 					}
-					for (int i = 0; i < metodos.size(); i++) {
-						nombres[i + constructores.size()] = metodos.get(i).getName().toString();
-					}
-
-					actualizarLista(listaMetodos, nombres);
 				}
 			}
 		} catch (Exception e) {
@@ -374,7 +386,7 @@ public class Programa extends JFrame {
 	}
 
 	private void onClickMetodo() {
-		if (!listaMetodos.getSelectedValue().toString().isEmpty()) {
+		if (listaMetodos.getSelectedValue() != null) {
 			// Seteo el nombre del recuadro de resultados
 			String nombre = "An\u00E1lisis del m\u00E9todo \"" + (String) listaMetodos.getSelectedValue() + "\"";
 			TitledBorder titledBorder = (TitledBorder) panelAnalisis.getBorder();
@@ -416,8 +428,12 @@ public class Programa extends JFrame {
 		lblResultadoLineasBlanco.setText(String.valueOf(analisis.getLineasEnBlanco()));
 		lblResultadoLineasCodigo.setText(String.valueOf(analisis.getLineasCodigo()));
 		lblResultadoLineasComentadas.setText(String.valueOf(analisis.getLineasComentadas()));
-		lblResultadoPjeComentarios.setText(String.valueOf(
-				df.format(((float) analisis.getLineasComentadas() / analisis.getLineasTotales()) * 100) + "%"));
+		if (analisis.getLineasTotales() != 0) {
+			lblResultadoPjeComentarios.setText(String.valueOf(
+					df.format(((float) analisis.getLineasComentadas() / analisis.getLineasTotales()) * 100) + "%"));
+		} else {
+			lblResultadoPjeComentarios.setText("0.00%");
+		}
 		lblResultadoComplejidadCiclomatica.setText(String.valueOf(analisis.getComplejidadCiclomatica()));
 		lblResultadoEsfuerzo.setText(String.valueOf(df.format(analisis.getHalsteadEsfuerzo())));
 		lblResultadoLongitud.setText(String.valueOf(df.format(analisis.getHalsteadLongitud())));

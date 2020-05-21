@@ -7,9 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Halstead {
-	private float longitud;
-	private float volumen;
-	private float esfuerzo;
+	private float longitud = 0;
+	private float volumen = 0;
+	private float esfuerzo = 0;
 
 	public Halstead(String codigo) {
 		calcularMetricasHalstead(codigo);
@@ -22,7 +22,7 @@ public class Halstead {
 		HashMap<String, Integer> operadores = new HashMap<String, Integer>();
 		HashMap<String, Integer> operandos = new HashMap<String, Integer>();
 		int indexFirstNewLine = codigo.indexOf('\n');
-		int indexLastNewLine = codigo.lastIndexOf('\n');	
+		int indexLastNewLine = codigo.lastIndexOf('\n');
 
 		if (indexFirstNewLine != -1 && indexLastNewLine != -1 && indexFirstNewLine != indexLastNewLine) {
 			codigo = codigo.substring(codigo.indexOf('\n') + 1, codigo.lastIndexOf('\n'));
@@ -99,8 +99,11 @@ public class Halstead {
 			operadoresTotales += v;
 		}
 
-		volumen = (float) (longitud * Math.log10(operandosTotales + operadoresTotales) / Math.log10(2));
-		esfuerzo = (float) (operadoresUnicos / 2) * (operandosTotales / 2) * volumen;
+		// Si no son mayor a cero, hay que salvar el infinito del log
+		if (operandosTotales + operadoresTotales > 0) {
+			volumen = (float) (longitud * Math.log10(operandosTotales + operadoresTotales) / Math.log10(2));
+			esfuerzo = (float) (operadoresUnicos / 2) * (operandosTotales / 2) * volumen;
+		}
 	}
 
 	private boolean isNumeric(String str) {
