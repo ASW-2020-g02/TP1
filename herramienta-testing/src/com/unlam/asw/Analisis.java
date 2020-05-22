@@ -99,10 +99,16 @@ public class Analisis {
 		for (int i = 0; i < lineas.length; i++) {
 			contador += (Utils.contarOcurrencias(lineas[i], '&') + Utils.contarOcurrencias(lineas[i], '|')) / 2;
 
-			if ((lineas[i].trim().startsWith("//") || lineas[i].trim().startsWith("/*")
+			//Chequeamos que no sea un comentario, y despues nos fijamos si la linea contiene algun
+			//if, ciclo iterativo, switch case, y la cantidad de && y || que tenga un if
+			if (!(lineas[i].trim().startsWith("//") || lineas[i].trim().startsWith("/*")
 					|| lineas[i].trim().startsWith("*")) && lineas[i].contains("while (") || lineas[i].contains("for (")
 					|| lineas[i].contains("case ") || lineas[i].contains("catch ") || lineas[i].contains("if (")) {
 				contador++;
+				
+				//Contamos las ocurrencias de simbolos && y || y las añadimos al contador de complejidad ciclomatica
+				contador += (lineas[i].split("&&", -1).length) -1;
+				contador += (lineas[i].split("||", -1).length) -1;
 			}
 		}
 
