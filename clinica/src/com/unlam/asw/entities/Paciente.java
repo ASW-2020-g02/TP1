@@ -23,8 +23,7 @@ public class Paciente {
 			//Chequeamos no recibir una cadena nula ni una cadena que solo contenga espacios en blanco,
 			//caso contrario arrojamos una excepcion de formato
 			if (codigo == null || codigo.trim().isEmpty())
-				throw new NumberFormatException();
-			
+				throw new NumberFormatException();			
 			//Convertimos la cadena a un entero y lo asignamos al atributo codigo del objeto
 			this.codigo = Integer.parseInt(codigo);
 		} catch (NumberFormatException e) {
@@ -69,7 +68,6 @@ public class Paciente {
 		//Recorremos la cadena de principio a fin
 		for (int i = 0; i != cadena.length(); ++i) {
 			//isLetter chequea que la letra sea una letra unicode válida
-			//if (!Character.isLetter(cadena.charAt(i)) && !Character.isWhitespace(cadena.charAt(i)))
 			if (!Character.isLetter(cadena.charAt(i)))
 				//Si el caracter no es una letra, retornamos falso
 				return false;
