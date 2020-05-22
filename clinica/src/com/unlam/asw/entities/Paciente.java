@@ -28,7 +28,7 @@ public class Paciente {
 			if (codigo == null || codigo.trim().isEmpty())
 				throw new NumberFormatException();
 			
-			//Asignamos el codigo al atributo del objeto
+			//Convertimos la cadena a un entero y lo asignamos al atributo codigo del objeto
 			this.codigo = Integer.parseInt(codigo);
 		} catch (NumberFormatException e) {
 			throw new Exception("El codigo del paciente debe ser un número entero.");
