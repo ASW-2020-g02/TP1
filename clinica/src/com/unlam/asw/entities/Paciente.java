@@ -15,12 +15,9 @@ public class Paciente {
 
 	/**
 	 * Setter del código del paciente. El código debe ser un número entero. 
-	 * 
-	 * En caso de no serlo arroja una excepción. 
-	 * En caso de recibir una cadena vacía, arroja excepción.
-	 * 
 	 * @param codigo (string) cadena que será convertida a entero. 
-	 */	
+	 * @throws Exception  En caso de no serlo arroja una excepción. En caso de recibir una cadena vacía, arroja excepción.
+	 */
 	public final void setCodigo(String codigo) throws Exception {
 		try {
 			//Chequeamos no recibir una cadena nula ni una cadena que solo contenga espacios en blanco,
@@ -39,12 +36,11 @@ public class Paciente {
 		return nombre;
 	}
 
-	/** 
-	 * Setter del nombre. Verifica que el nombre contenga solamente caracteres válidos. 
-	 * 
-	 * Arroja excepciones en caso de que el nombre contenga caracteres no válidos o en caso de que la cadena recibida sea nula.
-	 * 
+
+	/**
+	 * Setter del nombre. Verifica que el nombre contenga solamente caracteres válidos.
 	 * @param nombre (string) cadena de texto que será asignada como nombre al paciente, en caso de pasar la validación. 
+	 * @throws Exception Arroja excepciones en caso de que el nombre contenga caracteres no válidos o en caso de que la cadena recibida sea nula.
 	 */
 	public final void setNombre(String nombre) throws Exception {
 		//Chequeamos que la cadena recibida no sea nula, y además chequeamos que no hayamos recibido

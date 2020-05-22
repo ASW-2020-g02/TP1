@@ -79,7 +79,6 @@ public class Medico {
 		//Recorremos la cadena de principio a fin
 		for (int i = 0; i != cadena.length(); ++i) {
 			//isLetter chequea que la letra sea una letra unicode válida
-			//if (!Character.isLetter(cadena.charAt(i)) && !Character.isWhitespace(cadena.charAt(i)))
 			if (!Character.isLetter(cadena.charAt(i)))
 				//Si el caracter no es una letra, retornamos falso
 				return false;
