@@ -32,9 +32,10 @@ public class Triangulo {
 		if (lado1 == lado2 && lado1 == lado3) {
 			return EQUILATERO;
 		} else if (lado2 == lado3) {
-			return ESCALENO;
-		} else {
 			return ISOSCELES;
+		} else {
+			return ESCALENO;
+			
 		}
 	}
 }
