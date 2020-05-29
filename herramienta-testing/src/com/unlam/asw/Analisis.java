@@ -49,23 +49,27 @@ public class Analisis {
 		int line_count = 0;
 		int blank_lines = 0;
 		int code_line = 0;
+		// Se comienza a leer linea por linea el código
 		try {
 			BufferedReader br = new BufferedReader(new StringReader(codigo));
+
 			while ((line = br.readLine()) != null) {
+				// Por cada linea leida, aumento el contador
 				line_count++;
 				if (line.trim().isEmpty()) {
 					blank_lines++;
 				} else if (line.contains("//")) {
 					comment_count++;
 					if (!line.trim().startsWith("//")) {
-						code_line++;
+						code_line++;// En caso de que la linea comience con codigo y luego venga un comentario, se
+									// debe contabilizar
 					}
 				} else if (line.contains("/*")) {
 					if (!line.trim().startsWith("/*")) {
-						code_line++;
+						code_line++; // Mismo caso que el anterior
 					}
 					comment_count++;
-					if (!line.trim().endsWith("*/")) {
+					if (!line.trim().endsWith("*/")) { // Iteración utilizada para comentarios en bloque
 						while (!(line = br.readLine()).trim().endsWith("'*/'")) {
 							line_count++;
 							comment_count++;
@@ -86,29 +90,30 @@ public class Analisis {
 			e.printStackTrace();
 		}
 
+		// Debo descontar la linea de la firma y el } final
 		lineasTotales = line_count - 2;
+		lineasCodigo = code_line - 2;
+
 		lineasComentadas = comment_count;
 		lineasEnBlanco = blank_lines;
-		lineasCodigo = code_line - 2;
 	}
-	// FIN Metodos de lineas
 
 	private int calcularComplejidadCiclomatica(String codigo) {
 		int contador = 1;
 		String[] lineas = codigo.split("\\n");
+		// Por cada linea, analizo
 		for (int i = 0; i < lineas.length; i++) {
+			// Cuento la cantidad de AND y OR
 			contador += (Utils.contarOcurrencias(lineas[i], '&') + Utils.contarOcurrencias(lineas[i], '|')) / 2;
 
-			//Chequeamos que no sea un comentario, y despues nos fijamos si la linea contiene algun
-			//if, ciclo iterativo, switch case, y la cantidad de && y || que tenga un if
-			if (!(lineas[i].trim().startsWith("//") || lineas[i].trim().startsWith("/*")
-					|| lineas[i].trim().startsWith("*")) && lineas[i].contains("while (") || lineas[i].contains("for (")
-					|| lineas[i].contains("case ") || lineas[i].contains("catch ") || lineas[i].contains("if (")) {
+			// Chequeamos que no sea un comentario, y despues nos fijamos si la linea
+			// contiene algun if, ciclo iterativo, switch case, y la cantidad de && y || que
+			// tenga un if
+			if ((!(lineas[i].trim().startsWith("//") || lineas[i].trim().startsWith("/*")
+					|| lineas[i].trim().startsWith("*"))) && lineas[i].contains("while (")
+					|| lineas[i].contains("for (") || lineas[i].contains("case ") || lineas[i].contains("catch ")
+					|| lineas[i].contains("if (")) {
 				contador++;
-				
-				//Contamos las ocurrencias de simbolos && y || y las añadimos al contador de complejidad ciclomatica
-				contador += (lineas[i].split("&&", -1).length) -1;
-				contador += (lineas[i].split("||", -1).length) -1;
 			}
 		}
 

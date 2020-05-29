@@ -11,13 +11,15 @@ import javax.swing.JList;
 public class FanInFanOut {
 	public static int getFanIn(String codigo, JList<String> listaMetodos) {
 		int fanIn = 0;
-		// Separo el codigo en lineas
+		// Separo el código en líneas
 		String[] lineas = codigo.split("\\n");
 
-		// Obtengo la lista de metodo
+		// Obtengo la lista de método
 		String[] metodos = new String[listaMetodos.getModel().getSize() - 1];
 
 		int indice = 0, seleccionado = listaMetodos.getSelectedIndex();
+
+		// Recorro los distintos metodos
 		for (int i = 0; i <= metodos.length; i++) {
 			String metodo = listaMetodos.getModel().getElementAt(i);
 			if (i != seleccionado) {
@@ -26,7 +28,7 @@ public class FanInFanOut {
 			}
 		}
 
-
+		// Contabilizo los métodos llamadas por un determinado método
 		for (int i = 0; i < lineas.length; i++) {
 			for (int j = 0; j < metodos.length; j++) {
 				if ((lineas[i].contains(" " + metodos[j] + "(") || lineas[i].contains("." + metodos[j] + "("))) {
@@ -54,6 +56,7 @@ public class FanInFanOut {
 			String linea;
 			Pattern p = Pattern.compile(".*\\b" + metodoSelecionado + ".*");
 
+			// En este caso, contabilizo donde es utilizado el método seleccionado
 			while ((linea = br.readLine()) != null) {
 				Matcher m = p.matcher(linea);
 
