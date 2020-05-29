@@ -326,18 +326,21 @@ public class Programa extends JFrame {
 		lblCodigo.setBounds(795, 21, 439, 31);
 		contentPane.add(lblCodigo);
 
-		JScrollPane scrollPane4 = new JScrollPane();
-		scrollPane4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane4.setBounds(794, 50, 440, 437);
-		contentPane.add(scrollPane4);
+
 		
 		textArea = new JTextArea();
 		contentPane.add(textArea);
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Arial", Font.PLAIN, 12));
 		textArea.setBounds(794, 50, 440, 437);
-
+		
+		JScrollPane scrollPane4 = new JScrollPane();
+		scrollPane4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane4.setBounds(794, 50, 440, 437);
+		scrollPane4.setViewportView(textArea);
+		contentPane.add(scrollPane4);
+		
 		JPanel panelHalstead = new JPanel();
 		panelHalstead.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Halstead",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -368,6 +371,7 @@ public class Programa extends JFrame {
 				clases[0] = archivo.substring(archivo.lastIndexOf("\\") + 1, archivo.lastIndexOf("."));
 				actualizarLista(listaClases, clases);
 				actualizarLista(listaMetodos, new String[0]);
+				textArea.setText("");
 				resetearCampos();
 			}
 		} catch (Exception e) {
@@ -418,6 +422,8 @@ public class Programa extends JFrame {
 			String codigo = Utils.obtenerCodigo((String) listaArchivos.getSelectedValue(),
 					(String) listaMetodos.getSelectedValue(),
 					Utils.obtenerOverloading(listaMetodos.getSelectedIndex(), listaMetodos.getModel()));
+			textArea.setText(codigo);
+			textArea.setCaretPosition(0);
 
 			Analisis analisis = new Analisis(codigo, listaMetodos, listaArchivos);
 			this.completarCampos(analisis);
@@ -492,6 +498,7 @@ public class Programa extends JFrame {
 					nombres[i] = archivos[i].getPath();
 				}
 
+				textArea.setText("");
 				actualizarLista(listaArchivos, nombres);
 				actualizarLista(listaClases, new String[1]);
 				actualizarLista(listaMetodos, new String[1]);
