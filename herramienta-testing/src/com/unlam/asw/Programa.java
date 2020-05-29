@@ -329,7 +329,6 @@ public class Programa extends JFrame {
 
 		
 		textArea = new JTextArea();
-		contentPane.add(textArea);
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Arial", Font.PLAIN, 12));
 		textArea.setBounds(794, 50, 440, 437);
