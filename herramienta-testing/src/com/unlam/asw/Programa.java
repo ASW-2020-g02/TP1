@@ -28,8 +28,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -83,6 +85,8 @@ public class Programa extends JFrame {
 
 	private JLabel lblResultadoCantidadLineasTotales;
 
+	private JTextArea textArea;
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -100,7 +104,7 @@ public class Programa extends JFrame {
 	public Programa() {
 		setTitle("Herramienta de testing - Grupo 2 - 1º Cuatrimestre 2020");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 530);
+		setBounds(100, 100, 1250, 530);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		contentPane = new JPanel();
@@ -110,7 +114,7 @@ public class Programa extends JFrame {
 
 		// Barra de menu
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 800, 21);
+		menuBar.setBounds(0, 0, 1250, 21);
 		contentPane.add(menuBar);
 
 		JMenu mnArchivo = new JMenu("Archivo");
@@ -156,7 +160,7 @@ public class Programa extends JFrame {
 
 		JLabel lblClases = new JLabel("Clases");
 		lblClases.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblClases.setBounds(465, 21, 266, 31);
+		lblClases.setBounds(465, 21, 319, 31);
 		contentPane.add(lblClases);
 
 		listaClases = new JList();
@@ -316,6 +320,23 @@ public class Programa extends JFrame {
 		lblResultadoEsfuerzo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblResultadoEsfuerzo.setBounds(680, 438, 89, 21);
 		contentPane.add(lblResultadoEsfuerzo);
+		
+		JLabel lblCodigo = new JLabel("Código del método seleccionado");
+		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblCodigo.setBounds(795, 21, 439, 31);
+		contentPane.add(lblCodigo);
+
+		JScrollPane scrollPane4 = new JScrollPane();
+		scrollPane4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane4.setBounds(794, 50, 440, 437);
+		contentPane.add(scrollPane4);
+		
+		textArea = new JTextArea();
+		contentPane.add(textArea);
+		textArea.setEditable(false);
+		textArea.setFont(new Font("Arial", Font.PLAIN, 12));
+		textArea.setBounds(794, 50, 440, 437);
 
 		JPanel panelHalstead = new JPanel();
 		panelHalstead.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Halstead",
@@ -333,6 +354,7 @@ public class Programa extends JFrame {
 		panelAnalisis.setToolTipText("");
 		panelAnalisis.setBounds(10, 345, 774, 145);
 		contentPane.add(panelAnalisis);
+		
 	}
 
 	/// INICIO Metodos onClick para las distintas listas
