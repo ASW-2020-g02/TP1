@@ -1,4 +1,4 @@
-package objetos;
+package entidades;
 
 //Esta clase se realiza para mapear cada Paciente
 //codigo: Codigo del Paciente, numerico de 5 caracteres
@@ -6,15 +6,14 @@ package objetos;
 public class Paciente {
 	private int codigo;
 	private String nombre;
-	
-	//Constructor
-	public Paciente(int cod, String nom)
-	{
-		this.codigo= cod;
+
+	// Constructor
+	public Paciente(int cod, String nom) {
+		this.codigo = cod;
 		this.nombre = nom;
 	}
 
-	//Getters y Setters
+	// Getters y Setters
 	public int getCodigo() {
 		return codigo;
 	}
@@ -30,11 +29,10 @@ public class Paciente {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	//Funcion Imprimir: Realiza la impresion de los datos de modo:
-	//Codigo_Paciente::Nombre
-	public String Imprimir()
-	{
+
+	// Funcion Imprimir: Realiza la impresion de los datos de modo:
+	// Codigo_Paciente::Nombre
+	public String Imprimir() {
 		return this.getCodigo() + " :: " + this.getNombre();
 	}
 

@@ -1,27 +1,23 @@
 package pantallas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class MainDatos extends JFrame {
 
 	private JPanel contentPane;
 	AltaPaciente altaPaciente = new AltaPaciente();
-	ModificacionPaciente modPaciente = new ModificacionPaciente();			
+	ModificacionPaciente modPaciente = new ModificacionPaciente();
 	AltaMedico altaMedico = new AltaMedico();
-	ModificacionMedico modMedico = new ModificacionMedico();	
-
+	ModificacionMedico modMedico = new ModificacionMedico();
 
 	/**
 	 * Launch the application.
@@ -46,15 +42,15 @@ public class MainDatos extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				if(altaPaciente.isVisible())
+				if (altaPaciente.isVisible())
 					return;
-				if(altaMedico.isVisible())
+				if (altaMedico.isVisible())
 					return;
-				if(modMedico.isVisible())
+				if (modMedico.isVisible())
 					return;
-				if(modPaciente.isVisible())
+				if (modPaciente.isVisible())
 					return;
-					
+
 				Main main = new Main();
 				main.setVisible(true);
 			}
@@ -66,7 +62,7 @@ public class MainDatos extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JButton button = new JButton("Alta paciente");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -76,7 +72,7 @@ public class MainDatos extends JFrame {
 		});
 		button.setBounds(101, 13, 180, 44);
 		contentPane.add(button);
-		
+
 		JButton button_1 = new JButton("Modificaci\u00F3n paciente");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -86,17 +82,17 @@ public class MainDatos extends JFrame {
 		});
 		button_1.setBounds(101, 70, 180, 44);
 		contentPane.add(button_1);
-		
+
 		JButton button_2 = new JButton("Alta m\u00E9dico");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				altaMedico.setVisible(true);
-				dispose();				
+				dispose();
 			}
 		});
 		button_2.setBounds(101, 127, 180, 44);
 		contentPane.add(button_2);
-		
+
 		JButton button_3 = new JButton("Modificaci\u00F3n m\u00E9dico");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -106,7 +102,7 @@ public class MainDatos extends JFrame {
 		});
 		button_3.setBounds(101, 184, 180, 44);
 		contentPane.add(button_3);
-		
+
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -115,7 +111,7 @@ public class MainDatos extends JFrame {
 		});
 		btnVolver.setBounds(101, 241, 180, 44);
 		contentPane.add(btnVolver);
-		
+
 		setLocationRelativeTo(null);
 	}
 

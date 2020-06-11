@@ -1,32 +1,28 @@
 package pantallas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import objetos.Medico;
-import objetos.Paciente;
-import otros.Constantes;
-import otros.Encriptacion;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import entidades.Medico;
+import otros.Constantes;
+import otros.Encriptacion;
 
 public class ListadoMedicos extends JFrame {
 
@@ -60,7 +56,7 @@ public class ListadoMedicos extends JFrame {
 				mainlistado.setVisible(true);
 			}
 		});
-		
+
 		setType(Type.UTILITY);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -70,7 +66,7 @@ public class ListadoMedicos extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JButton btnCerrar = new JButton("Volver");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,29 +77,29 @@ public class ListadoMedicos extends JFrame {
 		});
 		btnCerrar.setBounds(118, 375, 89, 23);
 		contentPane.add(btnCerrar);
-		
+
 		JLabel lblListadoDeMdicos = new JLabel("Listado de M\u00E9dicos");
 		lblListadoDeMdicos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListadoDeMdicos.setFont(new Font("Arial", Font.BOLD, 18));
 		lblListadoDeMdicos.setBounds(25, 23, 257, 22);
 		contentPane.add(lblListadoDeMdicos);
-		
+
 		JList listMedicos = new JList();
 		listMedicos.setBounds(12, 58, 303, 299);
 		contentPane.add(listMedicos);
-		
+
 		ArrayList<Medico> medicos = leerArchivoMedicos(Constantes.archivoMedicos);
 		DefaultListModel modelo = new DefaultListModel();
 		for (Medico p : medicos) {
 			String item = " [" + p.getCodigo() + "] - " + p.getNombre() + " (" + p.getEspecializacion() + ")";
 			modelo.addElement(item);
 		}
-		
+
 		listMedicos.setModel(modelo);
 		setLocationRelativeTo(null);
-		
+
 	}
-	
+
 	private ArrayList<Medico> leerArchivoMedicos(String archivo) {
 		try {
 			BufferedReader entrada = new BufferedReader(new FileReader(archivo));

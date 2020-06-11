@@ -1,30 +1,29 @@
 package pantallas;
 
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import objetos.Medico;
-import objetos.Paciente;
-import otros.Constantes;
-import otros.Encriptacion;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import entidades.Medico;
+import otros.Constantes;
+import otros.Encriptacion;
 
 public class ModificacionMedico extends JDialog {
 	private JTextField tfCodMedico;
@@ -89,7 +88,8 @@ public class ModificacionMedico extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
-						if(generaModificacionMedico(tfCodMedico, tfNombreMedico,cboEspecializacion.getSelectedItem().toString()))
+						if (generaModificacionMedico(tfCodMedico, tfNombreMedico,
+								cboEspecializacion.getSelectedItem().toString()))
 							dispose();
 
 					}
@@ -176,7 +176,6 @@ public class ModificacionMedico extends JDialog {
 		}
 	}
 
-
 	private boolean esCodigoValido(String str) {
 		int d;
 		try {
@@ -193,57 +192,64 @@ public class ModificacionMedico extends JDialog {
 		return true;
 	}
 
-	private boolean generaModificacionMedico (JTextField tfCodMedico, JTextField tfNombreMedico, String tfEspecializacion){
-		///////validaciones de campos de texto/////////
-		if (esCodigoValido(tfCodMedico.getText().trim())){
-			if (tfNombreMedico.getText().trim().length() >0 && tfNombreMedico.getText().trim().length() <=30 ){
-					//si es valido primero se fija si el paciente ya existe
-					boolean existeMedico = false;								
-					ArrayList<Medico> medicos = leerArchivoMedicos(Constantes.archivoMedicos);
-					for (Medico p : medicos) {
-						if(p.getCodigo() == Integer.parseInt(tfCodMedico.getText().trim()))
-							existeMedico = true;
-					}
-					
-					if (existeMedico){
-						try{
-							Medico medMod = new Medico(Integer.valueOf(tfCodMedico.getText()), tfNombreMedico.getText(),tfEspecializacion);
-							
-							// Borro archivo viejo y escrivo el nuevo.
-							FileWriter datopac1 = new FileWriter(Constantes.archivoMedicos);
-							for (Medico m : medicos) {
-								String registro = "";
-								if(m.getCodigo()== medMod.getCodigo())
-									registro = Encriptacion.Encriptar(medMod.getCodigo() + "," +medMod.getNombre() + "," + medMod.getEspecializacion());
-								else
-									registro = Encriptacion.Encriptar(m.getCodigo() + "," +m.getNombre() + "," + m.getEspecializacion());
-								datopac1.write(registro + "\n");
-							}
-							datopac1.close();	
-							
-						}catch (IOException ex){
-							ex.printStackTrace();
+	private boolean generaModificacionMedico(JTextField tfCodMedico, JTextField tfNombreMedico,
+			String tfEspecializacion) {
+		/////// validaciones de campos de texto/////////
+		if (esCodigoValido(tfCodMedico.getText().trim())) {
+			if (tfNombreMedico.getText().trim().length() > 0 && tfNombreMedico.getText().trim().length() <= 30) {
+				// si es valido primero se fija si el paciente ya existe
+				boolean existeMedico = false;
+				ArrayList<Medico> medicos = leerArchivoMedicos(Constantes.archivoMedicos);
+				for (Medico p : medicos) {
+					if (p.getCodigo() == Integer.parseInt(tfCodMedico.getText().trim()))
+						existeMedico = true;
+				}
+
+				if (existeMedico) {
+					try {
+						Medico medMod = new Medico(Integer.valueOf(tfCodMedico.getText()), tfNombreMedico.getText(),
+								tfEspecializacion);
+
+						// Borro archivo viejo y escrivo el nuevo.
+						FileWriter datopac1 = new FileWriter(Constantes.archivoMedicos);
+						for (Medico m : medicos) {
+							String registro = "";
+							if (m.getCodigo() == medMod.getCodigo())
+								registro = Encriptacion.Encriptar(medMod.getCodigo() + "," + medMod.getNombre() + ","
+										+ medMod.getEspecializacion());
+							else
+								registro = Encriptacion
+										.Encriptar(m.getCodigo() + "," + m.getNombre() + "," + m.getEspecializacion());
+							datopac1.write(registro + "\n");
 						}
-						JOptionPane.showMessageDialog(null, "¡Modificación realizada satisfactoriamente!","Confirmación", JOptionPane.INFORMATION_MESSAGE);
-						return true;
-					}else{
-						JOptionPane.showMessageDialog(null, "¡El código del médico ingresado no existe!","Error", JOptionPane.ERROR_MESSAGE);
+						datopac1.close();
+
+					} catch (IOException ex) {
+						ex.printStackTrace();
 					}
-			}else{
-				JOptionPane.showMessageDialog(null, "¡Debe ingresar un nombre de médico de hasta 30 caracteres!","Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "¡Modificación realizada satisfactoriamente!", "Confirmación",
+							JOptionPane.INFORMATION_MESSAGE);
+					return true;
+				} else {
+					JOptionPane.showMessageDialog(null, "¡El código del médico ingresado no existe!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "¡Debe ingresar un nombre de médico de hasta 30 caracteres!",
+						"Error", JOptionPane.ERROR_MESSAGE);
 			}
-		}else
+		} else
 
-	{
-		JOptionPane.showMessageDialog(null, "¡Debe ingresar un código de médico numerico de 4 dígitos!", "Error",
-				JOptionPane.ERROR_MESSAGE);
+		{
+			JOptionPane.showMessageDialog(null, "¡Debe ingresar un código de médico numerico de 4 dígitos!", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
+		return false;
+
 	}
 
-	return false;
-
-	}
-
-	public void limpiaCampos(){
+	public void limpiaCampos() {
 		this.tfCodMedico.setText("");
 		this.tfNombreMedico.setText("");
 	}

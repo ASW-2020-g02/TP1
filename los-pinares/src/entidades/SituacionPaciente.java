@@ -1,4 +1,4 @@
-package objetos;
+package entidades;
 
 //Esta clase se realiza para mapear cada Situación de paciente
 //codpaciente: Codigo del Paciente que es atendido, numerico de 5 caracteres
@@ -8,16 +8,15 @@ public class SituacionPaciente {
 	private int codpaciente;
 	private int codmedico;
 	private String situacion;
-	
-	//Constructor
-	public SituacionPaciente(int codp, int codm, String situacion)
-	{
+
+	// Constructor
+	public SituacionPaciente(int codp, int codm, String situacion) {
 		this.codpaciente = codp;
 		this.codmedico = codm;
 		this.situacion = situacion;
 	}
 
-	//Getters y Setters
+	// Getters y Setters
 	public int getCodpaciente() {
 		return codpaciente;
 	}
@@ -42,10 +41,9 @@ public class SituacionPaciente {
 		this.situacion = situacion;
 	}
 
-	//Funcion Imprimir: Realiza la impresion de los datos de modo:
-	//Codigo_Paciente::Codigo_medico::Situacion
-	public String Imprimir()
-	{
+	// Funcion Imprimir: Realiza la impresion de los datos de modo:
+	// Codigo_Paciente::Codigo_medico::Situacion
+	public String Imprimir() {
 		return this.getCodpaciente() + " :: " + this.getCodmedico() + " :: " + this.getSituacion();
 	}
 

@@ -1,10 +1,11 @@
 package pantallas;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -19,12 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import objetos.Paciente;
+import entidades.Paciente;
 import otros.Constantes;
 import otros.Encriptacion;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class ModificacionPaciente extends JDialog {
 	private JTextField tfCodPaciente;
@@ -169,7 +167,8 @@ public class ModificacionPaciente extends JDialog {
 		return true;
 	}
 
-	private boolean generaModificacionPaciente(JTextField tfCodPaciente, JTextField tfNombrePaciente, String path, String datosPac) {
+	private boolean generaModificacionPaciente(JTextField tfCodPaciente, JTextField tfNombrePaciente, String path,
+			String datosPac) {
 		/////// validaciones de campos de texto/////////
 		if (esCodigoValido(tfCodPaciente.getText().trim())) {
 			if (tfNombrePaciente.getText().trim().length() <= 30 && tfNombrePaciente.getText().trim().length() > 0) {

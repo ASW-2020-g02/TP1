@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import objetos.Paciente;
+import entidades.Paciente;
 
 public class ListadoPacientesPorMedicos extends JFrame {
 
@@ -50,8 +50,7 @@ public class ListadoPacientesPorMedicos extends JFrame {
 		// Nombre de los archivos
 		String datosPac = "datopac.txt";
 		String datosMed = "datomed.txt";
-		
-		
+
 		setType(Type.UTILITY);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 440, 570);
@@ -60,25 +59,25 @@ public class ListadoPacientesPorMedicos extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblListadoDePacientes = new JLabel("Listado de Pacientes por M\u00E9dico");
 		lblListadoDePacientes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListadoDePacientes.setFont(new Font("Arial", Font.BOLD, 18));
 		lblListadoDePacientes.setBounds(37, 37, 347, 22);
 		contentPane.add(lblListadoDePacientes);
-		
+
 		JLabel lblMdico = new JLabel("M\u00E9dico:");
 		lblMdico.setBounds(63, 88, 98, 14);
 		contentPane.add(lblMdico);
-		
+
 		JLabel lblPacientes = new JLabel("Pacientes:");
 		lblPacientes.setBounds(63, 152, 98, 14);
 		contentPane.add(lblPacientes);
-		
+
 		JTextArea taPacientes = new JTextArea();
 		taPacientes.setBounds(63, 177, 300, 304);
 		contentPane.add(taPacientes);
-		
+
 		JButton btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -87,56 +86,46 @@ public class ListadoPacientesPorMedicos extends JFrame {
 		});
 		btnCerrar.setBounds(327, 503, 87, 22);
 		contentPane.add(btnCerrar);
-		
+
 		JComboBox cbMedicos = new JComboBox();
 		cbMedicos.setBounds(59, 113, 227, 22);
 		contentPane.add(cbMedicos);
-		
-		//carga de medicos
-		
+
+		// carga de medicos
+
 		ArrayList<Paciente> alpacientes = leerArchivoPacientes(path + datosMed);
 		for (Paciente p : alpacientes) {
 			String item = p.getCodigo() + " - " + p.getNombre();
 			cbMedicos.addItem(item);
 		}
-		
 
-       ItemListener changeClick = new ItemListener() 
-        { 
-            public void itemStateChanged(ItemEvent e)  
-            { 
-                if(cbMedicos.getSelectedItem().equals(e.getItem())) 
-                { 
-                    System.out.println(e.getItem().toString());
-                    //String[] datosMedico = e.getItem().toString().split("-");
-                    
-                } 
-            } 
-        }; 
-         
-        cbMedicos.addItemListener(changeClick); 
-	} 
+		ItemListener changeClick = new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (cbMedicos.getSelectedItem().equals(e.getItem())) {
+					System.out.println(e.getItem().toString());
+					// String[] datosMedico = e.getItem().toString().split("-");
 
-	
-	public static ArrayList<Paciente> leerArchivoPacientes(String archivo)
-	{
-		try
-		{
-			BufferedReader entrada =new BufferedReader(new FileReader(archivo));
+				}
+			}
+		};
+
+		cbMedicos.addItemListener(changeClick);
+	}
+
+	public static ArrayList<Paciente> leerArchivoPacientes(String archivo) {
+		try {
+			BufferedReader entrada = new BufferedReader(new FileReader(archivo));
 			String s = "";
 			ArrayList<Paciente> ret = new ArrayList<Paciente>();
-			while((s = entrada.readLine())!= null)
-			{
+			while ((s = entrada.readLine()) != null) {
 				String[] cadena = s.split(",");
 				int cod = Integer.parseInt(cadena[0]);
 				String nom = cadena[1];
-				ret.add(new Paciente(cod,nom));
+				ret.add(new Paciente(cod, nom));
 			}
 			entrada.close();
 			return ret;
-		}
-		catch (java.io.IOException e) 
-		{ 
+		} catch (java.io.IOException e) {
 			e.printStackTrace();
 			return null;
 		}

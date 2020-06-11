@@ -1,34 +1,31 @@
 package pantallas;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import objetos.Medico;
-import objetos.Usuario;
-import otros.Constantes;
-import otros.Encriptacion;
-import otros.FuncionesComunes;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JButton;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import entidades.Usuario;
+import otros.Constantes;
+import otros.Encriptacion;
+import otros.FuncionesComunes;
 
 public class RegistrarUsuarios extends JFrame {
 
@@ -67,7 +64,7 @@ public class RegistrarUsuarios extends JFrame {
 		contentPane.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-			}			
+			}
 		});
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -107,7 +104,7 @@ public class RegistrarUsuarios extends JFrame {
 		lblDarDeAlta.setBounds(12, 13, 288, 16);
 		contentPane.add(lblDarDeAlta);
 
-		ArrayList<Usuario> usuarios = obtenerUsuarios();		
+		ArrayList<Usuario> usuarios = obtenerUsuarios();
 
 		btnNewButton = new JButton("Aceptar");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -118,7 +115,8 @@ public class RegistrarUsuarios extends JFrame {
 						throw new Exception("El usuario debe contener como mínimo 4 caractéres y como máximo 10.");
 
 					if (!FuncionesComunes.isValidUserOrPass(txtUsuario.getText()))
-						throw new Exception("El usuario no tiene un formato válido, solo se permiten letras y/o números.");
+						throw new Exception(
+								"El usuario no tiene un formato válido, solo se permiten letras y/o números.");
 
 					Usuario usu = devuelveUsuario(usuarios, txtUsuario.getText());
 					if (usu != null)
