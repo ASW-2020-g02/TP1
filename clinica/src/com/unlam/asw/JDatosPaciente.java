@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.unlam.asw.DB.DAO;
+import com.unlam.asw.entities.Paciente;
+
 import java.awt.FlowLayout;
 
 public class JDatosPaciente extends JFrame {
@@ -104,9 +106,7 @@ public class JDatosPaciente extends JFrame {
 
 		dao = new DAO();
 		setLocationRelativeTo(null);
-	}
-
-	
+	}	
 	
 	private void generarAltaPaciente() {
 		String strCod = txtCodPaciente.getText().trim();
@@ -122,7 +122,12 @@ public class JDatosPaciente extends JFrame {
 			if (!existePaciente(cod)) {
 				//Si el paciente no existe, chequeamos que se haya ingresado bien el nombre
 				if (nombreLength <= 50 && nombreLength > 0) {					
-					registrarPaciente(cod, strNombre);
+					try {
+						registrarPaciente(new Paciente(strCod, strNombre));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(null, "Paciente registrado con éxito en la base de datos.", "Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "El nombre ingresado excede el límite de 50 caracteres, o está vacío.", "Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
@@ -146,11 +151,31 @@ public class JDatosPaciente extends JFrame {
 	}
 	
 	public boolean existePaciente(int cod) {
-		//TODO: conexion bd y query paciente
-		return false;
+		Paciente paciente = null;
+		try {			
+			paciente = dao.buscarPacientePorCodigo(cod);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		
+		if (paciente == null)
+		{
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 	
-	public void registrarPaciente(int cod, String strNombre) {
-		//TODO: conexion bd, insert paciente
+	public void registrarPaciente(Paciente pac) {
+		try {
+			dao.insertarPaciente(pac);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

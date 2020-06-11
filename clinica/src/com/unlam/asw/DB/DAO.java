@@ -297,6 +297,32 @@ public class DAO {
 			lanzarEx(e);
 		}
 	}
+	
+	/**
+	 *
+	 * @param paciente
+	 * @throws Exception
+	 */
+	public Paciente buscarPacientePorCodigo(int codigo) throws Exception {
+		Paciente paciente;
+		try {
+			
+			Statement stmt = c.createStatement();
+			String sql = "SELECT * FROM PACIENTES" + " WHERE CODIGO=" + codigo + ";";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (!rs.isBeforeFirst()) {
+				return null;
+			}						
+			paciente = new Paciente(rs.getString("CODIGO"), rs.getString("NOMBRE"));
+			
+			stmt.close();
+		} catch (SQLException e) {
+			lanzarEx(e);
+			return null;
+		}
+		return paciente;
+	}
 
 	/**
 	 *
