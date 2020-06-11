@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,6 +48,8 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+
+import javafx.scene.image.Image;
 
 public class Programa extends JFrame {
 
@@ -103,7 +108,13 @@ public class Programa extends JFrame {
 
 	public Programa() {
 		setTitle("Herramienta de testing - Grupo 2 - 1º Cuatrimestre 2020");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	       try {
+			setIconImage(ImageIO.read(new File("./resource/icon.png")));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}   
+	       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1250, 530);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -320,26 +331,24 @@ public class Programa extends JFrame {
 		lblResultadoEsfuerzo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblResultadoEsfuerzo.setBounds(680, 438, 89, 21);
 		contentPane.add(lblResultadoEsfuerzo);
-		
+
 		JLabel lblCodigo = new JLabel("Código del método seleccionado");
 		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblCodigo.setBounds(795, 21, 439, 31);
 		contentPane.add(lblCodigo);
 
-
-		
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Arial", Font.PLAIN, 12));
 		textArea.setBounds(794, 50, 440, 437);
-		
+
 		JScrollPane scrollPane4 = new JScrollPane();
 		scrollPane4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane4.setBounds(794, 50, 440, 437);
 		scrollPane4.setViewportView(textArea);
 		contentPane.add(scrollPane4);
-		
+
 		JPanel panelHalstead = new JPanel();
 		panelHalstead.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Halstead",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -356,7 +365,7 @@ public class Programa extends JFrame {
 		panelAnalisis.setToolTipText("");
 		panelAnalisis.setBounds(10, 345, 774, 145);
 		contentPane.add(panelAnalisis);
-		
+
 	}
 
 	/// INICIO Metodos onClick para las distintas listas
