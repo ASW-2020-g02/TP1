@@ -1,20 +1,28 @@
 package com.unlam.asw;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
-import com.unlam.asw.DB.DAO;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JTextField;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-public class Programa {
+import com.unlam.asw.DB.DAO;
+import java.awt.FlowLayout;
+
+public class JDatosPaciente extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
 	private DAO dao;
 	private JFrame frame;
 	private JTextField txtCodPaciente;
@@ -27,8 +35,8 @@ public class Programa {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Programa window = new Programa();
-					window.frame.setVisible(true);
+					JDatosPaciente frame = new JDatosPaciente();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -37,23 +45,19 @@ public class Programa {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
-	public Programa() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public JDatosPaciente() {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		JLabel lblCodPaciente = new JLabel("C\u00F3digo");
@@ -89,6 +93,8 @@ public class Programa {
 
 		dao = new DAO();
 	}
+
+	
 	
 	private void generarAltaPaciente() {
 		String strCod = txtCodPaciente.getText().trim();
@@ -119,7 +125,7 @@ public class Programa {
 	
 	public boolean esCodigoValido(String codigo) {		
 		try {
-			int cod = Integer.parseInt(codigo);
+			Integer.parseInt(codigo);
 			return true;
 		}	
 		 catch (Exception e) {
