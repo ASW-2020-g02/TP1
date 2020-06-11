@@ -226,7 +226,6 @@ public class AltaMedico extends JDialog {
 		// se da de alta el medico en los archivos del sistema.
 		// En el mismo se hacen las validaciones necesarias
 
-		/////// validaciones de campos de texto/////////
 		if (esCodigoValido(tfCodMedico.getText().trim())) {
 			if ((tfNombreMedico.getText().trim().length() > 0 && tfNombreMedico.getText().trim().length() <= 30)
 					&& FuncionesComunes.isAlpha(tfNombreMedico.getText().trim())) {

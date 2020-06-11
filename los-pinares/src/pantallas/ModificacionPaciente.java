@@ -169,7 +169,7 @@ public class ModificacionPaciente extends JDialog {
 
 	private boolean generaModificacionPaciente(JTextField tfCodPaciente, JTextField tfNombrePaciente, String path,
 			String datosPac) {
-		/////// validaciones de campos de texto/////////
+
 		if (esCodigoValido(tfCodPaciente.getText().trim())) {
 			if (tfNombrePaciente.getText().trim().length() <= 30 && tfNombrePaciente.getText().trim().length() > 0) {
 				// si es valido primero se fija si el paciente ya existe
@@ -190,10 +190,11 @@ public class ModificacionPaciente extends JDialog {
 						FileWriter datopac1 = new FileWriter(Constantes.archivoPacientes);
 						for (Paciente p : pacientes) {
 							String registro = "";
-							if (p.getCodigo() == pacMod.getCodigo())
+							if (p.getCodigo() == pacMod.getCodigo()) {
 								registro = Encriptacion.Encriptar(pacMod.getCodigo() + "," + pacMod.getNombre());
-							else
+							} else {
 								registro = Encriptacion.Encriptar(p.getCodigo() + "," + p.getNombre());
+							}
 							datopac1.write(registro + "\n");
 						}
 						datopac1.close();

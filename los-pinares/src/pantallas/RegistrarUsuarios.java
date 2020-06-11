@@ -135,6 +135,9 @@ public class RegistrarUsuarios extends JFrame {
 					registrarUsuario(txtUsuario.getText(), txtpContra.getText());
 					JOptionPane.showMessageDialog(null, "¡Alta realizada satisfactoriamente!", "Confirmación",
 							JOptionPane.INFORMATION_MESSAGE);
+					
+					Login login = new Login();
+					login.setVisible(true);
 					dispose();
 
 				} catch (Exception ex) {
@@ -148,6 +151,8 @@ public class RegistrarUsuarios extends JFrame {
 		btnNewButton_1 = new JButton("Cancelar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Login login = new Login();
+				login.setVisible(true);
 				dispose();
 			}
 		});

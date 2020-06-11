@@ -108,7 +108,7 @@ public class Main extends JFrame {
 		btnsalir.setBounds(111, 436, 215, 72);
 		contentPane.add(btnsalir);
 
-		JLabel lblCentroMdicoLos = new JLabel("Centro m\u00E9dico Los Laureles");
+		JLabel lblCentroMdicoLos = new JLabel("Centro m\u00E9dico Los Pinares");
 		lblCentroMdicoLos.setFont(new Font("Meiryo", Font.PLAIN, 24));
 		lblCentroMdicoLos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCentroMdicoLos.setBounds(12, 13, 416, 42);

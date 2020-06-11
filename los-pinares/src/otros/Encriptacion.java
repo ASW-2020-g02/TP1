@@ -18,7 +18,7 @@ public class Encriptacion {
 	public static String Encriptar(String texto) {
 
 		// llave para encriptar datos
-		String secretKey = "Grupo11";
+		String secretKey = "Grupo2AnalisisDeSoftware2020PrimerCuatrimestre";
 		String base64EncryptedString = "";
 
 		try {
@@ -47,7 +47,7 @@ public class Encriptacion {
 	public static String Desencriptar(String textoEncriptado) throws Exception {
 
 		// llave para desenciptar datos
-		String secretKey = "Grupo11";
+		String secretKey = "Grupo2AnalisisDeSoftware2020PrimerCuatrimestre";
 		String base64EncryptedString = "";
 
 		try {

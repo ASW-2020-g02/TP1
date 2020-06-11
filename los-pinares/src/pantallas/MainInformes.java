@@ -242,15 +242,19 @@ public class MainInformes extends JFrame {
 
 	private ArrayList<Paciente> buscarPacientesPorMedico(int codMed, ArrayList<SituacionPaciente> situPac,
 			ArrayList<Paciente> pacientes) {
+
 		ArrayList<Paciente> lret = new ArrayList<Paciente>();
+
 		for (SituacionPaciente sp : situPac) {
 			if (codMed == sp.getCodmedico()) {
 				for (Paciente p : pacientes) {
-					if (sp.getCodpaciente() == p.getCodigo() && !lret.contains(p))
+					if (sp.getCodpaciente() == p.getCodigo() && !lret.contains(p)) {
 						lret.add(p);
+					}
 				}
 			}
 		}
+
 		return lret;
 	}
 

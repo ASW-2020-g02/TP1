@@ -48,10 +48,10 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		setTitle("Login usuario");
+		setTitle("Acceso al sistema");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 284, 205);
+		setBounds(100, 100, 284, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -60,17 +60,17 @@ public class Login extends JFrame {
 		JLabel lblUsuario = new JLabel("Usuario:");
 		lblUsuario.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUsuario.setBounds(12, 27, 95, 27);
+		lblUsuario.setBounds(22, 26, 95, 27);
 		contentPane.add(lblUsuario);
 
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
 		lblContrasea.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContrasea.setBounds(12, 67, 95, 27);
+		lblContrasea.setBounds(22, 67, 95, 27);
 		contentPane.add(lblContrasea);
 
 		txtUsuario = new JTextField();
-		txtUsuario.setBounds(119, 29, 116, 22);
+		txtUsuario.setBounds(119, 29, 149, 22);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 
@@ -102,20 +102,24 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		btnIngresar.setBounds(22, 118, 97, 39);
+		btnIngresar.setBounds(22, 118, 246, 39);
 		contentPane.add(btnIngresar);
 
-		JButton btnCancelar = new JButton("Cancelar");
+		JButton btnCancelar = new JButton("Registrarse");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				RegistrarUsuarios ventanaRegistro = new RegistrarUsuarios();
+				ventanaRegistro.setVisible(true);
+
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(138, 118, 97, 39);
+		btnCancelar.setBounds(22, 168, 246, 39);
 		contentPane.add(btnCancelar);
 
 		txtPass = new JPasswordField();
-		txtPass.setBounds(119, 69, 116, 25);
+		txtPass.setBounds(119, 69, 149, 25);
 		contentPane.add(txtPass);
 
 		setLocationRelativeTo(null);

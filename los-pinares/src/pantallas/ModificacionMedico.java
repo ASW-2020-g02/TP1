@@ -194,7 +194,7 @@ public class ModificacionMedico extends JDialog {
 
 	private boolean generaModificacionMedico(JTextField tfCodMedico, JTextField tfNombreMedico,
 			String tfEspecializacion) {
-		/////// validaciones de campos de texto/////////
+
 		if (esCodigoValido(tfCodMedico.getText().trim())) {
 			if (tfNombreMedico.getText().trim().length() > 0 && tfNombreMedico.getText().trim().length() <= 30) {
 				// si es valido primero se fija si el paciente ya existe
@@ -214,12 +214,12 @@ public class ModificacionMedico extends JDialog {
 						FileWriter datopac1 = new FileWriter(Constantes.archivoMedicos);
 						for (Medico m : medicos) {
 							String registro = "";
-							if (m.getCodigo() == medMod.getCodigo())
+							if (m.getCodigo() == medMod.getCodigo()) {
 								registro = Encriptacion.Encriptar(medMod.getCodigo() + "," + medMod.getNombre() + ","
 										+ medMod.getEspecializacion());
-							else
-								registro = Encriptacion
-										.Encriptar(m.getCodigo() + "," + m.getNombre() + "," + m.getEspecializacion());
+							} else {
+								registro = Encriptacion.Encriptar(m.getCodigo() + "," + m.getNombre() + "," + m.getEspecializacion());
+							}
 							datopac1.write(registro + "\n");
 						}
 						datopac1.close();
