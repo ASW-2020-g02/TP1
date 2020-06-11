@@ -58,12 +58,22 @@ public class JIngresoPacientes extends JFrame {
 		panel.add(btnDatosPaciente);
 		
 		JButton btnSituPaciente = new JButton("Situaci\u00F3n del paciente");
+		btnSituPaciente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JSituacionPaciente jp = new JSituacionPaciente();
+				jp.setVisible(true);
+				dispose();
+			}
+		});
 		btnSituPaciente.setBounds(148, 74, 140, 40);
 		panel.add(btnSituPaciente);
 		
 		JButton btnDatosDelMdico = new JButton("Datos del m\u00E9dico");
 		btnDatosDelMdico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JDatosMedico jd = new JDatosMedico();
+				jd.setVisible(true);
+				dispose();
 			}
 		});
 		btnDatosDelMdico.setBounds(148, 125, 140, 40);

@@ -88,10 +88,22 @@ public class JDatosPaciente extends JFrame {
 				generarAltaPaciente();
 			}
 		});
-		btnConfirmar.setBounds(170, 201, 118, 23);
+		btnConfirmar.setBounds(82, 200, 118, 23);
 		panel.add(btnConfirmar);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JIngresoPacientes jp = new JIngresoPacientes();
+				jp.setVisible(true);
+				dispose();
+			}
+		});
+		btnSalir.setBounds(248, 200, 118, 23);
+		panel.add(btnSalir);
 
 		dao = new DAO();
+		setLocationRelativeTo(null);
 	}
 
 	
