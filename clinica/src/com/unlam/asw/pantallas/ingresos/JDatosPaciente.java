@@ -95,7 +95,7 @@ public class JDatosPaciente extends JFrame {
 
 		// Text field de código del paciente
 		txtCodPaciente = new JTextField();
-		txtCodPaciente.setBounds(162, 176, 189, 20);
+		txtCodPaciente.setBounds(162, 103, 189, 20);
 		panel.add(txtCodPaciente);
 		txtCodPaciente.setColumns(10);
 
@@ -108,7 +108,7 @@ public class JDatosPaciente extends JFrame {
 
 		// Text field de nombre del paciente
 		txtNombrePaciente = new JTextField();
-		txtNombrePaciente.setBounds(162, 103, 189, 20);
+		txtNombrePaciente.setBounds(162, 176, 189, 20);
 		panel.add(txtNombrePaciente);
 		txtNombrePaciente.setColumns(10);
 

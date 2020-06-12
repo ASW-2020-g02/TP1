@@ -93,7 +93,7 @@ public class JDatosMedico extends JFrame {
 
 		// Text field de código de médico
 		txtCodMedico = new JTextField();
-		txtCodMedico.setBounds(183, 136, 189, 20);
+		txtCodMedico.setBounds(183, 85, 189, 20);
 		panel.add(txtCodMedico);
 		txtCodMedico.setColumns(10);
 
@@ -106,7 +106,7 @@ public class JDatosMedico extends JFrame {
 
 		// Text field de nombre del médico
 		txtNombre = new JTextField();
-		txtNombre.setBounds(183, 85, 189, 20);
+		txtNombre.setBounds(183, 136, 189, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 

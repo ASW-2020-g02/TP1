@@ -113,7 +113,7 @@ public class JSituacionPaciente extends JFrame {
 		// Label de código de médico
 		JLabel lblCodigoMedico = new JLabel("C\u00F3digo m\u00E9dico");
 		lblCodigoMedico.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblCodigoMedico.setBounds(36, 137, 137, 14);
+		lblCodigoMedico.setBounds(36, 124, 137, 34);
 		panel.add(lblCodigoMedico);
 
 		// Boton para guardar en la base de datos la situación del paciente
