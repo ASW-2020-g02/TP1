@@ -81,10 +81,6 @@ public class DAO {
 					+ " FOREIGN KEY(CODIGOMEDICO) REFERENCES MEDICOS (CODIGO)" + ")";
 			stmt.executeUpdate(sql);
 
-			// Creación del usuario admin
-			sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) " + "VALUES ('admin', 'admin', 'admin@admin.com');";
-			stmt.executeUpdate(sql);
-
 			// Cierro el statemnt
 			stmt.close();
 		} catch (SQLException e) {

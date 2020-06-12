@@ -64,7 +64,7 @@ public class JInicial extends JFrame {
 			}
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Centro de Asistencia Los Pinares");
+		setTitle("Centro Asistencial Los Pinares");
 		setBounds(100, 100, 429, 404);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -118,6 +118,8 @@ public class JInicial extends JFrame {
 		btnSalir.setBounds(329, 332, 74, 22);
 		panel.add(btnSalir);
 
+		// Conecto el DAO
+		DAO dao = DAO.obtenerInstancia();
 		// Centro la ventana en el monitor
 		setLocationRelativeTo(null);
 	}
