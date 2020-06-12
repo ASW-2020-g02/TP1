@@ -25,7 +25,7 @@ public class Medico {
 			// Asignamos el codigo al atributo del objeto
 			this.codigo = Integer.parseInt(codigo);
 		} catch (NumberFormatException e) {
-			throw new Exception("El codigo del paciente debe ser un n˙mero entero.");
+			throw new Exception("El codigo del paciente debe ser un n√∫mero entero.");
 		}
 	}
 
@@ -35,16 +35,16 @@ public class Medico {
 
 	/**
 	 * Setter del nombre. Verifica que el nombre contenga solamente caracteres
-	 * v·lidos.
+	 * v√°lidos.
 	 * 
-	 * Arroja excepciones en caso de que el nombre contenga caracteres no v·lidos o
+	 * Arroja excepciones en caso de que el nombre contenga caracteres no v√°lidos o
 	 * en caso de que la cadena recibida sea nula.
 	 * 
-	 * @param nombre (string) cadena de texto que ser· asignada como nombre al
-	 *               paciente, en caso de pasar la validaciÛn.
+	 * @param nombre (string) cadena de texto que ser√° asignada como nombre al
+	 *               paciente, en caso de pasar la validaci√≥n.
 	 */
 	public final void setNombre(String nombre) throws Exception {
-		// Chequeamos que la cadena recibida no sea nula, y adem·s chequeamos que no
+		// Chequeamos que la cadena recibida no sea nula, y adem√°s chequeamos que no
 		// hayamos recibido
 		// una cadena con espacios en blanco
 		if (nombre != null && !nombre.trim().isEmpty()) {
@@ -53,9 +53,9 @@ public class Medico {
 			if (this.soloCaracteres(nombre))
 				this.nombre = nombre;
 			else
-				throw new Exception("El mÈdico debe contener caracteres v·lidos!");
+				throw new Exception("El m√©dico debe contener caracteres v√°lidos!");
 		} else {
-			throw new Exception("El mÈdico debe tener un nombre!");
+			throw new Exception("El m√©dico debe tener un nombre!");
 		}
 	}
 
@@ -70,25 +70,25 @@ public class Medico {
 		if (especialidad != null && !especialidad.trim().isEmpty())
 			this.especialidad = especialidad;
 		else
-			throw new Exception("El mÈdico debe tener una especialidad.");
+			throw new Exception("El m√©dico debe tener una especialidad.");
 	}
 
 	/**
-	 * Chequea que la cadena contenga solo caracteres v·lidos, considerando
-	 * caracteres v·lidos aquellos que sean letras y que no sean whiteSpace
-	 * (tabulaciones, linefeed, espacios en blanco, etc). Los n˙meros no son
+	 * Chequea que la cadena contenga solo caracteres v√°lidos, considerando
+	 * caracteres v√°lidos aquellos que sean letras y que no sean whiteSpace
+	 * (tabulaciones, linefeed, espacios en blanco, etc). Los n√∫meros no son
 	 * aceptados. Solo se aceptan letras.
 	 * 
 	 * Retorna true en caso de que no hayan caracteres no validos, y false en caso
-	 * de que sÌ hayan.
+	 * de que s√≠ hayan.
 	 * 
-	 * @param cadena (string) cadena que ser· comprobada en busca de caracteres no
-	 *               v·lidos.
+	 * @param cadena (string) cadena que ser√° comprobada en busca de caracteres no
+	 *               v√°lidos.
 	 */
 	private boolean soloCaracteres(String cadena) {
 		// Recorremos la cadena de principio a fin
 		for (int i = 0; i != cadena.length(); ++i) {
-			// isLetter chequea que la letra sea una letra unicode v·lida
+			// isLetter chequea que la letra sea una letra unicode v√°lida
 			if (!Character.isLetter(cadena.charAt(i)) && !Character.isWhitespace(cadena.charAt(i)))
 				// Si el caracter no es una letra, retornamos falso
 				return false;
