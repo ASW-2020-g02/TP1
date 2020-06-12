@@ -12,6 +12,13 @@ public class Situacion {
 		setCodPaciente(codPaciente);
 		setId(id);
 	}
+	
+	public Situacion(int id, int codPaciente, int codMedico, String diagnostico) {
+		this.id = id;
+		this.codPaciente = codPaciente;
+		this.codMedico = codMedico;
+		this.diagnostico = diagnostico;
+	}
 
 	public int getId() {
 		return id;

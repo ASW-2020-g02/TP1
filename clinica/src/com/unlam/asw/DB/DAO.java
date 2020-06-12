@@ -45,13 +45,13 @@ public class DAO {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Conexión con base de datos establecida.");
+		System.out.println("Conexiï¿½n con base de datos establecida.");
 	}
 
 	private void inicializar() {
 		String sql = null;
 		try {
-			// creación de tablas por defecto
+			// creaciï¿½n de tablas por defecto
 			Statement stmt = c.createStatement();
 
 			// usuarios
@@ -64,7 +64,7 @@ public class DAO {
 					+ " NOMBRE     TEXT        NOT NULL)";
 			stmt.executeUpdate(sql);
 
-			// médicos
+			// mï¿½dicos
 			sql = "CREATE TABLE MEDICOS " + "(CODIGO INTEGER PRIMARY KEY NOT NULL,"
 					+ " ESPECIALIDAD   TEXT    NOT NULL," + " NOMBRE            TEXT    NOT NULL)";
 			stmt.executeUpdate(sql);
@@ -76,7 +76,7 @@ public class DAO {
 					+ " FOREIGN KEY(CODIGOMEDICO) REFERENCES MEDICOS (CODIGO)" + ")";
 			stmt.executeUpdate(sql);
 
-			// creación del usuario admin
+			// creaciï¿½n del usuario admin
 			sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) " + "VALUES ('admin', 'admin', 'admin@admin.com');";
 			stmt.executeUpdate(sql);
 
@@ -97,18 +97,18 @@ public class DAO {
 	}
 
 	/**
-	 * Método para lanzar excepciones no reconocidas de SQLite
+	 * Mï¿½todo para lanzar excepciones no reconocidas de SQLite
 	 * 
 	 * @param e
 	 * @throws Exception
 	 */
 	private void lanzarEx(SQLException e) throws Exception {
-		throw new Exception("Error en la base de datos." + "\nCódigo de error: " + e.getErrorCode() + "\nMensaje: "
+		throw new Exception("Error en la base de datos." + "\nCï¿½digo de error: " + e.getErrorCode() + "\nMensaje: "
 				+ e.getMessage());
 	}
 
 	/**
-	 * Método para validar el usuario en el login
+	 * Mï¿½todo para validar el usuario en el login
 	 * 
 	 * @param nombre
 	 * @param password
@@ -173,7 +173,7 @@ public class DAO {
 			PreparedStatement ps = c.prepareStatement(sql);
 			if (ps.executeUpdate() == 0) {
 				ps.close();
-				throw new Exception("No se encontró ningún registro con ese nombre de usuario.");
+				throw new Exception("No se encontrï¿½ ningï¿½n registro con ese nombre de usuario.");
 			}
 			// cierro el statement
 
@@ -198,7 +198,7 @@ public class DAO {
 			PreparedStatement ps = c.prepareStatement(sql);
 			if (ps.executeUpdate() == 0) {
 				ps.close();
-				throw new Exception("No se encontró ningún registro con ese nombre de usuario.");
+				throw new Exception("No se encontrï¿½ ningï¿½n registro con ese nombre de usuario.");
 			}
 			// cierro el statement
 			ps.close();
@@ -267,7 +267,7 @@ public class DAO {
 			PreparedStatement ps = c.prepareStatement(sql);
 			if (ps.executeUpdate() == 0) {
 				ps.close();
-				throw new Exception("No se encontró ningún registro con ese codigo de paciente.");
+				throw new Exception("No se encontrï¿½ ningï¿½n registro con ese codigo de paciente.");
 			}
 			// cierro el statement
 			ps.close();
@@ -290,7 +290,7 @@ public class DAO {
 			PreparedStatement ps = c.prepareStatement(sql);
 			if (ps.executeUpdate() == 0) {
 				ps.close();
-				throw new Exception("No se encontró ningún registro con ese codigo de paciente.");
+				throw new Exception("No se encontrï¿½ ningï¿½n registro con ese codigo de paciente.");
 			}
 			// cierro el statement
 			ps.close();
@@ -301,7 +301,7 @@ public class DAO {
 
 	/**
 	 *
-	 * @param paciente
+	 * @param codigo integer
 	 * @throws Exception
 	 */
 	public Paciente buscarPacientePorCodigo(int codigo) throws Exception {
@@ -381,7 +381,7 @@ public class DAO {
 		String nombre = med.getNombre();
 		String especialidad = med.getEspecialidad();
 		try {
-			// agrego el médico
+			// agrego el mï¿½dico
 			String sql = "INSERT INTO MEDICOS (CODIGO, NOMBRE, ESPECIALIDAD) " + "VALUES (" + codigo + ", '" + nombre
 					+ "', '" + especialidad + "');";
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -391,7 +391,7 @@ public class DAO {
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
 			case 19:
-				throw new Exception("Este codigo de médico ya existe.");
+				throw new Exception("Este codigo de mï¿½dico ya existe.");
 			default:
 				lanzarEx(e);
 			}
@@ -405,12 +405,12 @@ public class DAO {
 	 */
 	public void eliminarMedico(int codigo) throws Exception {
 		try {
-			// borro el médico
+			// borro el mï¿½dico
 			String sql = "DELETE FROM MEDICOS WHERE CODIGO=" + codigo + ";";
 			PreparedStatement ps = c.prepareStatement(sql);
 			if (ps.executeUpdate() == 0) {
 				ps.close();
-				throw new Exception("No se encontró ningún registro con ese codigo de médico.");
+				throw new Exception("No se encontrï¿½ ningï¿½n registro con ese codigo de mï¿½dico.");
 			}
 			// cierro el statement
 			ps.close();
@@ -429,19 +429,45 @@ public class DAO {
 		String nombre = med.getNombre();
 		String especialidad = med.getEspecialidad();
 		try {
-			// actualizo el médico
+			// actualizo el mï¿½dico
 			String sql = "UPDATE MEDICOS " + "SET NOMBRE='" + nombre + "', ESPECIALIDAD='" + especialidad + "' "
 					+ "WHERE CODIGO=" + codigo + ";";
 			PreparedStatement ps = c.prepareStatement(sql);
 			if (ps.executeUpdate() == 0) {
 				ps.close();
-				throw new Exception("No se encontró ningún registro con ese codigo de médico.");
+				throw new Exception("No se encontrï¿½ ningï¿½n registro con ese codigo de mï¿½dico.");
 			}
 			// cierro el statement
 			ps.close();
 		} catch (SQLException e) {
 			lanzarEx(e);
 		}
+	}
+	
+	/**
+	 *
+	 * @param codigo integer
+	 * @throws Exception
+	 */
+	public Medico buscarMedicoPorCodigo(int codigo) throws Exception {
+		Medico med;
+		try {
+			
+			Statement stmt = c.createStatement();
+			String sql = "SELECT * FROM MEDICOS" + " WHERE CODIGO=" + codigo + ";";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (!rs.isBeforeFirst()) {
+				return null;
+			}						
+			med = new Medico(rs.getString("CODIGO"), rs.getString("ESPECIALIDAD"), rs.getString("NOMBRE"));
+			
+			stmt.close();
+		} catch (SQLException e) {
+			lanzarEx(e);
+			return null;
+		}
+		return med;
 	}
 
 	/**
@@ -456,7 +482,7 @@ public class DAO {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT CODIGO, NOMBRE, ESPECIALIDAD FROM MEDICOS;";
 			ResultSet rs = stmt.executeQuery(sql);
-			// voy agregando los médicos a la lista
+			// voy agregando los mï¿½dicos a la lista
 			while (rs.next()) {
 				medicos.add(new Medico(rs.getString("CODIGO"), rs.getString("NOMBRE"), rs.getString("ESPECIALIDAD")));
 			}
@@ -538,7 +564,7 @@ public class DAO {
 		int codigoMed = sit.getCodMedico();
 		String diag = sit.getDiagnostico();
 		try {
-			// agrego la situación
+			// agrego la situaciï¿½n
 			String sql = "INSERT INTO SITUACIONES (ID, CODIGOPACIENTE, CODIGOMEDICO, DIAGNOSTICO) " + "VALUES (" + id
 					+ ", " + codigoPac + ", " + codigoMed + ", '" + diag + "');";
 
@@ -549,9 +575,9 @@ public class DAO {
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
 			case 19:
-				throw new Exception("Error al agregar situación.\n"
-						+ "Verifique que el ID de situación no existe actualmente, y que los codigo del paciente y del médico"
-						+ " están cargados en los registros de Pacientes y Médicos.");
+				throw new Exception("Error al agregar situaciï¿½n.\n"
+						+ "Verifique que el ID de situaciï¿½n no existe actualmente, y que los codigo del paciente y del mï¿½dico"
+						+ " estï¿½n cargados en los registros de Pacientes y Mï¿½dicos.");
 			default:
 				lanzarEx(e);
 			}
@@ -565,12 +591,12 @@ public class DAO {
 	 */
 	public void eliminarSituacion(int id) throws Exception {
 		try {
-			// borro la situación
+			// borro la situaciï¿½n
 			String sql = "DELETE FROM SITUACIONES WHERE ID=" + id + ";";
 			PreparedStatement ps = c.prepareStatement(sql);
 			if (ps.executeUpdate() == 0) {
 				ps.close();
-				throw new Exception("No se encontró ningún registro con ese ID de situación.");
+				throw new Exception("No se encontrï¿½ ningï¿½n registro con ese ID de situaciï¿½n.");
 			}
 			// cierro el statement
 			ps.close();
@@ -590,13 +616,13 @@ public class DAO {
 		int codigoMed = sit.getCodMedico();
 		String diag = sit.getDiagnostico();
 		try {
-			// actualizo la situación
+			// actualizo la situaciï¿½n
 			String sql = "UPDATE SITUACIONES " + "SET CODIGOPACIENTE=" + codigoPac + ", CODIGOMEDICO=" + codigoMed
 					+ ", '" + diag + "'" + "WHERE ID=" + id + ";";
 			PreparedStatement ps = c.prepareStatement(sql);
 			if (ps.executeUpdate("PRAGMA foreign_keys = ON") == 0) {
 				ps.close();
-				throw new Exception("No se encontró ningún registro con ese ID de situación.");
+				throw new Exception("No se encontrï¿½ ningï¿½n registro con ese ID de situaciï¿½n.");
 			}
 			// cierro el statement
 			ps.close();
@@ -628,5 +654,27 @@ public class DAO {
 		}
 		return sits;
 	}
+	
+	public int obtenerUltimoIDSituacion() throws Exception {
+		int id=0;
 
+	    try {
+	        Statement stmt = c.createStatement();
+	        String sql = "SELECT ID FROM SITUACIONES ORDER BY ID DESC";
+	        ResultSet rs = stmt.executeQuery(sql);
+	        
+	        if (!rs.isBeforeFirst()) {
+				return id;
+			} else
+			{
+				id = Integer.parseInt(rs.getString("ID"));
+			}
+	        
+	        rs.close();
+	        stmt.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		return id;		
+	}
 }

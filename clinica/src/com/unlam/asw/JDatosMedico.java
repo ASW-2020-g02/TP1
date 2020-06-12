@@ -8,11 +8,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.unlam.asw.DB.DAO;
+import com.unlam.asw.entities.Medico;
+import com.unlam.asw.entities.Paciente;
+import com.unlam.asw.entities.Situacion;
 
 public class JDatosMedico extends JFrame {
 
@@ -107,6 +111,103 @@ public class JDatosMedico extends JFrame {
 
 		dao = new DAO();
 		setLocationRelativeTo(null);
+	}
+	
+	public void registrarMedico() {
+		String strCodMed = txtCodMedico.getText().trim();
+		String strNombre = txtNombre.getText().trim();
+		String strEspe = txtEspecializacion.getText().trim();
+		
+		// Validacion de parse-int
+		if (esCodigoValido(strCodMed)) {
+			int codMed = Integer.parseInt(strCodMed);
+
+			// Busca al medico en una query, si existe devuelve true
+			if (!existeMedico(codMed)) {
+
+				// Si el medico existe, chequeamos que se haya ingresado bien el nombre
+				if (strNombre.length() <= 50 && strNombre.length() > 0) {
+					// Chequeamos la longitud de la especialidad
+					if (strEspe.length() <= 50 && strEspe.length() > 0) {
+						try {
+							//Creamos un objeto del tipo médico con los datos de los textfields
+							Medico med = new Medico(strCodMed, strNombre, strEspe);
+							//Hacemos una llamada para insertar al médico en la DB
+							dao.insertarMedico(med);
+						} catch (Exception e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
+									JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}
+						
+						JOptionPane.showMessageDialog(null, "Medico registrado con éxito en la base de datos.", "Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "La especialización se encuentra vacía o es muy grande.",
+								"Error", JOptionPane.INFORMATION_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacía o es muy grande.",
+							"Error", JOptionPane.INFORMATION_MESSAGE);
+				}
+
+			} else {
+				JOptionPane.showMessageDialog(null, "El medico ya existe.", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	public boolean esCodigoValido(String codigo) {		
+		try {
+			Integer.parseInt(codigo);
+			return true;
+		}	
+		 catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean existePaciente(int cod) {
+		Paciente paciente = null;
+		try {			
+			paciente = dao.buscarPacientePorCodigo(cod);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		
+		if (paciente == null)
+		{
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	public boolean existeMedico(int cod) {
+		Medico medico = null;
+		try {			
+			medico = dao.buscarMedicoPorCodigo(cod);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		
+		if (medico == null)
+		{
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 }
