@@ -1,4 +1,4 @@
-package com.unlam.asw;
+package com.unlam.asw.control;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
