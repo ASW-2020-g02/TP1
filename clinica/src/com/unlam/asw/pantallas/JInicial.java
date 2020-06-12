@@ -1,4 +1,4 @@
-package com.unlam.asw;
+package com.unlam.asw.pantallas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.unlam.asw.pantallas.general.JInformes;
+import com.unlam.asw.pantallas.general.JIngresos;
 
 public class JInicial extends JFrame {
 
@@ -49,7 +52,7 @@ public class JInicial extends JFrame {
 		JButton btnIngresoDeDatos = new JButton("Ingreso de Datos");
 		btnIngresoDeDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JIngresoPacientes ingreso = new JIngresoPacientes();
+				JIngresos ingreso = new JIngresos();
 				ingreso.setVisible(true);
 				dispose();
 
