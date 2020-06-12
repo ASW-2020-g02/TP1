@@ -1,4 +1,4 @@
-package com.unlam.asw.control;
+package com.unlam.asw.pantallas.informes;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -20,10 +20,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import com.unlam.asw.JInformes;
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
+import com.unlam.asw.pantallas.general.JInformes;
 import com.unlam.asw.utils.Utils;
 
 public class JEnfermedadesXMedico extends JFrame {

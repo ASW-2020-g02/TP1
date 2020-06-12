@@ -1,4 +1,4 @@
-package com.unlam.asw;
+package com.unlam.asw.pantallas.general;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -10,7 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class JIngresoPacientes extends JFrame {
+import com.unlam.asw.pantallas.JInicial;
+import com.unlam.asw.pantallas.ingresos.JDatosMedico;
+import com.unlam.asw.pantallas.ingresos.JDatosPaciente;
+import com.unlam.asw.pantallas.ingresos.JSituacionPaciente;
+
+public class JIngresos extends JFrame {
 
 	private JPanel contentPane;
 
@@ -21,7 +26,7 @@ public class JIngresoPacientes extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JIngresoPacientes frame = new JIngresoPacientes();
+					JIngresos frame = new JIngresos();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -33,7 +38,7 @@ public class JIngresoPacientes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public JIngresoPacientes() {
+	public JIngresos() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 268);

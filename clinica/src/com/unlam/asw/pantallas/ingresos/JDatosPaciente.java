@@ -1,4 +1,4 @@
-package com.unlam.asw;
+package com.unlam.asw.pantallas.ingresos;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Paciente;
+import com.unlam.asw.pantallas.general.JIngresos;
 
 public class JDatosPaciente extends JFrame {
 
@@ -94,7 +95,7 @@ public class JDatosPaciente extends JFrame {
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JIngresoPacientes jp = new JIngresoPacientes();
+				JIngresos jp = new JIngresos();
 				jp.setVisible(true);
 				dispose();
 			}

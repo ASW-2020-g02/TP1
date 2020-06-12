@@ -1,4 +1,4 @@
-package com.unlam.asw;
+package com.unlam.asw.pantallas.general;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -10,8 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.unlam.asw.control.JEnfermedadesXMedico;
-import com.unlam.asw.control.JPacienteXMedico;
+import com.unlam.asw.pantallas.JInicial;
+import com.unlam.asw.pantallas.informes.JEnfermedadesXMedico;
+import com.unlam.asw.pantallas.informes.JPacienteXMedico;
 
 public class JInformes extends JFrame {
 
