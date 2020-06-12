@@ -4,11 +4,16 @@ public class Paciente {
 	private int codigo;
 	private String nombre;
 
-	public Paciente(String codigo, String nombre) throws Exception {
+	public Paciente(String codigo, String nombre) {
 		// Debo setear el código y nombre
 		// Cada atributo necesita ser validado
-		setCodigo(codigo);
-		setNombre(nombre);
+		try {
+			setCodigo(codigo);
+			setNombre(nombre);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public int getCodigo() {

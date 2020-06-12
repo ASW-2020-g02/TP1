@@ -163,12 +163,8 @@ public class JDatosPaciente extends JFrame {
 			if (!existePaciente(cod)) {
 				// Si el paciente no existe, chequeamos que se haya ingresado bien el nombre
 				if (nombreLength <= 50 && nombreLength > 0) {
-					try {
 						registrarPaciente(new Paciente(strCod, strNombre));
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+
 					JOptionPane.showMessageDialog(null, "Paciente registrado con éxito en la base de datos.",
 							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 
