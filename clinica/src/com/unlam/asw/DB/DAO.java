@@ -23,6 +23,7 @@ import javafx.collections.ObservableList;
  * La base de datos se puede abrir utilizando DB Browser (https://sqlitebrowser.org/)
  */
 public class DAO {
+	private static DAO singleton = null;
 	final static String DB = "clinica-los-pinares.db";
 	Connection c = null;
 
@@ -46,6 +47,13 @@ public class DAO {
 			System.exit(0);
 		}
 		System.out.println("Conexión con base de datos establecida.");
+	}
+
+	public static DAO obtenerInstancia() {
+		if (singleton == null)
+			singleton = new DAO();
+
+		return singleton;
 	}
 
 	private void inicializar() {

@@ -62,7 +62,7 @@ public class JEnfermedadesXMedico extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 429, 404);
 		setLocationRelativeTo(null);
-
+		setTitle("Listado de Enfermedades por M\u00E9dico");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -93,7 +93,8 @@ public class JEnfermedadesXMedico extends JFrame {
 		listScrollerPacientes.setViewportView(listaEnfermedades);
 		listaEnfermedades.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerPacientes);
-		JButton btnCerrar = new JButton("Atras");
+		JButton btnCerrar = new JButton("Volver");
+		btnCerrar.setFocusPainted(false);
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JInformes informes = new JInformes();
