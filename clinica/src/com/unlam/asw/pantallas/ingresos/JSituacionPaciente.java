@@ -160,58 +160,6 @@ public class JSituacionPaciente extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
-	public void registrarSituacion() {
-		// Strings de los textfields
-		String strCodPac = txtCodPaciente.getText().trim();
-		String strCodMed = txtCodMed.getText().trim();
-		String strSituacion = txtDiagnostico.getText().trim();
-
-		// Validacion de parse-int
-		if (esCodigoValido(strCodPac) && esCodigoValido(strCodMed)) {
-			// Parseamos el codigo del paciente
-			int codPac = Integer.parseInt(strCodPac);
-			// Parseamos el código del medico
-			int codMed = Integer.parseInt(strCodMed);
-
-			// Busca el paciente y al medico, si existen devuelve true
-			if (existePaciente(codPac) && existeMedico(codMed)) {
-				// Chequeamos que la situacion no está vacia
-				if (strSituacion.length() > 0) {
-					try {
-						// Llamamos a la BD para obtener el ID de la ultima situación registrada
-						// (por favor esto es algo teorico en la vida real esto seria un desastre
-						// debido a la concurrencia, habria conflictos cada dos segundos)
-						int id = dao.obtenerUltimoIDSituacion() + 1;
-						Situacion situ = new Situacion(String.valueOf(id), String.valueOf(codPac),
-								String.valueOf(codMed), strSituacion);
-						// Agregamos la situacion a la base de datos
-						dao.insertarSituacion(situ);
-
-					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
-								JOptionPane.INFORMATION_MESSAGE);
-						return;
-					}
-					JOptionPane.showMessageDialog(null, "Situación registrada con éxito en la base de datos.",
-							"Situación registrada", JOptionPane.INFORMATION_MESSAGE);
-					txtCodPaciente.setText("");
-					txtCodMed.setText("");
-					txtDiagnostico.setText("");
-				} else {
-					JOptionPane.showMessageDialog(null, "La situación se encuentra vacía.", "Error",
-							JOptionPane.INFORMATION_MESSAGE);
-				}
-
-			} else {
-				JOptionPane.showMessageDialog(null, "El paciente o el médico no existen.", "Error",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
-
 	public boolean esCodigoValido(String codigo) {
 		try {
 			// Si es posible realizar el parse Int, significa que es un String númerico
@@ -262,6 +210,58 @@ public class JSituacionPaciente extends JFrame {
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	public void registrarSituacion() {
+		// Strings de los textfields
+		String strCodPac = txtCodPaciente.getText().trim();
+		String strCodMed = txtCodMed.getText().trim();
+		String strSituacion = txtDiagnostico.getText().trim();
+
+		// Validacion de parse-int
+		if (esCodigoValido(strCodPac) && esCodigoValido(strCodMed)) {
+			// Parseamos el codigo del paciente
+			int codPac = Integer.parseInt(strCodPac);
+			// Parseamos el código del medico
+			int codMed = Integer.parseInt(strCodMed);
+
+			// Busca el paciente y al medico, si existen devuelve true
+			if (existePaciente(codPac) && existeMedico(codMed)) {
+				// Chequeamos que la situacion no está vacia
+				if (strSituacion.length() > 0) {
+					try {
+						// Llamamos a la BD para obtener el ID de la ultima situación registrada
+						// (por favor esto es algo teorico en la vida real esto seria un desastre
+						// debido a la concurrencia, habria conflictos cada dos segundos)
+						int id = dao.obtenerUltimoIDSituacion() + 1;
+						Situacion situ = new Situacion(String.valueOf(id), String.valueOf(codPac),
+								String.valueOf(codMed), strSituacion);
+						// Agregamos la situacion a la base de datos
+						dao.insertarSituacion(situ);
+
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
+								JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					JOptionPane.showMessageDialog(null, "Situación registrada con éxito en la base de datos.",
+							"Situación registrada", JOptionPane.INFORMATION_MESSAGE);
+					txtCodPaciente.setText("");
+					txtCodMed.setText("");
+					txtDiagnostico.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "La situación se encuentra vacía.", "Error",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
+			} else {
+				JOptionPane.showMessageDialog(null, "El paciente o el médico no existen.", "Error",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
