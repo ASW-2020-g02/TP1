@@ -109,7 +109,7 @@ public class JDatosMedico extends JFrame {
 		txtEspecializacion.setBounds(166, 108, 162, 20);
 		panel.add(txtEspecializacion);
 
-		dao = new DAO();
+		dao = DAO.obtenerInstancia();
 		setLocationRelativeTo(null);
 	}
 
@@ -130,25 +130,25 @@ public class JDatosMedico extends JFrame {
 					// Chequeamos la longitud de la especialidad
 					if (strEspe.length() <= 50 && strEspe.length() > 0) {
 						try {
-							// Creamos un objeto del tipo médico con los datos de los textfields
+							// Creamos un objeto del tipo mï¿½dico con los datos de los textfields
 							Medico med = new Medico(strCodMed, strNombre, strEspe);
-							// Hacemos una llamada para insertar al médico en la DB
+							// Hacemos una llamada para insertar al mï¿½dico en la DB
 							dao.insertarMedico(med);
 						} catch (Exception e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
+							JOptionPane.showMessageDialog(null, "Ocurriï¿½ un error con la BD.", "Error",
 									JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
 
-						JOptionPane.showMessageDialog(null, "Medico registrado con éxito en la base de datos.",
+						JOptionPane.showMessageDialog(null, "Medico registrado con ï¿½xito en la base de datos.",
 								"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, "La especialización se encuentra vacía o es muy grande.",
+						JOptionPane.showMessageDialog(null, "La especializaciï¿½n se encuentra vacï¿½a o es muy grande.",
 								"Error", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacía o es muy grande.", "Error",
+					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacï¿½a o es muy grande.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
@@ -156,7 +156,7 @@ public class JDatosMedico extends JFrame {
 				JOptionPane.showMessageDialog(null, "El medico ya existe.", "Error", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
+			JOptionPane.showMessageDialog(null, "ï¿½El cï¿½digo ingresado no es vï¿½lido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

@@ -105,13 +105,13 @@ public class JEnfermedadesXMedico extends JFrame {
 		btnCerrar.setBounds(324, 332, 74, 22);
 		contentPane.add(btnCerrar);
 
-		// Creación del combo box
+		// Creaciï¿½n del combo box
 		JComboBox<Medico> cbMedicos = new JComboBox<Medico>();
 		cbMedicos.setBounds(98, 44, 300, 22);
 		contentPane.add(cbMedicos);
 
 		// En primer lugar, creo el key listener con el cual detectare el cambio de
-		// médico en el combobox
+		// mï¿½dico en el combobox
 		ItemListener changeClick = new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (cbMedicos.getSelectedItem().equals(e.getItem())) {
@@ -120,11 +120,11 @@ public class JEnfermedadesXMedico extends JFrame {
 			}
 		};
 
-		// Una vez creado este, se lo añado a cada item
+		// Una vez creado este, se lo aï¿½ado a cada item
 		cbMedicos.addItemListener(changeClick);
 
 		// Una vez creado, debo obtener la data directo desde la BD
-		this.dao = new DAO();
+		this.dao = DAO.obtenerInstancia();
 		ArrayList<Medico> medicos = new ArrayList<Medico>();
 		// Es posible que ocurra un error al conectarse con la BD, por lo que es
 		// necesario encerrarlo en un bloque try catch
@@ -136,8 +136,8 @@ public class JEnfermedadesXMedico extends JFrame {
 			e1.printStackTrace();
 		}
 
-		// Agrego la opción dummy, la cual será validada por el sistema
-		// Dado que es una opcion simplemente de muestra, la misma no deberá arrojar una
+		// Agrego la opciï¿½n dummy, la cual serï¿½ validada por el sistema
+		// Dado que es una opcion simplemente de muestra, la misma no deberï¿½ arrojar una
 		// excepcion
 		// pero debido a como esta programada la clase, se debera atrapar dicha
 		// excepcion
@@ -158,7 +158,7 @@ public class JEnfermedadesXMedico extends JFrame {
 		// Verifico que no se trata del caso default
 		if (medico.getCodigo() != -1) {
 
-			// Aca debo obtener todas las enfermedades asociadas al médico
+			// Aca debo obtener todas las enfermedades asociadas al mï¿½dico
 			// Una vez obtenidos, se llena la lista
 			try {
 				listaTempEnfermedades = dao.obtenerEnfermedadesXMedico(medico.getCodigo());

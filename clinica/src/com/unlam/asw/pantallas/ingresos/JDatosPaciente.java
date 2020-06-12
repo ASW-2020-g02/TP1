@@ -103,7 +103,7 @@ public class JDatosPaciente extends JFrame {
 		btnSalir.setBounds(248, 200, 118, 23);
 		panel.add(btnSalir);
 
-		dao = new DAO();
+		dao = DAO.obtenerInstancia();
 		setLocationRelativeTo(null);
 	}
 
@@ -126,19 +126,19 @@ public class JDatosPaciente extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					JOptionPane.showMessageDialog(null, "Paciente registrado con éxito en la base de datos.",
+					JOptionPane.showMessageDialog(null, "Paciente registrado con ï¿½xito en la base de datos.",
 							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"El nombre ingresado excede el límite de 50 caracteres, o está vacío.",
+							"El nombre ingresado excede el lï¿½mite de 50 caracteres, o estï¿½ vacï¿½o.",
 							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "¡El paciente ya existe!", "Error",
+				JOptionPane.showMessageDialog(null, "ï¿½El paciente ya existe!", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
+			JOptionPane.showMessageDialog(null, "ï¿½El cï¿½digo ingresado no es vï¿½lido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

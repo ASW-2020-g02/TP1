@@ -122,7 +122,7 @@ public class JPacienteXMedico extends JFrame {
 		cbMedicos.addItemListener(changeClick);
 
 		// Una vez creado, debo obtener la data directo desde la BD
-		this.dao = new DAO();
+		this.dao = DAO.obtenerInstancia();
 		ArrayList<Medico> medicos = new ArrayList<Medico>();
 		// Es posible que ocurra un error al conectarse con la BD, por lo que es
 		// necesario encerrarlo en un bloque try catch
