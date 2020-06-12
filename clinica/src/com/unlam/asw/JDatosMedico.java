@@ -130,7 +130,9 @@ public class JDatosMedico extends JFrame {
 					// Chequeamos la longitud de la especialidad
 					if (strEspe.length() <= 50 && strEspe.length() > 0) {
 						try {
+							//Creamos un objeto del tipo médico con los datos de los textfields
 							Medico med = new Medico(strCodMed, strNombre, strEspe);
+							//Hacemos una llamada para insertar al médico en la DB
 							dao.insertarMedico(med);
 						} catch (Exception e) {
 							e.printStackTrace();

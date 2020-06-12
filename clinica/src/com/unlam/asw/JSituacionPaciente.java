@@ -115,6 +115,7 @@ public class JSituacionPaciente extends JFrame {
 	
 	
 	public void registrarSituacion() {
+		//Strings de los textfields
 		String strCodPac = txtCodPaciente.getText().trim();
 		String strCodMed = txtCodMed.getText().trim();
 		String strSituacion = txtNumDiagnostico.getText().trim();
@@ -122,17 +123,22 @@ public class JSituacionPaciente extends JFrame {
 		//Validacion de parse-int
 		if (esCodigoValido(strCodPac) && esCodigoValido(strCodMed))
 		{
+			//Parseamos el codigo del paciente
 			int codPac = Integer.parseInt(strCodPac);
+			//Parseamos el código del medico
 			int codMed = Integer.parseInt(strCodMed);
 			
 			//Busca el paciente y al medico, si existen devuelve true
 			if (existePaciente(codPac) && existeMedico(codMed)) {				
-				
+				//Chequeamos que la situacion no esté vacia
 				if (strSituacion.length() > 0) {
-					
 					try {
+						//Llamamos a la BD para obtener el ID de la ultima situación registrada
+						//(por favor esto es algo teorico en la vida real esto seria un desastre
+						//debido a la concurrencia, habria conflictos cada dos segundos)
 						int id = dao.obtenerUltimoIDSituacion() + 1;						
 						Situacion situ = new Situacion(id, codPac, codMed, strSituacion);
+						//Agregamos la situacion a la base de datos
 						dao.insertarSituacion(situ);
 						
 					} catch (Exception e) {
