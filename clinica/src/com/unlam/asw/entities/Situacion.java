@@ -7,17 +7,12 @@ public class Situacion {
 	private String diagnostico;
 
 	public Situacion(String id, String codPaciente, String codMedico, String diagnostico) throws Exception {
+		// Debo setear el código, nombre y especialidad
+		// Cada atributo necesita ser validado
 		setDiagnostico(diagnostico);
 		setCodMedico(codMedico);
 		setCodPaciente(codPaciente);
 		setId(id);
-	}
-
-	public Situacion(int id, int codPaciente, int codMedico, String diagnostico) {
-		this.id = id;
-		this.codPaciente = codPaciente;
-		this.codMedico = codMedico;
-		this.diagnostico = diagnostico;
 	}
 
 	public int getId() {

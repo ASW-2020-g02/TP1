@@ -6,6 +6,8 @@ public class Medico {
 	private String especialidad;
 
 	public Medico(String codigo, String nombre, String especialidad) throws Exception {
+		// Debo setear el código, nombre y especialidad
+		// Cada atributo necesita ser validado
 		setCodigo(codigo);
 		setNombre(nombre);
 		setEspecialidad(especialidad);
@@ -99,6 +101,8 @@ public class Medico {
 
 	@Override
 	public String toString() {
+		// Devuelvo el nombre y la especialidad
+		// Utilizado en combo box de informes
 		return nombre + " (" + especialidad + ")";
 	}
 

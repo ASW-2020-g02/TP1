@@ -44,9 +44,11 @@ public class JPacienteXMedico extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// Creo un nuevo thread para la ventanas
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					// Creo una instancia de JPacienteXMedico y la hago visible
 					JPacienteXMedico frame = new JPacienteXMedico();
 					frame.setVisible(true);
 				} catch (Exception e) {

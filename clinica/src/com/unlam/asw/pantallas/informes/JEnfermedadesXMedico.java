@@ -47,9 +47,11 @@ public class JEnfermedadesXMedico extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// Creo un nuevo thread para la ventanas
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					// Creo una instancia de JEnfermedadesXMedico y la hago visible
 					JEnfermedadesXMedico frame = new JEnfermedadesXMedico();
 					frame.setVisible(true);
 				} catch (Exception e) {

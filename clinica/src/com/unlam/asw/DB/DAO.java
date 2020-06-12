@@ -24,17 +24,22 @@ public class DAO {
 	Connection c = null;
 
 	public DAO() {
+		// Creo una variable de tipo File para la ubicación del archivo de base de datos
 		File archivo = new File(DB);
 		try {
+			// En caso de que exista, conecto el SQL
 			if (archivo.exists()) {
 				SQLiteConfig config = new SQLiteConfig();
 				config.enforceForeignKeys(true);
 				c = DriverManager.getConnection("jdbc:sqlite:" + DB, config.toProperties());
 			} else {
+				// En caso de no existir, debo crear la base de datos
 				Class.forName("org.sqlite.JDBC");
 				SQLiteConfig config = new SQLiteConfig();
+				// Habilito las foreing key
 				config.enforceForeignKeys(true);
 				c = DriverManager.getConnection("jdbc:sqlite:" + DB, config.toProperties());
+				// Creo las tablas necesarias
 				inicializar();
 //				System.out.println("Instanciado archivo de base de datos.");
 			}
@@ -46,6 +51,7 @@ public class DAO {
 	}
 
 	public static DAO obtenerInstancia() {
+		// En caso de no existir una instancia de la clase, debo crear una
 		if (singleton == null)
 			singleton = new DAO();
 
@@ -88,6 +94,8 @@ public class DAO {
 	}
 
 	public void cerrar() {
+		// Para evitar posibles errores, es necesario finalizar la conexión con la base
+		// de datos
 		try {
 			c.close();
 //			System.out.println("Motor de base de datos detenido.");
@@ -103,6 +111,7 @@ public class DAO {
 	 * @throws Exception
 	 */
 	private void lanzarEx(SQLException e) throws Exception {
+		// Lanzo una excepción de la base de datos, junto a su código de error y mensaje
 		throw new Exception("Error en la base de datos." + "\nCódigo de error: " + e.getErrorCode() + "\nMensaje: "
 				+ e.getMessage());
 	}
@@ -124,10 +133,10 @@ public class DAO {
 			ps.close();
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
-				case 19:
-					throw new Exception("Este código de paciente ya existe.");
-				default:
-					lanzarEx(e);
+			case 19:
+				throw new Exception("Este código de paciente ya existe.");
+			default:
+				lanzarEx(e);
 			}
 		}
 	}
@@ -142,15 +151,20 @@ public class DAO {
 		try {
 
 			Statement stmt = c.createStatement();
+			// Escribo la sentencia SQL para obtener todos los pacientes dado un codigo
 			String sql = "SELECT * FROM PACIENTES" + " WHERE CODIGO=" + codigo + ";";
+			// Almaceno en una variable el set de resultados
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (!rs.isBeforeFirst()) {
 				return null;
 			}
+
+			// Creo el objeto Paciente con los datos obtenidos de la base de datos
 			paciente = new Paciente(rs.getString("CODIGO"), rs.getString("NOMBRE"));
 
 			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			lanzarEx(e);
 			return null;
@@ -168,19 +182,21 @@ public class DAO {
 		String nombre = med.getNombre();
 		String especialidad = med.getEspecialidad();
 		try {
-			// Agrego el médico
+			// Creo la secuencia SQL para insertar el registro en la tabla
 			String sql = "INSERT INTO MEDICOS (CODIGO, NOMBRE, ESPECIALIDAD) " + "VALUES (" + codigo + ", '" + nombre
 					+ "', '" + especialidad + "');";
+			// Hago un prepared statement, ya que se trata de una query con campos definidos
+			// por el usuario
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.execute();
 			// Cierro el statement
 			ps.close();
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
-				case 19:
-					throw new Exception("Este codigo de médico ya existe.");
-				default:
-					lanzarEx(e);
+			case 19:
+				throw new Exception("Este codigo de médico ya existe.");
+			default:
+				lanzarEx(e);
 			}
 		}
 	}
@@ -203,6 +219,7 @@ public class DAO {
 			}
 			// cierro el statement
 			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			lanzarEx(e);
 		}
@@ -234,6 +251,7 @@ public class DAO {
 
 			// Cierro el statement
 			ps.close();
+			rs.close();
 		} catch (SQLException e) {
 //			System.out.println(e.toString());
 			lanzarEx(e);
@@ -260,6 +278,7 @@ public class DAO {
 
 			// Cierro el statement
 			ps.close();
+			rs.close();
 		} catch (SQLException e) {
 //			System.out.println(e.toString());
 			lanzarEx(e);
@@ -282,19 +301,20 @@ public class DAO {
 			// agrego la situación
 			String sql = "INSERT INTO SITUACIONES (ID, CODIGOPACIENTE, CODIGOMEDICO, DIAGNOSTICO) " + "VALUES (" + id
 					+ ", " + codigoPac + ", " + codigoMed + ", '" + diag + "');";
-
+			// Debido a que estamos frente a la inserción de campos ingresados
+			// por el usuario, es necesario utilizar un prepared statement
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.execute();
 			// cierro el statement
 			ps.close();
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
-				case 19:
-					throw new Exception("Error al agregar situación.\n"
-							+ "Verifique que el ID de situación no existe actualmente, y que los codigo del paciente y del médico"
-							+ " están cargados en los registros de Pacientes y Médicos.");
-				default:
-					lanzarEx(e);
+			case 19:
+				throw new Exception("Error al agregar situación.\n"
+						+ "Verifique que el ID de situación no existe actualmente, y que los codigo del paciente y del médico"
+						+ " están cargados en los registros de Pacientes y Médicos.");
+			default:
+				lanzarEx(e);
 			}
 		}
 	}
@@ -309,14 +329,17 @@ public class DAO {
 		try {
 
 			Statement stmt = c.createStatement();
+			// Obtengo los médicos dado un código
 			String sql = "SELECT * FROM MEDICOS" + " WHERE CODIGO=" + codigo + ";";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (!rs.isBeforeFirst()) {
 				return null;
 			}
+			// Creo el objeto Medico correspondiente, con los campos obtenidos de la base de
+			// datos
 			med = new Medico(rs.getString("CODIGO"), rs.getString("ESPECIALIDAD"), rs.getString("NOMBRE"));
-
+			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
 			lanzarEx(e);
@@ -330,12 +353,15 @@ public class DAO {
 
 		try {
 			Statement stmt = c.createStatement();
+			// Ordeno de mayor a menor las situaciones
 			String sql = "SELECT ID FROM SITUACIONES ORDER BY ID DESC";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (!rs.isBeforeFirst()) {
+				// Si no tengo ninguna situación, devuelvo 0
 				return id;
 			} else {
+				// En el caso contrario, devuelvo el ID mayor
 				id = Integer.parseInt(rs.getString("ID"));
 			}
 

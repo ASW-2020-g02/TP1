@@ -38,9 +38,11 @@ public class JDatosPaciente extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// Creo un nuevo thread para la ventanas
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					// Creo una instancia de JDatosPaciente y la hago visible
 					JDatosPaciente frame = new JDatosPaciente();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -54,14 +56,18 @@ public class JDatosPaciente extends JFrame {
 	 * Create the frame.
 	 */
 	public JDatosPaciente() {
+		// Configuración inicial de la ventana
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Modifico el label del yes button
 		UIManager.put("OptionPane.yesButtonText", "Si");
+		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				int confirmed = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea salir?", "Atención",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
+					// Para evitar problemas, se debe detener de forma correcta la base de datos
 					DAO.obtenerInstancia().cerrar();
 					setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				} else {
@@ -76,36 +82,43 @@ public class JDatosPaciente extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
+		// Panel que contendrá todos los elementos
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
+		// Label de código del paciente
 		JLabel lblCodPaciente = new JLabel("C\u00F3digo");
 		lblCodPaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblCodPaciente.setBounds(72, 95, 80, 30);
 		panel.add(lblCodPaciente);
 
+		// Text field de código del paciente
 		txtCodPaciente = new JTextField();
 		txtCodPaciente.setBounds(162, 176, 189, 20);
 		panel.add(txtCodPaciente);
 		txtCodPaciente.setColumns(10);
 
+		// Label de alta de paciente, titulo de la ventana
 		JLabel lblAltaDePaciente = new JLabel("Alta de Paciente");
 		lblAltaDePaciente.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAltaDePaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblAltaDePaciente.setBounds(41, 14, 331, 25);
 		panel.add(lblAltaDePaciente);
 
+		// Text field de nombre del paciente
 		txtNombrePaciente = new JTextField();
 		txtNombrePaciente.setBounds(162, 103, 189, 20);
 		panel.add(txtNombrePaciente);
 		txtNombrePaciente.setColumns(10);
 
+		// Label de nombre del paciente
 		JLabel lblNombreDelPaciente = new JLabel("Nombre");
 		lblNombreDelPaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNombreDelPaciente.setBounds(72, 168, 80, 30);
 		panel.add(lblNombreDelPaciente);
 
+		// Boton para guardar en la base de datos
 		JButton btnConfirmar = new JButton("<html><center>Confirmar</center></html>");
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnConfirmar.setFocusPainted(false);
@@ -117,6 +130,7 @@ public class JDatosPaciente extends JFrame {
 		btnConfirmar.setBounds(36, 276, 156, 48);
 		panel.add(btnConfirmar);
 
+		// Boton para volver a la pantalla de ingresos
 		JButton btnSalir = new JButton("<html><center>Cancelar</center></html>");
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnSalir.setFocusPainted(false);
@@ -130,7 +144,9 @@ public class JDatosPaciente extends JFrame {
 		btnSalir.setBounds(223, 276, 156, 48);
 		panel.add(btnSalir);
 
+		// Obtengo la instancia del DAO
 		dao = DAO.obtenerInstancia();
+		// Centro la ventana en el monitor
 		setLocationRelativeTo(null);
 	}
 
@@ -176,6 +192,8 @@ public class JDatosPaciente extends JFrame {
 
 	public boolean esCodigoValido(String codigo) {
 		try {
+			// Si es posible realizar el parse Int, significa que es un String númerico
+			// válido
 			Integer.parseInt(codigo);
 			return true;
 		} catch (Exception e) {
@@ -186,6 +204,7 @@ public class JDatosPaciente extends JFrame {
 	public boolean existePaciente(int cod) {
 		Paciente paciente = null;
 		try {
+			// Busco en la base de datos el paciente por su codigo
 			paciente = dao.buscarPacientePorCodigo(cod);
 
 		} catch (Exception e) {
@@ -193,7 +212,8 @@ public class JDatosPaciente extends JFrame {
 			e.printStackTrace();
 			return true;
 		}
-
+		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo
+		// que no existe el paciente para dicho codigo
 		if (paciente == null) {
 			return false;
 		} else {

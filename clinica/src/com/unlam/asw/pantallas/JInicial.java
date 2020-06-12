@@ -27,9 +27,11 @@ public class JInicial extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// Creo un nuevo thread para la ventanas
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					// Creo una instancia de JInicial y la hago visible
 					JInicial frame = new JInicial();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -43,13 +45,17 @@ public class JInicial extends JFrame {
 	 * Create the frame.
 	 */
 	public JInicial() {
+		// Configuración inicial de la ventana
 		setResizable(false);
+		// Modifico el label del yes button
 		UIManager.put("OptionPane.yesButtonText", "Si");
+		// Agrego una vetana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
+					// Para evitar problemas, se debe detener de forma correcta la base de datos
 					DAO.obtenerInstancia().cerrar();
 					setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				} else {
@@ -65,9 +71,12 @@ public class JInicial extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
+		// Creo el panel que contendrá todos los elementos
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
+
+		// Boton para acceder a la pantalla de ingresos
 		JButton btnIngresoDeDatos = new JButton("<html><center>Ingreso de datos</center></html>");
 		btnIngresoDeDatos.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnIngresoDeDatos.setFocusPainted(false);
@@ -82,6 +91,7 @@ public class JInicial extends JFrame {
 		btnIngresoDeDatos.setBounds(99, 45, 240, 95);
 		panel.add(btnIngresoDeDatos);
 
+		// Boton para acceder a la pantalla de informes
 		JButton btnInformes = new JButton("<html><center>Informes</center></html>");
 		btnInformes.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnInformes.setFocusPainted(false);
@@ -96,14 +106,19 @@ public class JInicial extends JFrame {
 		btnInformes.setBounds(99, 187, 240, 95);
 		panel.add(btnInformes);
 
+		// Boton para cerrar el programa
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Para evitar problemas, se debe detener de forma correcta la base de datos
+				DAO.obtenerInstancia().cerrar();
 				dispose();
 			}
 		});
 		btnSalir.setBounds(329, 332, 74, 22);
 		panel.add(btnSalir);
+
+		// Centro la ventana en el monitor
 		setLocationRelativeTo(null);
 	}
 

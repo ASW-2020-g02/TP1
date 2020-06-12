@@ -37,9 +37,11 @@ public class JSituacionPaciente extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// Creo un nuevo thread para la ventanas
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					// Creo una instancia de JSituacionPaciente y la hago visible
 					JSituacionPaciente frame = new JSituacionPaciente();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -53,13 +55,17 @@ public class JSituacionPaciente extends JFrame {
 	 * Create the frame.
 	 */
 	public JSituacionPaciente() {
+		// Configuración inicial de la ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Modifico el label del yes button
 		UIManager.put("OptionPane.yesButtonText", "Si");
+		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
+					// Para evitar problemas, se debe detener de forma correcta la base de datos
 					DAO.obtenerInstancia().cerrar();
 					setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				} else {
@@ -74,41 +80,47 @@ public class JSituacionPaciente extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		setTitle("Alta de situación de paciente");
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
+		// Label del código de paciente
 		JLabel lblCodPaciente = new JLabel("C\u00F3digo paciente");
 		lblCodPaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblCodPaciente.setBounds(36, 77, 143, 30);
 		panel.add(lblCodPaciente);
 
+		// Text field del código de paciente
 		txtCodPaciente = new JTextField();
 		txtCodPaciente.setBounds(183, 85, 189, 20);
 		panel.add(txtCodPaciente);
 		txtCodPaciente.setColumns(10);
 
+		// Label de situación, titular de la ventana
 		JLabel lblSituacion = new JLabel("Situaci\u00F3n del Paciente");
 		lblSituacion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSituacion.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblSituacion.setBounds(41, 14, 331, 25);
 		panel.add(lblSituacion);
 
+		// Text field de código de médico
 		txtCodMed = new JTextField();
 		txtCodMed.setBounds(183, 134, 189, 20);
 		panel.add(txtCodMed);
 		txtCodMed.setColumns(10);
 
+		// Label de código de médico
 		JLabel lblCodigoMedico = new JLabel("C\u00F3digo m\u00E9dico");
 		lblCodigoMedico.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblCodigoMedico.setBounds(36, 137, 137, 14);
 		panel.add(lblCodigoMedico);
 
-		JButton btnConfirmar = new JButton(
-				"<html><center>Confirmar</center></html>");
+		// Boton para guardar en la base de datos la situación del paciente
+		JButton btnConfirmar = new JButton("<html><center>Confirmar</center></html>");
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 17));
-		btnConfirmar.setFocusPainted(false);		btnConfirmar.addActionListener(new ActionListener() {
+		btnConfirmar.setFocusPainted(false);
+		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registrarSituacion();
 			}
@@ -116,8 +128,8 @@ public class JSituacionPaciente extends JFrame {
 		btnConfirmar.setBounds(36, 276, 156, 48);
 		panel.add(btnConfirmar);
 
-		JButton btnSalir = new JButton(
-				"<html><center>Cancelar</center></html>");
+		// Boton para volver a la pantalla de ingresos
+		JButton btnSalir = new JButton("<html><center>Cancelar</center></html>");
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnSalir.setFocusPainted(false);
 		btnSalir.addActionListener(new ActionListener() {
@@ -130,17 +142,21 @@ public class JSituacionPaciente extends JFrame {
 		btnSalir.setBounds(223, 276, 156, 48);
 		panel.add(btnSalir);
 
+		// Text field de diagnóstico
 		txtDiagnostico = new JTextField();
 		txtDiagnostico.setColumns(10);
 		txtDiagnostico.setBounds(183, 190, 189, 20);
 		panel.add(txtDiagnostico);
 
+		// Label de diagnóstico
 		JLabel lblDiag = new JLabel("Diagn\u00F3stico");
 		lblDiag.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblDiag.setBounds(36, 182, 137, 30);
 		panel.add(lblDiag);
 
+		// Obtengo la instancia del DAO
 		dao = DAO.obtenerInstancia();
+		// Centro la ventana en el monitor
 		setLocationRelativeTo(null);
 	}
 
@@ -166,7 +182,8 @@ public class JSituacionPaciente extends JFrame {
 						// (por favor esto es algo teorico en la vida real esto seria un desastre
 						// debido a la concurrencia, habria conflictos cada dos segundos)
 						int id = dao.obtenerUltimoIDSituacion() + 1;
-						Situacion situ = new Situacion(id, codPac, codMed, strSituacion);
+						Situacion situ = new Situacion(String.valueOf(id), String.valueOf(codPac),
+								String.valueOf(codMed), strSituacion);
 						// Agregamos la situacion a la base de datos
 						dao.insertarSituacion(situ);
 
@@ -207,6 +224,7 @@ public class JSituacionPaciente extends JFrame {
 	public boolean existePaciente(int cod) {
 		Paciente paciente = null;
 		try {
+			// Busco en la base de datos el paciente por su codigo
 			paciente = dao.buscarPacientePorCodigo(cod);
 
 		} catch (Exception e) {
@@ -215,6 +233,8 @@ public class JSituacionPaciente extends JFrame {
 			return true;
 		}
 
+		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo
+		// que no existe el paciente para dicho codigo
 		if (paciente == null) {
 			return false;
 		} else {

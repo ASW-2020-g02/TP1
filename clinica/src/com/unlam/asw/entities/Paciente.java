@@ -5,6 +5,8 @@ public class Paciente {
 	private String nombre;
 
 	public Paciente(String codigo, String nombre) throws Exception {
+		// Debo setear el código y nombre
+		// Cada atributo necesita ser validado
 		setCodigo(codigo);
 		setNombre(nombre);
 	}
