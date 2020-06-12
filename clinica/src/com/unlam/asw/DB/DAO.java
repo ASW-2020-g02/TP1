@@ -42,7 +42,7 @@ public class DAO {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Conexi贸n con base de datos establecida.");
+		System.out.println("Conexi髇 con base de datos establecida.");
 	}
 
 	public static DAO obtenerInstancia() {
@@ -55,7 +55,7 @@ public class DAO {
 	private void inicializar() {
 		String sql = null;
 		try {
-			// Creaci贸n de tablas por defecto
+			// Creaci髇 de tablas por defecto
 			Statement stmt = c.createStatement();
 
 			// Tabla de pacientes
@@ -63,7 +63,7 @@ public class DAO {
 					+ " NOMBRE     TEXT        NOT NULL)";
 			stmt.executeUpdate(sql);
 
-			// Tabla de m茅dicos
+			// Tabla de m閐icos
 			sql = "CREATE TABLE MEDICOS " + "(CODIGO INTEGER PRIMARY KEY NOT NULL,"
 					+ " ESPECIALIDAD   TEXT    NOT NULL," + " NOMBRE            TEXT    NOT NULL)";
 			stmt.executeUpdate(sql);
@@ -75,7 +75,7 @@ public class DAO {
 					+ " FOREIGN KEY(CODIGOMEDICO) REFERENCES MEDICOS (CODIGO)" + ")";
 			stmt.executeUpdate(sql);
 
-			// Creaci贸n del usuario admin
+			// Creaci髇 del usuario admin
 			sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) " + "VALUES ('admin', 'admin', 'admin@admin.com');";
 			stmt.executeUpdate(sql);
 
@@ -97,13 +97,13 @@ public class DAO {
 	}
 
 	/**
-	 * M茅todo para lanzar excepciones no reconocidas de SQLite
+	 * M閠odo para lanzar excepciones no reconocidas de SQLite
 	 * 
 	 * @param e
 	 * @throws Exception
 	 */
 	private void lanzarEx(SQLException e) throws Exception {
-		throw new Exception("Error en la base de datos." + "\nC贸digo de error: " + e.getErrorCode() + "\nMensaje: "
+		throw new Exception("Error en la base de datos." + "\nC骴igo de error: " + e.getErrorCode() + "\nMensaje: "
 				+ e.getMessage());
 	}
 
@@ -125,7 +125,7 @@ public class DAO {
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
 				case 19:
-					throw new Exception("Este codigo de paciente ya existe.");
+					throw new Exception("Este c骴igo de paciente ya existe.");
 				default:
 					lanzarEx(e);
 			}
@@ -168,7 +168,7 @@ public class DAO {
 		String nombre = med.getNombre();
 		String especialidad = med.getEspecialidad();
 		try {
-			// Agrego el m茅dico
+			// Agrego el m閐ico
 			String sql = "INSERT INTO MEDICOS (CODIGO, NOMBRE, ESPECIALIDAD) " + "VALUES (" + codigo + ", '" + nombre
 					+ "', '" + especialidad + "');";
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -178,7 +178,7 @@ public class DAO {
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
 				case 19:
-					throw new Exception("Este codigo de m茅dico ya existe.");
+					throw new Exception("Este codigo de m閐ico ya existe.");
 				default:
 					lanzarEx(e);
 			}
@@ -197,7 +197,7 @@ public class DAO {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT CODIGO, NOMBRE, ESPECIALIDAD FROM MEDICOS;";
 			ResultSet rs = stmt.executeQuery(sql);
-			// voy agregando los m茅dicos a la lista
+			// voy agregando los m閐icos a la lista
 			while (rs.next()) {
 				medicos.add(new Medico(rs.getString("CODIGO"), rs.getString("NOMBRE"), rs.getString("ESPECIALIDAD")));
 			}
@@ -279,7 +279,7 @@ public class DAO {
 		int codigoMed = sit.getCodMedico();
 		String diag = sit.getDiagnostico();
 		try {
-			// agrego la situaci贸n
+			// agrego la situaci髇
 			String sql = "INSERT INTO SITUACIONES (ID, CODIGOPACIENTE, CODIGOMEDICO, DIAGNOSTICO) " + "VALUES (" + id
 					+ ", " + codigoPac + ", " + codigoMed + ", '" + diag + "');";
 
@@ -290,9 +290,9 @@ public class DAO {
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
 				case 19:
-					throw new Exception("Error al agregar situaci贸n.\n"
-							+ "Verifique que el ID de situaci贸n no existe actualmente, y que los codigo del paciente y del m茅dico"
-							+ " est谩n cargados en los registros de Pacientes y M茅dicos.");
+					throw new Exception("Error al agregar situaci髇.\n"
+							+ "Verifique que el ID de situaci髇 no existe actualmente, y que los codigo del paciente y del m閐ico"
+							+ " est醤 cargados en los registros de Pacientes y M閐icos.");
 				default:
 					lanzarEx(e);
 			}

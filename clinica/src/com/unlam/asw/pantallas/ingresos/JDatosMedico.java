@@ -54,7 +54,7 @@ public class JDatosMedico extends JFrame {
 		UIManager.put("OptionPane.yesButtonText", "Si");
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "EstÃ¡ seguro que desea salir?", "AtenciÃ³n",
+				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					DAO.obtenerInstancia().cerrar();
@@ -147,26 +147,28 @@ public class JDatosMedico extends JFrame {
 					// Chequeamos la longitud de la especialidad
 					if (strEspe.length() <= 50 && strEspe.length() > 0) {
 						try {
-							// Creamos un objeto del tipo mÃ©dico con los datos de los textfields
+							// Creamos un objeto del tipo médico con los datos de los textfields
 							Medico med = new Medico(strCodMed, strNombre, strEspe);
-							// Hacemos una llamada para insertar al mÃ©dico en la DB
+							// Hacemos una llamada para insertar al médico en la DB
 							dao.insertarMedico(med);
 						} catch (Exception e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, "OcurriÃ³ un error con la BD.", "Error",
+							JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
 									JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
 
-						JOptionPane.showMessageDialog(null, "Medico registrado con Ã©xito en la base de datos.",
-								"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Medico registrado con éxito en la base de datos.",
+								"Médico registrado", JOptionPane.INFORMATION_MESSAGE);
+						txtCodMedico.setText("");
+						txtNombre.setText("");
+						txtEspecializacion.setText("");
 					} else {
-						JOptionPane.showMessageDialog(null,
-								"La especializaciÃ³n se encuentra vacÃ­a o es muy grande.", "Error",
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La especialización se encuentra vacía o es muy grande.",
+								"Error", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacÃ­a o es muy grande.", "Error",
+					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacía o es muy grande.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
@@ -174,7 +176,7 @@ public class JDatosMedico extends JFrame {
 				JOptionPane.showMessageDialog(null, "El medico ya existe.", "Error", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Â¡El cÃ³digo ingresado no es vÃ¡lido!", "Error",
+			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

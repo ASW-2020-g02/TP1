@@ -144,6 +144,10 @@ public class JDatosPaciente extends JFrame {
 					}
 					JOptionPane.showMessageDialog(null, "Paciente registrado con éxito en la base de datos.",
 							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
+
+					// Reseteo los input
+					txtCodPaciente.setText("");
+					txtNombrePaciente.setText("");
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"El nombre ingresado excede el límite de 50 caracteres, o está vacío.",

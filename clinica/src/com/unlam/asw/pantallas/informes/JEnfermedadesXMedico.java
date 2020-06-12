@@ -68,7 +68,7 @@ public class JEnfermedadesXMedico extends JFrame {
 		UIManager.put("OptionPane.yesButtonText", "Si");
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Est√° seguro que desea salir?", "Atenci√≥n",
+				int confirmed = JOptionPane.showConfirmDialog(null, "Est· seguro que desea salir?", "AtenciÛn",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					DAO.obtenerInstancia().cerrar();
@@ -123,13 +123,13 @@ public class JEnfermedadesXMedico extends JFrame {
 		btnCerrar.setBounds(324, 332, 74, 22);
 		contentPane.add(btnCerrar);
 
-		// Creaci√≥n del combo box
+		// CreaciÛn del combo box
 		JComboBox<Medico> cbMedicos = new JComboBox<Medico>();
 		cbMedicos.setBounds(98, 44, 300, 22);
 		contentPane.add(cbMedicos);
 
 		// En primer lugar, creo el key listener con el cual detectare el cambio de
-		// m√©dico en el combobox
+		// mÈdico en el combobox
 		ItemListener changeClick = new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (cbMedicos.getSelectedItem().equals(e.getItem())) {
@@ -154,14 +154,14 @@ public class JEnfermedadesXMedico extends JFrame {
 			e1.printStackTrace();
 		}
 
-		// Agrego la opci√≥n dummy, la cual ser√° validada por el sistema
-		// Dado que es una opcion simplemente de muestra, la misma no deber√° arrojar
+		// Agrego la opciÛn dummy, la cual ser· validada por el sistema
+		// Dado que es una opcion simplemente de muestra, la misma no deber· arrojar
 		// una
 		// excepcion
 		// pero debido a como esta programada la clase, se debera atrapar dicha
 		// excepcion
 		try {
-			cbMedicos.addItem(new Medico("-1", "Seleccione un m√©dico", "!"));
+			cbMedicos.addItem(new Medico("-1", "Seleccione un mÈdico", "!"));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -177,7 +177,7 @@ public class JEnfermedadesXMedico extends JFrame {
 		// Verifico que no se trata del caso default
 		if (medico.getCodigo() != -1) {
 
-			// Aca debo obtener todas las enfermedades asociadas al m√©dico
+			// Aca debo obtener todas las enfermedades asociadas al mÈdico
 			// Una vez obtenidos, se llena la lista
 			try {
 				listaTempEnfermedades = dao.obtenerEnfermedadesXMedico(medico.getCodigo());
