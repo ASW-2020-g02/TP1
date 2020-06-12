@@ -214,6 +214,8 @@ public class JSituacionPaciente extends JFrame {
 
 	public boolean esCodigoValido(String codigo) {
 		try {
+			// Si es posible realizar el parse Int, significa que es un String númerico
+			// válido
 			Integer.parseInt(codigo);
 			return true;
 		} catch (Exception e) {
@@ -245,6 +247,7 @@ public class JSituacionPaciente extends JFrame {
 	public boolean existeMedico(int cod) {
 		Medico medico = null;
 		try {
+			// Busco en la base de datos el médico por su codigo
 			medico = dao.buscarMedicoPorCodigo(cod);
 
 		} catch (Exception e) {
@@ -253,6 +256,8 @@ public class JSituacionPaciente extends JFrame {
 			return true;
 		}
 
+		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo
+		// que no existe el médico para dicho codigo
 		if (medico == null) {
 			return false;
 		} else {

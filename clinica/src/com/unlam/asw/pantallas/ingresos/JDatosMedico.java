@@ -213,6 +213,8 @@ public class JDatosMedico extends JFrame {
 
 	public boolean esCodigoValido(String codigo) {
 		try {
+			// Si es posible realizar el parse Int, significa que es un String númerico
+			// válido
 			Integer.parseInt(codigo);
 			return true;
 		} catch (Exception e) {
