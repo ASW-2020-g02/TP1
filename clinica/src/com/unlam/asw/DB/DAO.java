@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.sqlite.SQLiteConfig;
 
@@ -297,7 +298,7 @@ public class DAO {
 			lanzarEx(e);
 		}
 	}
-	
+
 	/**
 	 *
 	 * @param paciente
@@ -306,16 +307,16 @@ public class DAO {
 	public Paciente buscarPacientePorCodigo(int codigo) throws Exception {
 		Paciente paciente;
 		try {
-			
+
 			Statement stmt = c.createStatement();
 			String sql = "SELECT * FROM PACIENTES" + " WHERE CODIGO=" + codigo + ";";
 			ResultSet rs = stmt.executeQuery(sql);
-			
+
 			if (!rs.isBeforeFirst()) {
 				return null;
-			}						
+			}
 			paciente = new Paciente(rs.getString("CODIGO"), rs.getString("NOMBRE"));
-			
+
 			stmt.close();
 		} catch (SQLException e) {
 			lanzarEx(e);
@@ -448,8 +449,9 @@ public class DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public ObservableList<Medico> obtenerMedicos() throws Exception {
-		ObservableList<Medico> medicos = FXCollections.observableArrayList();
+	public ArrayList<Medico> obtenerMedicos() throws Exception {
+		ArrayList<Medico> medicos = new ArrayList<Medico>();
+
 		try {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT CODIGO, NOMBRE, ESPECIALIDAD FROM MEDICOS;";
@@ -463,7 +465,66 @@ public class DAO {
 		} catch (SQLException e) {
 			lanzarEx(e);
 		}
+
 		return medicos;
+	}
+
+	/**
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Paciente> obtenerPacientesXMedico(int codigoMedico) throws Exception {
+		ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
+
+		try {
+			String sql = "SELECT DISTINCT CODIGO, NOMBRE " + "FROM PACIENTES "
+					+ "INNER JOIN SITUACIONES ON PACIENTES.CODIGO = SITUACIONES.CODIGOPACIENTE " + "WHERE CODIGOMEDICO="
+					+ String.valueOf(codigoMedico) + ";";
+			System.out.println(sql);
+			// Utilizo un prepared statement
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			// Voy agregando los pacientes a la lista
+			while (rs.next()) {
+				pacientes.add(new Paciente(rs.getString("CODIGO"), rs.getString("NOMBRE")));
+			}
+
+			// Cierro el statement
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+			lanzarEx(e);
+		}
+
+		return pacientes;
+	}
+
+	public ArrayList<String> obtenerEnfermedadesXMedico(int codigoMedico) throws Exception {
+		ArrayList<String> diagnosticos = new ArrayList<String>();
+
+		try {
+			String sql = "SELECT DISTINCT DIAGNOSTICO " + "FROM SITUACIONES WHERE CODIGOMEDICO="
+					+ String.valueOf(codigoMedico) + ";";
+			System.out.println(sql);
+			// Utilizo un prepared statement
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			// Voy agregando los pacientes a la lista
+			while (rs.next()) {
+				diagnosticos.add(rs.getString("DIAGNOSTICO"));
+			}
+
+			// Cierro el statement
+			ps.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+			lanzarEx(e);
+		}
+
+		return diagnosticos;
 	}
 
 	/**
@@ -567,4 +628,5 @@ public class DAO {
 		}
 		return sits;
 	}
+
 }
