@@ -2,13 +2,16 @@ package com.unlam.asw;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import com.unlam.asw.control.JEnfermedadesXMedico;
+import com.unlam.asw.control.JPacienteXMedico;
 
 public class JInformes extends JFrame {
 
@@ -41,19 +44,33 @@ public class JInformes extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
+
 		JButton btnListadoPac = new JButton("Listado pacientes por m\u00E9dico");
+		btnListadoPac.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JPacienteXMedico pacientesXMedico = new JPacienteXMedico();
+				pacientesXMedico.setVisible(true);
+				dispose();
+			}
+		});
 		btnListadoPac.setBounds(98, 31, 240, 40);
 		panel.add(btnListadoPac);
-		
+
 		JButton btnEnfMedico = new JButton("Enfermedades que antiende c/m\u00E9dico");
+		btnEnfMedico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JEnfermedadesXMedico enfermedadesXMedico = new JEnfermedadesXMedico();
+				enfermedadesXMedico.setVisible(true);
+				dispose();
+			}
+		});
 		btnEnfMedico.setBounds(98, 82, 240, 40);
 		panel.add(btnEnfMedico);
-		
+
 		JButton btnAnterior = new JButton("Anterior");
 		btnAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import com.unlam.asw.JInformes;
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
@@ -56,7 +57,8 @@ public class JPacienteXMedico extends JFrame {
 	 */
 	public JPacienteXMedico() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 429, 366);
+		setBounds(100, 100, 429, 404);
+		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -88,22 +90,24 @@ public class JPacienteXMedico extends JFrame {
 		listScrollerPacientes.setViewportView(listaPacientes);
 		listaPacientes.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerPacientes);
-		JButton btnCerrar = new JButton("Cerrar");
+		JButton btnCerrar = new JButton("Atras");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JInformes informes = new JInformes();
+				informes.setVisible(true);
 				dispose();
 			}
 		});
-		btnCerrar.setBounds(327, 503, 87, 22);
+		btnCerrar.setBounds(324, 332, 74, 22);
 		contentPane.add(btnCerrar);
 
-		// Creaci�n del combo box
+		// Creación del combo box
 		JComboBox<Medico> cbMedicos = new JComboBox<Medico>();
 		cbMedicos.setBounds(98, 44, 300, 22);
 		contentPane.add(cbMedicos);
 
 		// En primer lugar, creo el key listener con el cual detectare el cambio de
-		// m�dico en el combobox
+		// médico en el combobox
 		ItemListener changeClick = new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (cbMedicos.getSelectedItem().equals(e.getItem())) {
@@ -112,7 +116,7 @@ public class JPacienteXMedico extends JFrame {
 			}
 		};
 
-		// Una vez creado este, se lo a�ado a cada item
+		// Una vez creado este, se lo añado a cada item
 		cbMedicos.addItemListener(changeClick);
 
 		// Una vez creado, debo obtener la data directo desde la BD
@@ -134,7 +138,7 @@ public class JPacienteXMedico extends JFrame {
 		// pero debido a como esta programada la clase, se debera atrapar dicha
 		// excepcion
 		try {
-			cbMedicos.addItem(new Medico("-1", "Seleccione un m�dico", "!"));
+			cbMedicos.addItem(new Medico("-1", "Seleccione un médico", "!"));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

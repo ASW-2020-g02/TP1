@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
+import com.unlam.asw.JInformes;
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
@@ -59,7 +60,8 @@ public class JEnfermedadesXMedico extends JFrame {
 	 */
 	public JEnfermedadesXMedico() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 429, 366);
+		setBounds(100, 100, 429, 404);
+		setLocationRelativeTo(null);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,13 +93,15 @@ public class JEnfermedadesXMedico extends JFrame {
 		listScrollerPacientes.setViewportView(listaEnfermedades);
 		listaEnfermedades.setLayoutOrientation(JList.VERTICAL);
 		contentPane.add(listScrollerPacientes);
-		JButton btnCerrar = new JButton("Cerrar");
+		JButton btnCerrar = new JButton("Atras");
 		btnCerrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JInformes informes = new JInformes();
+				informes.setVisible(true);
 				dispose();
 			}
 		});
-		btnCerrar.setBounds(327, 503, 87, 22);
+		btnCerrar.setBounds(324, 332, 74, 22);
 		contentPane.add(btnCerrar);
 
 		// Creación del combo box

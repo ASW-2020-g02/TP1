@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
-import com.unlam.asw.entities.Situacion;
 
 public class JDatosMedico extends JFrame {
 

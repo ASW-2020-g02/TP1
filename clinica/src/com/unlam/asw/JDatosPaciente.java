@@ -16,8 +16,6 @@ import javax.swing.border.EmptyBorder;
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Paciente;
 
-import java.awt.FlowLayout;
-
 public class JDatosPaciente extends JFrame {
 
 	/**

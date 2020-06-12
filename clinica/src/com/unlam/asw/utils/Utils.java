@@ -1,11 +1,7 @@
 package com.unlam.asw.utils;
 
-import java.util.ArrayList;
-
 import javax.swing.AbstractListModel;
 import javax.swing.JList;
-
-import com.unlam.asw.entities.Paciente;
 
 public class Utils {
 	public static void actualizarLista(JList<String> lista, String[] elementos) {
