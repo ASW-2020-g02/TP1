@@ -8,11 +8,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.unlam.asw.DB.DAO;
+import com.unlam.asw.entities.Medico;
+import com.unlam.asw.entities.Paciente;
+import com.unlam.asw.entities.Situacion;
 
 public class JSituacionPaciente extends JFrame {
 
@@ -20,8 +24,8 @@ public class JSituacionPaciente extends JFrame {
 	private DAO dao;
 	private JFrame frame;
 	private JTextField txtCodPaciente;
-	private JTextField txtNombrePaciente;
-	private JTextField txtCodDiagnostico;
+	private JTextField txtCodMed;
+	private JTextField txtNumDiagnostico;
 
 	/**
 	 * Launch the application.
@@ -67,10 +71,10 @@ public class JSituacionPaciente extends JFrame {
 		lblSituacion.setBounds(173, 14, 151, 14);
 		panel.add(lblSituacion);
 		
-		txtNombrePaciente = new JTextField();
-		txtNombrePaciente.setBounds(166, 78, 162, 20);
-		panel.add(txtNombrePaciente);
-		txtNombrePaciente.setColumns(10);
+		txtCodMed = new JTextField();
+		txtCodMed.setBounds(166, 78, 162, 20);
+		panel.add(txtCodMed);
+		txtCodMed.setColumns(10);
 		
 		JLabel lblCodigoMedico = new JLabel("C\u00F3digo m\u00E9dico");
 		lblCodigoMedico.setBounds(42, 81, 117, 14);
@@ -96,10 +100,10 @@ public class JSituacionPaciente extends JFrame {
 		btnSalir.setBounds(248, 200, 118, 23);
 		panel.add(btnSalir);
 		
-		txtCodDiagnostico = new JTextField();
-		txtCodDiagnostico.setColumns(10);
-		txtCodDiagnostico.setBounds(166, 109, 162, 20);
-		panel.add(txtCodDiagnostico);
+		txtNumDiagnostico = new JTextField();
+		txtNumDiagnostico.setColumns(10);
+		txtNumDiagnostico.setBounds(166, 109, 162, 20);
+		panel.add(txtNumDiagnostico);
 		
 		JLabel lblCodDiag = new JLabel("N\u00FAm. Diagn\u00F3stico");
 		lblCodDiag.setBounds(42, 112, 117, 14);
@@ -108,4 +112,98 @@ public class JSituacionPaciente extends JFrame {
 		dao = new DAO();
 		setLocationRelativeTo(null);
 	}
+	
+	
+	public void registrarSituacion() {
+		String strCodPac = txtCodPaciente.getText().trim();
+		String strCodMed = txtCodMed.getText().trim();
+		String strSituacion = txtNumDiagnostico.getText().trim();
+		
+		//Validacion de parse-int
+		if (esCodigoValido(strCodPac) && esCodigoValido(strCodMed))
+		{
+			int codPac = Integer.parseInt(strCodPac);
+			int codMed = Integer.parseInt(strCodMed);
+			
+			//Busca el paciente y al medico, si existen devuelve true
+			if (existePaciente(codPac) && existeMedico(codMed)) {				
+				
+				if (strSituacion.length() > 0) {
+					
+					try {
+						int id = dao.obtenerUltimoIDSituacion() + 1;						
+						Situacion situ = new Situacion(id, codPac, codMed, strSituacion);
+						dao.insertarSituacion(situ);
+						
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					JOptionPane.showMessageDialog(null, "Situación registrada con éxito en la base de datos.", "Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "La situación se encuentra vacía.", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
+									
+			} else {
+				JOptionPane.showMessageDialog(null, "El paciente o el médico no existen.", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}			
+		} else {
+			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error", JOptionPane.INFORMATION_MESSAGE);
+		}				
+	}
+	
+
+	public boolean esCodigoValido(String codigo) {		
+		try {
+			Integer.parseInt(codigo);
+			return true;
+		}	
+		 catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean existePaciente(int cod) {
+		Paciente paciente = null;
+		try {			
+			paciente = dao.buscarPacientePorCodigo(cod);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		
+		if (paciente == null)
+		{
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	public boolean existeMedico(int cod) {
+		Medico medico = null;
+		try {			
+			medico = dao.buscarMedicoPorCodigo(cod);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}
+		
+		if (medico == null)
+		{
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+
+	
 }

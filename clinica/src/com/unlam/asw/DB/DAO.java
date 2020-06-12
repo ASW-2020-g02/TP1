@@ -300,7 +300,7 @@ public class DAO {
 	
 	/**
 	 *
-	 * @param paciente
+	 * @param codigo integer
 	 * @throws Exception
 	 */
 	public Paciente buscarPacientePorCodigo(int codigo) throws Exception {
@@ -442,6 +442,32 @@ public class DAO {
 			lanzarEx(e);
 		}
 	}
+	
+	/**
+	 *
+	 * @param codigo integer
+	 * @throws Exception
+	 */
+	public Medico buscarMedicoPorCodigo(int codigo) throws Exception {
+		Medico med;
+		try {
+			
+			Statement stmt = c.createStatement();
+			String sql = "SELECT * FROM MEDICOS" + " WHERE CODIGO=" + codigo + ";";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (!rs.isBeforeFirst()) {
+				return null;
+			}						
+			med = new Medico(rs.getString("CODIGO"), rs.getString("ESPECIALIDAD"), rs.getString("NOMBRE"));
+			
+			stmt.close();
+		} catch (SQLException e) {
+			lanzarEx(e);
+			return null;
+		}
+		return med;
+	}
 
 	/**
 	 *
@@ -566,5 +592,28 @@ public class DAO {
 			lanzarEx(e);
 		}
 		return sits;
+	}
+	
+	public int obtenerUltimoIDSituacion() throws Exception {
+		int id=0;
+
+	    try {
+	        Statement stmt = c.createStatement();
+	        String sql = "SELECT ID FROM SITUACIONES ORDER BY ID DESC";
+	        ResultSet rs = stmt.executeQuery(sql);
+	        
+	        if (!rs.isBeforeFirst()) {
+				return id;
+			} else
+			{
+				id = Integer.parseInt(rs.getString("ID"));
+			}
+	        
+	        rs.close();
+	        stmt.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		return id;		
 	}
 }
