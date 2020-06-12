@@ -55,42 +55,42 @@ public class JDatosPaciente extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
+
 		JLabel lblCodPaciente = new JLabel("C\u00F3digo");
 		lblCodPaciente.setBounds(95, 50, 65, 14);
 		panel.add(lblCodPaciente);
-		
+
 		txtCodPaciente = new JTextField();
 		txtCodPaciente.setBounds(166, 47, 162, 20);
 		panel.add(txtCodPaciente);
 		txtCodPaciente.setColumns(10);
-		
+
 		JLabel lblAltaDePaciente = new JLabel("Alta de Paciente");
 		lblAltaDePaciente.setBounds(173, 14, 151, 14);
 		panel.add(lblAltaDePaciente);
-		
+
 		txtNombrePaciente = new JTextField();
 		txtNombrePaciente.setBounds(166, 97, 162, 20);
 		panel.add(txtNombrePaciente);
 		txtNombrePaciente.setColumns(10);
-		
+
 		JLabel lblNombreDelPaciente = new JLabel("Nombre");
 		lblNombreDelPaciente.setBounds(95, 99, 64, 14);
 		panel.add(lblNombreDelPaciente);
-		
+
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {				
+			public void actionPerformed(ActionEvent arg0) {
 				generarAltaPaciente();
 			}
 		});
 		btnConfirmar.setBounds(82, 200, 118, 23);
 		panel.add(btnConfirmar);
-		
+
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -104,53 +104,56 @@ public class JDatosPaciente extends JFrame {
 
 		dao = new DAO();
 		setLocationRelativeTo(null);
-	}	
-	
+	}
+
 	private void generarAltaPaciente() {
 		String strCod = txtCodPaciente.getText().trim();
 		String strNombre = txtNombrePaciente.getText().trim();
 		int nombreLength = strNombre.length();
-		
-		//Validacion de parse-int
-		if (esCodigoValido(strCod))
-		{
-			int cod = Integer.parseInt(strCod);			
-			
-			//Busca el paciente en una query, si existe devuelve true
+
+		// Validacion de parse-int
+		if (esCodigoValido(strCod)) {
+			int cod = Integer.parseInt(strCod);
+
+			// Busca el paciente en una query, si existe devuelve true
 			if (!existePaciente(cod)) {
-				//Si el paciente no existe, chequeamos que se haya ingresado bien el nombre
-				if (nombreLength <= 50 && nombreLength > 0) {					
+				// Si el paciente no existe, chequeamos que se haya ingresado bien el nombre
+				if (nombreLength <= 50 && nombreLength > 0) {
 					try {
 						registrarPaciente(new Paciente(strCod, strNombre));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					JOptionPane.showMessageDialog(null, "Paciente registrado con éxito en la base de datos.", "Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Paciente registrado con éxito en la base de datos.",
+							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "El nombre ingresado excede el límite de 50 caracteres, o está vacío.", "Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"El nombre ingresado excede el límite de 50 caracteres, o está vacío.",
+							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "¡El paciente ya existe!", "Error", JOptionPane.INFORMATION_MESSAGE);
-			}			
+				JOptionPane.showMessageDialog(null, "¡El paciente ya existe!", "Error",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 		} else {
-			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error", JOptionPane.INFORMATION_MESSAGE);
-		}				
+			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
-	
-	public boolean esCodigoValido(String codigo) {		
+
+	public boolean esCodigoValido(String codigo) {
 		try {
 			Integer.parseInt(codigo);
 			return true;
-		}	
-		 catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 	public boolean existePaciente(int cod) {
 		Paciente paciente = null;
-		try {			
+		try {
 			paciente = dao.buscarPacientePorCodigo(cod);
 
 		} catch (Exception e) {
@@ -158,16 +161,14 @@ public class JDatosPaciente extends JFrame {
 			e.printStackTrace();
 			return true;
 		}
-		
-		if (paciente == null)
-		{
+
+		if (paciente == null) {
 			return false;
-		}
-		else {
+		} else {
 			return true;
 		}
 	}
-	
+
 	public void registrarPaciente(Paciente pac) {
 		try {
 			dao.insertarPaciente(pac);

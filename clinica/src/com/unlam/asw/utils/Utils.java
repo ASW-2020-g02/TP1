@@ -5,24 +5,23 @@ import javax.swing.JList;
 
 public class Utils {
 	public static void actualizarLista(JList<String> lista, String[] elementos) {
+		lista.setModel(new AbstractListModel<String>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2834588284593084928L;
 
-		try {
-			lista.setModel(new AbstractListModel<String>() {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = -2834588284593084928L;
-				String[] values = elementos;
+			// Se setean los elementos como los values de la lista
+			String[] values = elementos;
 
-				public int getSize() {
-					return values.length;
-				}
+			// Metodos especificos de la lista
+			public int getSize() {
+				return values.length;
+			}
 
-				public String getElementAt(int index) {
-					return values[index];
-				}
-			});
-		} catch (Exception ex) {
-		}
+			public String getElementAt(int index) {
+				return values[index];
+			}
+		});
 	}
 }

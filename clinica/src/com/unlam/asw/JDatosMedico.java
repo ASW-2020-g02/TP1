@@ -52,42 +52,42 @@ public class JDatosMedico extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
+
 		JLabel lblCodMedico = new JLabel("C\u00F3digo");
 		lblCodMedico.setBounds(95, 50, 65, 14);
 		panel.add(lblCodMedico);
-		
+
 		txtCodMedico = new JTextField();
 		txtCodMedico.setBounds(166, 47, 162, 20);
 		panel.add(txtCodMedico);
 		txtCodMedico.setColumns(10);
-		
+
 		JLabel lblRegistro = new JLabel("Registro de m\u00E9dico");
 		lblRegistro.setBounds(173, 14, 151, 14);
 		panel.add(lblRegistro);
-		
+
 		txtNombre = new JTextField();
 		txtNombre.setBounds(166, 75, 162, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
-		
+
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setBounds(95, 77, 64, 14);
 		panel.add(lblNombre);
-		
+
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {				
+			public void actionPerformed(ActionEvent arg0) {
 				registrarMedico();
 			}
 		});
 		btnConfirmar.setBounds(82, 200, 118, 23);
 		panel.add(btnConfirmar);
-		
+
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -98,11 +98,11 @@ public class JDatosMedico extends JFrame {
 		});
 		btnSalir.setBounds(248, 200, 118, 23);
 		panel.add(btnSalir);
-		
+
 		JLabel lblEspecializacion = new JLabel("Especializaci\u00F3n");
 		lblEspecializacion.setBounds(69, 110, 90, 14);
 		panel.add(lblEspecializacion);
-		
+
 		txtEspecializacion = new JTextField();
 		txtEspecializacion.setColumns(10);
 		txtEspecializacion.setBounds(166, 108, 162, 20);
@@ -111,12 +111,12 @@ public class JDatosMedico extends JFrame {
 		dao = new DAO();
 		setLocationRelativeTo(null);
 	}
-	
+
 	public void registrarMedico() {
 		String strCodMed = txtCodMedico.getText().trim();
 		String strNombre = txtNombre.getText().trim();
 		String strEspe = txtEspecializacion.getText().trim();
-		
+
 		// Validacion de parse-int
 		if (esCodigoValido(strCodMed)) {
 			int codMed = Integer.parseInt(strCodMed);
@@ -129,9 +129,9 @@ public class JDatosMedico extends JFrame {
 					// Chequeamos la longitud de la especialidad
 					if (strEspe.length() <= 50 && strEspe.length() > 0) {
 						try {
-							//Creamos un objeto del tipo médico con los datos de los textfields
+							// Creamos un objeto del tipo médico con los datos de los textfields
 							Medico med = new Medico(strCodMed, strNombre, strEspe);
-							//Hacemos una llamada para insertar al médico en la DB
+							// Hacemos una llamada para insertar al médico en la DB
 							dao.insertarMedico(med);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -139,15 +139,16 @@ public class JDatosMedico extends JFrame {
 									JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
-						
-						JOptionPane.showMessageDialog(null, "Medico registrado con éxito en la base de datos.", "Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
+
+						JOptionPane.showMessageDialog(null, "Medico registrado con éxito en la base de datos.",
+								"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "La especialización se encuentra vacía o es muy grande.",
 								"Error", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacía o es muy grande.",
-							"Error", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacía o es muy grande.", "Error",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 
 			} else {
@@ -159,19 +160,18 @@ public class JDatosMedico extends JFrame {
 		}
 	}
 
-	public boolean esCodigoValido(String codigo) {		
+	public boolean esCodigoValido(String codigo) {
 		try {
 			Integer.parseInt(codigo);
 			return true;
-		}	
-		 catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 	public boolean existePaciente(int cod) {
 		Paciente paciente = null;
-		try {			
+		try {
 			paciente = dao.buscarPacientePorCodigo(cod);
 
 		} catch (Exception e) {
@@ -179,19 +179,17 @@ public class JDatosMedico extends JFrame {
 			e.printStackTrace();
 			return true;
 		}
-		
-		if (paciente == null)
-		{
+
+		if (paciente == null) {
 			return false;
-		}
-		else {
+		} else {
 			return true;
 		}
 	}
-	
+
 	public boolean existeMedico(int cod) {
 		Medico medico = null;
-		try {			
+		try {
 			medico = dao.buscarMedicoPorCodigo(cod);
 
 		} catch (Exception e) {
@@ -199,12 +197,10 @@ public class JDatosMedico extends JFrame {
 			e.printStackTrace();
 			return true;
 		}
-		
-		if (medico == null)
-		{
+
+		if (medico == null) {
 			return false;
-		}
-		else {
+		} else {
 			return true;
 		}
 	}

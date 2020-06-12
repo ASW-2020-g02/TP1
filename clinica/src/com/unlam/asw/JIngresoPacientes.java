@@ -41,11 +41,11 @@ public class JIngresoPacientes extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
+
 		JButton btnDatosPaciente = new JButton("Datos del paciente");
 		btnDatosPaciente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -56,7 +56,7 @@ public class JIngresoPacientes extends JFrame {
 		});
 		btnDatosPaciente.setBounds(148, 23, 140, 40);
 		panel.add(btnDatosPaciente);
-		
+
 		JButton btnSituPaciente = new JButton("Situaci\u00F3n del paciente");
 		btnSituPaciente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -67,7 +67,7 @@ public class JIngresoPacientes extends JFrame {
 		});
 		btnSituPaciente.setBounds(148, 74, 140, 40);
 		panel.add(btnSituPaciente);
-		
+
 		JButton btnDatosDelMdico = new JButton("Datos del m\u00E9dico");
 		btnDatosDelMdico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -78,7 +78,7 @@ public class JIngresoPacientes extends JFrame {
 		});
 		btnDatosDelMdico.setBounds(148, 125, 140, 40);
 		panel.add(btnDatosDelMdico);
-		
+
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

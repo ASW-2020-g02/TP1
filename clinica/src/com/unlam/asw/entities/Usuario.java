@@ -16,14 +16,16 @@ public class Usuario {
 	}
 
 	/**
-	 * Setter del nombre del usuario. Recibe una cadena y verifica que no sea vacía ni esté conformada por espacios en blanco.
+	 * Setter del nombre del usuario. Recibe una cadena y verifica que no sea vacía
+	 * ni esté conformada por espacios en blanco.
 	 * 
 	 * @param nombre (string) cadena que cotiene el nombre del usuario
 	 * @throws Exception en caso de que la cadena no pase las verificaciones
 	 */
 	public final void setNombre(String nombre) throws Exception {
-		//Chequeamos que la cadena recibida no sea nula, y además chequeamos que no hayamos recibido
-		//una cadena con espacios en blanco
+		// Chequeamos que la cadena recibida no sea nula, y además chequeamos que no
+		// hayamos recibido
+		// una cadena con espacios en blanco
 		if (nombre != null && !nombre.trim().isEmpty())
 			this.nombre = nombre;
 		else
@@ -35,14 +37,16 @@ public class Usuario {
 	}
 
 	/**
-	 * Setter de la contraseña del usuario. Recibe una cadena y verifica que no sea vacía ni esté conformada por espacios en blanco.
+	 * Setter de la contraseña del usuario. Recibe una cadena y verifica que no sea
+	 * vacía ni esté conformada por espacios en blanco.
 	 * 
 	 * @param nombre (string) cadena que cotiene el nombre del usuario
 	 * @throws Exception en caso de que la cadena no pase las verificaciones
 	 */
 	public final void setPassword(String password) throws Exception {
-		//Chequeamos que la cadena recibida no sea nula, y además chequeamos que no hayamos recibido
-		//una cadena con espacios en blanco
+		// Chequeamos que la cadena recibida no sea nula, y además chequeamos que no
+		// hayamos recibido
+		// una cadena con espacios en blanco
 		if (password != null && !password.trim().isEmpty())
 			this.password = password;
 		else
@@ -54,14 +58,16 @@ public class Usuario {
 	}
 
 	/**
-	 * Setter del email del usuario. Recibe una cadena y verifica que no sea vacía ni esté conformada por espacios en blanco.
+	 * Setter del email del usuario. Recibe una cadena y verifica que no sea vacía
+	 * ni esté conformada por espacios en blanco.
 	 * 
 	 * @param nombre (string) cadena que cotiene el nombre del usuario
 	 * @throws Exception en caso de que la cadena no pase las verificaciones
 	 */
 	public final void setEmail(String email) throws Exception {
-		//Chequeamos que la cadena recibida no sea nula, y además chequeamos que no hayamos recibido
-		//una cadena con espacios en blanco
+		// Chequeamos que la cadena recibida no sea nula, y además chequeamos que no
+		// hayamos recibido
+		// una cadena con espacios en blanco
 		if (email != null && !email.trim().isEmpty())
 			this.email = email;
 		else
