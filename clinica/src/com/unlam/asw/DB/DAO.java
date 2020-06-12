@@ -20,7 +20,7 @@ import com.unlam.asw.entities.Situacion;
  */
 public class DAO {
 	private static DAO singleton = null;
-	final static String DB = "clinica-los-pinares.db";
+	final static String DB = "centro-asistencial-los-pinares.db";
 	Connection c = null;
 
 	public DAO() {
@@ -42,7 +42,7 @@ public class DAO {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Conexi�n con base de datos establecida.");
+		System.out.println("Conexión con base de datos establecida.");
 	}
 
 	public static DAO obtenerInstancia() {
@@ -55,31 +55,31 @@ public class DAO {
 	private void inicializar() {
 		String sql = null;
 		try {
-			// creaci�n de tablas por defecto
+			// Creación de tablas por defecto
 			Statement stmt = c.createStatement();
 
-			// pacientes
+			// Tabla de pacientes
 			sql = "CREATE TABLE PACIENTES " + "(CODIGO INTEGER PRIMARY KEY NOT NULL,"
 					+ " NOMBRE     TEXT        NOT NULL)";
 			stmt.executeUpdate(sql);
 
-			// m�dicos
+			// Tabla de médicos
 			sql = "CREATE TABLE MEDICOS " + "(CODIGO INTEGER PRIMARY KEY NOT NULL,"
 					+ " ESPECIALIDAD   TEXT    NOT NULL," + " NOMBRE            TEXT    NOT NULL)";
 			stmt.executeUpdate(sql);
 
-			// situaciones
+			// Tabla de situaciones
 			sql = "CREATE TABLE SITUACIONES " + "(ID INTEGER PRIMARY KEY NOT NULL,"
 					+ " CODIGOPACIENTE    INT    NOT NULL," + " CODIGOMEDICO      INT    NOT NULL,"
 					+ " DIAGNOSTICO   TEXT," + " FOREIGN KEY(CODIGOPACIENTE) REFERENCES PACIENTES (CODIGO)"
 					+ " FOREIGN KEY(CODIGOMEDICO) REFERENCES MEDICOS (CODIGO)" + ")";
 			stmt.executeUpdate(sql);
 
-			// creaci�n del usuario admin
+			// Creación del usuario admin
 			sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) " + "VALUES ('admin', 'admin', 'admin@admin.com');";
 			stmt.executeUpdate(sql);
 
-			// cierro el statement
+			// Cierro el statemnt
 			stmt.close();
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -97,13 +97,13 @@ public class DAO {
 	}
 
 	/**
-	 * M�todo para lanzar excepciones no reconocidas de SQLite
+	 * Método para lanzar excepciones no reconocidas de SQLite
 	 * 
 	 * @param e
 	 * @throws Exception
 	 */
 	private void lanzarEx(SQLException e) throws Exception {
-		throw new Exception("Error en la base de datos." + "\nC�digo de error: " + e.getErrorCode() + "\nMensaje: "
+		throw new Exception("Error en la base de datos." + "\nCódigo de error: " + e.getErrorCode() + "\nMensaje: "
 				+ e.getMessage());
 	}
 
@@ -124,10 +124,10 @@ public class DAO {
 			ps.close();
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
-			case 19:
-				throw new Exception("Este codigo de paciente ya existe.");
-			default:
-				lanzarEx(e);
+				case 19:
+					throw new Exception("Este codigo de paciente ya existe.");
+				default:
+					lanzarEx(e);
 			}
 		}
 	}
@@ -168,19 +168,19 @@ public class DAO {
 		String nombre = med.getNombre();
 		String especialidad = med.getEspecialidad();
 		try {
-			// agrego el m�dico
+			// Agrego el médico
 			String sql = "INSERT INTO MEDICOS (CODIGO, NOMBRE, ESPECIALIDAD) " + "VALUES (" + codigo + ", '" + nombre
 					+ "', '" + especialidad + "');";
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.execute();
-			// cierro el statement
+			// Cierro el statement
 			ps.close();
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
-			case 19:
-				throw new Exception("Este codigo de m�dico ya existe.");
-			default:
-				lanzarEx(e);
+				case 19:
+					throw new Exception("Este codigo de médico ya existe.");
+				default:
+					lanzarEx(e);
 			}
 		}
 	}
@@ -197,7 +197,7 @@ public class DAO {
 			Statement stmt = c.createStatement();
 			String sql = "SELECT CODIGO, NOMBRE, ESPECIALIDAD FROM MEDICOS;";
 			ResultSet rs = stmt.executeQuery(sql);
-			// voy agregando los m�dicos a la lista
+			// voy agregando los médicos a la lista
 			while (rs.next()) {
 				medicos.add(new Medico(rs.getString("CODIGO"), rs.getString("NOMBRE"), rs.getString("ESPECIALIDAD")));
 			}
@@ -279,7 +279,7 @@ public class DAO {
 		int codigoMed = sit.getCodMedico();
 		String diag = sit.getDiagnostico();
 		try {
-			// agrego la situaci�n
+			// agrego la situación
 			String sql = "INSERT INTO SITUACIONES (ID, CODIGOPACIENTE, CODIGOMEDICO, DIAGNOSTICO) " + "VALUES (" + id
 					+ ", " + codigoPac + ", " + codigoMed + ", '" + diag + "');";
 
@@ -289,12 +289,12 @@ public class DAO {
 			ps.close();
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
-			case 19:
-				throw new Exception("Error al agregar situaci�n.\n"
-						+ "Verifique que el ID de situaci�n no existe actualmente, y que los codigo del paciente y del m�dico"
-						+ " est�n cargados en los registros de Pacientes y M�dicos.");
-			default:
-				lanzarEx(e);
+				case 19:
+					throw new Exception("Error al agregar situación.\n"
+							+ "Verifique que el ID de situación no existe actualmente, y que los codigo del paciente y del médico"
+							+ " están cargados en los registros de Pacientes y Médicos.");
+				default:
+					lanzarEx(e);
 			}
 		}
 	}

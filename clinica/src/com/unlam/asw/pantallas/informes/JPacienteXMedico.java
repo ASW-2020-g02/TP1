@@ -152,8 +152,8 @@ public class JPacienteXMedico extends JFrame {
 			e1.printStackTrace();
 		}
 
-		// Agrego la opci�n dummy, la cual ser� validada por el sistema
-		// Dado que es una opcion simplemente de muestra, la misma no deber� arrojar una
+		// Agrego la opción dummy, la cual será validada por el sistema
+		// Dado que es una opcion simplemente de muestra, la misma no deberá arrojar una
 		// excepcion
 		// pero debido a como esta programada la clase, se debera atrapar dicha
 		// excepcion
@@ -174,7 +174,7 @@ public class JPacienteXMedico extends JFrame {
 		// Verifico que no se trata del caso default
 		if (medico.getCodigo() != -1) {
 
-			// Aca debo obtener todos los pacientes asociados al m�dico
+			// Aca debo obtener todos los pacientes asociados al médico
 			// Una vez obtenidos, se llena la lista
 			try {
 				listaTempPacientes = dao.obtenerPacientesXMedico(medico.getCodigo());

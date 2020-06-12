@@ -25,16 +25,16 @@ public class Situacion {
 	}
 
 	/**
-	 * Setter del ID de la situación. Recibe una cadena y verifica que pueda
-	 * convertirse a número entero.
+	 * Setter del ID de la situaciÃ³n. Recibe una cadena y verifica que pueda
+	 * convertirse a nÃºmero entero.
 	 * 
 	 * @param id (string) cadena que contiene el id de la situacion
 	 * @throws Exception en caso de que la cadena recibida no pueda convertirse a
-	 *                   número entero.
+	 *                   nÃºmero entero.
 	 */
 	public final void setId(String id) throws Exception {
 		try {
-			// Chequeamos que la cadena recibida no sea nula, y además chequeamos que no
+			// Chequeamos que la cadena recibida no sea nula, y ademÃ¡s chequeamos que no
 			// hayamos recibido
 			// una cadena con espacios en blanco
 			if (id == null || id.trim().isEmpty())
@@ -42,7 +42,7 @@ public class Situacion {
 			// Convertimos la cadena a un entero y la asignamos al atributo id del objeto
 			this.id = Integer.parseInt(id);
 		} catch (NumberFormatException e) {
-			throw new Exception("El ID debe ser un número válido.");
+			throw new Exception("El ID debe ser un nÃºmero vÃ¡lido.");
 		}
 	}
 
@@ -51,16 +51,16 @@ public class Situacion {
 	}
 
 	/**
-	 * Setter del código del paciente. Recibe una cadena y verifica que pueda
-	 * convertirse a número entero.
+	 * Setter del cÃ³digo del paciente. Recibe una cadena y verifica que pueda
+	 * convertirse a nÃºmero entero.
 	 * 
-	 * @param codPaciente (string) cadena que contiene el código del paciente
+	 * @param codPaciente (string) cadena que contiene el cÃ³digo del paciente
 	 * @throws Exception en caso de que la cadena recibida no pueda convertirse a
-	 *                   número entero.
+	 *                   nÃºmero entero.
 	 */
 	public final void setCodPaciente(String codPaciente) throws Exception {
 		try {
-			// Chequeamos que la cadena recibida no sea nula, y además chequeamos que no
+			// Chequeamos que la cadena recibida no sea nula, y ademÃ¡s chequeamos que no
 			// hayamos recibido
 			// una cadena con espacios en blanco
 			if (codPaciente == null || codPaciente.trim().isEmpty())
@@ -69,7 +69,7 @@ public class Situacion {
 			// objeto
 			this.codPaciente = Integer.parseInt(codPaciente);
 		} catch (NumberFormatException e) {
-			throw new Exception("El codigo del paciente debe ser un número entero.");
+			throw new Exception("El codigo del paciente debe ser un nÃºmero entero.");
 		}
 	}
 
@@ -78,15 +78,15 @@ public class Situacion {
 	}
 
 	/**
-	 * Setter del código del médico. Recibe una cadena y realiza verificaciones
+	 * Setter del cÃ³digo del mÃ©dico. Recibe una cadena y realiza verificaciones
 	 * sobre la misma.
 	 * 
-	 * @param codMedico (string) cadena que recibe y que será convertida a entero
-	 * @throws Exception arroja una excepción en caso de que el número no sea entero
+	 * @param codMedico (string) cadena que recibe y que serÃ¡ convertida a entero
+	 * @throws Exception arroja una excepciÃ³n en caso de que el nÃºmero no sea entero
 	 */
 	public final void setCodMedico(String codMedico) throws Exception {
 		try {
-			// Chequeamos que la cadena recibida no sea nula, y además chequeamos que no
+			// Chequeamos que la cadena recibida no sea nula, y ademÃ¡s chequeamos que no
 			// hayamos recibido
 			// una cadena con espacios en blanco
 			if (codMedico == null || codMedico.trim().isEmpty())
@@ -95,7 +95,7 @@ public class Situacion {
 			// objeto
 			this.codMedico = Integer.parseInt(codMedico);
 		} catch (NumberFormatException e) {
-			throw new Exception("El codigo del médico debe ser un número entero.");
+			throw new Exception("El codigo del mÃ©dico debe ser un nÃºmero entero.");
 		}
 	}
 
@@ -104,20 +104,20 @@ public class Situacion {
 	}
 
 	/**
-	 * Setter del diagnóstico. Verifica que la cadena recibida no sea nula ni sea
+	 * Setter del diagnÃ³stico. Verifica que la cadena recibida no sea nula ni sea
 	 * solo espacios en blancos.
 	 * 
 	 * @param diagnostico (string) la cadena a setear como diagnostico
 	 * @throws Exception en caso de que la cadena no pase las verificaciones
 	 */
 	public final void setDiagnostico(String diagnostico) throws Exception {
-		// Chequeamos que la cadena recibida no sea nula, y además chequeamos que no
+		// Chequeamos que la cadena recibida no sea nula, y ademÃ¡s chequeamos que no
 		// hayamos recibido
 		// una cadena con espacios en blanco
 		if (diagnostico != null && !diagnostico.trim().isEmpty())
-			// Asignamos el diagnóstico al atributo diagnostico del objeto
+			// Asignamos el diagnÃ³stico al atributo diagnostico del objeto
 			this.diagnostico = diagnostico;
 		else
-			throw new Exception("La situación debe tener un diagnóstico.");
+			throw new Exception("La situaciÃ³n debe tener un diagnÃ³stico.");
 	}
 }

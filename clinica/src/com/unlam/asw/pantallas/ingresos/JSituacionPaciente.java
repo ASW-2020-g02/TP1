@@ -55,7 +55,7 @@ public class JSituacionPaciente extends JFrame {
 		UIManager.put("OptionPane.yesButtonText", "Si");
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Est� seguro que desea salir?", "Atenci�n",
+				int confirmed = JOptionPane.showConfirmDialog(null, "está seguro que desea salir?", "Atención",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					DAO.obtenerInstancia().cerrar();
@@ -141,15 +141,15 @@ public class JSituacionPaciente extends JFrame {
 		if (esCodigoValido(strCodPac) && esCodigoValido(strCodMed)) {
 			// Parseamos el codigo del paciente
 			int codPac = Integer.parseInt(strCodPac);
-			// Parseamos el c�digo del medico
+			// Parseamos el código del medico
 			int codMed = Integer.parseInt(strCodMed);
 
 			// Busca el paciente y al medico, si existen devuelve true
 			if (existePaciente(codPac) && existeMedico(codMed)) {
-				// Chequeamos que la situacion no est� vacia
+				// Chequeamos que la situacion no está vacia
 				if (strSituacion.length() > 0) {
 					try {
-						// Llamamos a la BD para obtener el ID de la ultima situaci�n registrada
+						// Llamamos a la BD para obtener el ID de la ultima situación registrada
 						// (por favor esto es algo teorico en la vida real esto seria un desastre
 						// debido a la concurrencia, habria conflictos cada dos segundos)
 						int id = dao.obtenerUltimoIDSituacion() + 1;
@@ -158,23 +158,23 @@ public class JSituacionPaciente extends JFrame {
 						dao.insertarSituacion(situ);
 
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Ocurri� un error con la BD.", "Error",
+						JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
 								JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
-					JOptionPane.showMessageDialog(null, "Situaci�n registrada con �xito en la base de datos.",
+					JOptionPane.showMessageDialog(null, "situación registrada con éxito en la base de datos.",
 							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "La situaci�n se encuentra vac�a.", "Error",
+					JOptionPane.showMessageDialog(null, "La situación se encuentra vacía.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
 			} else {
-				JOptionPane.showMessageDialog(null, "El paciente o el m�dico no existen.", "Error",
+				JOptionPane.showMessageDialog(null, "El paciente o el médico no existen.", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "�El c�digo ingresado no es v�lido!", "Error",
+			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
