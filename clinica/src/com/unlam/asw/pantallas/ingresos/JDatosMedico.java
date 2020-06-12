@@ -2,6 +2,7 @@ package com.unlam.asw.pantallas.ingresos;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -20,6 +21,7 @@ import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
 import com.unlam.asw.pantallas.general.JIngresos;
+import javax.swing.SwingConstants;
 
 public class JDatosMedico extends JFrame {
 
@@ -65,48 +67,58 @@ public class JDatosMedico extends JFrame {
 			}
 		});
 		setResizable(false);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 429, 404);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-
+		setTitle("Registro de médico");
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
 		JLabel lblCodMedico = new JLabel("C\u00F3digo");
-		lblCodMedico.setBounds(95, 50, 65, 14);
+		lblCodMedico.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblCodMedico.setBounds(36, 77, 124, 30);
 		panel.add(lblCodMedico);
 
 		txtCodMedico = new JTextField();
-		txtCodMedico.setBounds(166, 47, 162, 20);
+		txtCodMedico.setBounds(183, 136, 189, 20);
 		panel.add(txtCodMedico);
 		txtCodMedico.setColumns(10);
 
 		JLabel lblRegistro = new JLabel("Registro de m\u00E9dico");
-		lblRegistro.setBounds(173, 14, 151, 14);
+		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegistro.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblRegistro.setBounds(41, 14, 331, 25);
 		panel.add(lblRegistro);
 
 		txtNombre = new JTextField();
-		txtNombre.setBounds(166, 75, 162, 20);
+		txtNombre.setBounds(183, 85, 189, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(95, 77, 64, 14);
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNombre.setBounds(36, 128, 124, 30);
 		panel.add(lblNombre);
-
-		JButton btnConfirmar = new JButton("Confirmar");
+		
+		JButton btnConfirmar = new JButton(
+				"<html><center>Confirmar</center></html>");
+		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 17));
+		btnConfirmar.setFocusPainted(false);
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registrarMedico();
 			}
 		});
-		btnConfirmar.setBounds(82, 200, 118, 23);
+		btnConfirmar.setBounds(36, 276, 156, 48);
 		panel.add(btnConfirmar);
-
-		JButton btnSalir = new JButton("Salir");
+		
+		JButton btnSalir = new JButton(
+				"<html><center>Cancelar</center></html>");
+		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 17));
+		btnSalir.setFocusPainted(false);
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JIngresos jp = new JIngresos();
@@ -114,16 +126,17 @@ public class JDatosMedico extends JFrame {
 				dispose();
 			}
 		});
-		btnSalir.setBounds(248, 200, 118, 23);
+		btnSalir.setBounds(223, 276, 156, 48);
 		panel.add(btnSalir);
 
 		JLabel lblEspecializacion = new JLabel("Especializaci\u00F3n");
-		lblEspecializacion.setBounds(69, 110, 90, 14);
+		lblEspecializacion.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblEspecializacion.setBounds(36, 182, 137, 30);
 		panel.add(lblEspecializacion);
 
 		txtEspecializacion = new JTextField();
 		txtEspecializacion.setColumns(10);
-		txtEspecializacion.setBounds(166, 108, 162, 20);
+		txtEspecializacion.setBounds(183, 190, 189, 20);
 		panel.add(txtEspecializacion);
 
 		dao = DAO.obtenerInstancia();

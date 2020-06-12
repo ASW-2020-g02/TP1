@@ -2,6 +2,7 @@ package com.unlam.asw.pantallas.ingresos;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
@@ -67,7 +69,8 @@ public class JDatosPaciente extends JFrame {
 				}
 			}
 		});
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 429, 404);
+		setTitle("Alta de paciente");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -78,37 +81,45 @@ public class JDatosPaciente extends JFrame {
 		panel.setLayout(null);
 
 		JLabel lblCodPaciente = new JLabel("C\u00F3digo");
-		lblCodPaciente.setBounds(95, 50, 65, 14);
+		lblCodPaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblCodPaciente.setBounds(72, 95, 80, 30);
 		panel.add(lblCodPaciente);
 
 		txtCodPaciente = new JTextField();
-		txtCodPaciente.setBounds(166, 47, 162, 20);
+		txtCodPaciente.setBounds(162, 176, 189, 20);
 		panel.add(txtCodPaciente);
 		txtCodPaciente.setColumns(10);
 
 		JLabel lblAltaDePaciente = new JLabel("Alta de Paciente");
-		lblAltaDePaciente.setBounds(173, 14, 151, 14);
+		lblAltaDePaciente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAltaDePaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblAltaDePaciente.setBounds(41, 14, 331, 25);
 		panel.add(lblAltaDePaciente);
 
 		txtNombrePaciente = new JTextField();
-		txtNombrePaciente.setBounds(166, 97, 162, 20);
+		txtNombrePaciente.setBounds(162, 103, 189, 20);
 		panel.add(txtNombrePaciente);
 		txtNombrePaciente.setColumns(10);
 
 		JLabel lblNombreDelPaciente = new JLabel("Nombre");
-		lblNombreDelPaciente.setBounds(95, 99, 64, 14);
+		lblNombreDelPaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNombreDelPaciente.setBounds(72, 168, 80, 30);
 		panel.add(lblNombreDelPaciente);
 
-		JButton btnConfirmar = new JButton("Confirmar");
+		JButton btnConfirmar = new JButton("<html><center>Confirmar</center></html>");
+		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 17));
+		btnConfirmar.setFocusPainted(false);
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				generarAltaPaciente();
 			}
 		});
-		btnConfirmar.setBounds(82, 200, 118, 23);
+		btnConfirmar.setBounds(36, 276, 156, 48);
 		panel.add(btnConfirmar);
 
-		JButton btnSalir = new JButton("Salir");
+		JButton btnSalir = new JButton("<html><center>Cancelar</center></html>");
+		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 17));
+		btnSalir.setFocusPainted(false);
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JIngresos jp = new JIngresos();
@@ -116,7 +127,7 @@ public class JDatosPaciente extends JFrame {
 				dispose();
 			}
 		});
-		btnSalir.setBounds(248, 200, 118, 23);
+		btnSalir.setBounds(223, 276, 156, 48);
 		panel.add(btnSalir);
 
 		dao = DAO.obtenerInstancia();

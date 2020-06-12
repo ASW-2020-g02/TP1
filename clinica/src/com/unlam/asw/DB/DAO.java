@@ -36,13 +36,13 @@ public class DAO {
 				config.enforceForeignKeys(true);
 				c = DriverManager.getConnection("jdbc:sqlite:" + DB, config.toProperties());
 				inicializar();
-				System.out.println("Instanciado archivo de base de datos.");
+//				System.out.println("Instanciado archivo de base de datos.");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-		System.out.println("Conexión con base de datos establecida.");
+//		System.out.println("Conexión con base de datos establecida.");
 	}
 
 	public static DAO obtenerInstancia() {
@@ -90,7 +90,7 @@ public class DAO {
 	public void cerrar() {
 		try {
 			c.close();
-			System.out.println("Motor de base de datos detenido.");
+//			System.out.println("Motor de base de datos detenido.");
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 		}
@@ -222,7 +222,7 @@ public class DAO {
 			String sql = "SELECT DISTINCT CODIGO, NOMBRE " + "FROM PACIENTES "
 					+ "INNER JOIN SITUACIONES ON PACIENTES.CODIGO = SITUACIONES.CODIGOPACIENTE " + "WHERE CODIGOMEDICO="
 					+ String.valueOf(codigoMedico) + ";";
-			System.out.println(sql);
+
 			// Utilizo un prepared statement
 			PreparedStatement ps = c.prepareStatement(sql);
 
@@ -235,7 +235,7 @@ public class DAO {
 			// Cierro el statement
 			ps.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+//			System.out.println(e.toString());
 			lanzarEx(e);
 		}
 
@@ -248,7 +248,7 @@ public class DAO {
 		try {
 			String sql = "SELECT DISTINCT DIAGNOSTICO " + "FROM SITUACIONES WHERE CODIGOMEDICO="
 					+ String.valueOf(codigoMedico) + ";";
-			System.out.println(sql);
+
 			// Utilizo un prepared statement
 			PreparedStatement ps = c.prepareStatement(sql);
 
@@ -261,7 +261,7 @@ public class DAO {
 			// Cierro el statement
 			ps.close();
 		} catch (SQLException e) {
-			System.out.println(e.toString());
+//			System.out.println(e.toString());
 			lanzarEx(e);
 		}
 
