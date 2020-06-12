@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -13,10 +15,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
@@ -56,11 +60,25 @@ public class JPacienteXMedico extends JFrame {
 	 * Create the frame.
 	 */
 	public JPacienteXMedico() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		UIManager.put("OptionPane.yesButtonText", "Si");
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
+						JOptionPane.YES_NO_OPTION);
+				if (confirmed == JOptionPane.YES_OPTION) {
+					DAO.obtenerInstancia().cerrar();
+					setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				} else {
+					setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				}
+			}
+		});
 		setBounds(100, 100, 429, 404);
 		setLocationRelativeTo(null);
 		setTitle("Listado de Pacientes por M\u00E9dico");
-		
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

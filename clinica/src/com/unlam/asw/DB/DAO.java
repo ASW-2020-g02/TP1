@@ -90,6 +90,7 @@ public class DAO {
 	public void cerrar() {
 		try {
 			c.close();
+			System.out.println("Motor de base de datos detenido.");
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 		}
