@@ -2,6 +2,7 @@ package com.unlam.asw.pantallas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -57,7 +58,8 @@ public class JInicial extends JFrame {
 			}
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 210);
+		setTitle("Centro de Asistencia Los Pinares");
+		setBounds(100, 100, 429, 404);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -66,8 +68,9 @@ public class JInicial extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-
-		JButton btnIngresoDeDatos = new JButton("Ingreso de Datos");
+		JButton btnIngresoDeDatos = new JButton("<html><center>Ingreso de datos</center></html>");
+		btnIngresoDeDatos.setFont(new Font("Tahoma", Font.BOLD, 17));
+		btnIngresoDeDatos.setFocusPainted(false);
 		btnIngresoDeDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JIngresos ingreso = new JIngresos();
@@ -76,10 +79,12 @@ public class JInicial extends JFrame {
 
 			}
 		});
-		btnIngresoDeDatos.setBounds(79, 11, 133, 94);
+		btnIngresoDeDatos.setBounds(99, 45, 240, 95);
 		panel.add(btnIngresoDeDatos);
 
-		JButton btnInformes = new JButton("Informes");
+		JButton btnInformes = new JButton("<html><center>Informes</center></html>");
+		btnInformes.setFont(new Font("Tahoma", Font.BOLD, 17));
+		btnInformes.setFocusPainted(false);
 		btnInformes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JInformes inf = new JInformes();
@@ -88,7 +93,7 @@ public class JInicial extends JFrame {
 
 			}
 		});
-		btnInformes.setBounds(236, 11, 133, 94);
+		btnInformes.setBounds(99, 187, 240, 95);
 		panel.add(btnInformes);
 
 		JButton btnSalir = new JButton("Salir");
@@ -97,7 +102,7 @@ public class JInicial extends JFrame {
 				dispose();
 			}
 		});
-		btnSalir.setBounds(171, 137, 89, 23);
+		btnSalir.setBounds(329, 332, 74, 22);
 		panel.add(btnSalir);
 		setLocationRelativeTo(null);
 	}
