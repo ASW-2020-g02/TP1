@@ -14,6 +14,8 @@ import org.sqlite.SQLiteConfig;
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
 import com.unlam.asw.entities.Situacion;
+import com.unlam.asw.entities.Usuario;
+import com.unlam.asw.utils.Utils;
 
 /*
  * La base de datos se puede abrir utilizando DB Browser (https://sqlitebrowser.org/)
@@ -79,6 +81,17 @@ public class DAO {
 					+ " CODIGOPACIENTE    INT    NOT NULL," + " CODIGOMEDICO      INT    NOT NULL,"
 					+ " DIAGNOSTICO   TEXT," + " FOREIGN KEY(CODIGOPACIENTE) REFERENCES PACIENTES (CODIGO)"
 					+ " FOREIGN KEY(CODIGOMEDICO) REFERENCES MEDICOS (CODIGO)" + ")";
+			stmt.executeUpdate(sql);
+
+			// usuarios
+			sql = "CREATE TABLE USUARIOS " + " (NOMBRE    TEXT           PRIMARY KEY     NOT NULL, "
+					+ " PASSWORD   CHAR(50)       NOT NULL, " + " EMAIL      TEXT)";
+			stmt.executeUpdate(sql);
+
+			String hashedPassword = Utils.hashPassword("admin");
+			// creación del usuario admin
+			sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) " + "VALUES ('admin', '" + hashedPassword
+					+ "', 'admin@admin.com');";
 			stmt.executeUpdate(sql);
 
 			// Cierro el statemnt
@@ -367,5 +380,57 @@ public class DAO {
 			e.printStackTrace();
 		}
 		return id;
+	}
+
+	/**
+	 *
+	 * @param usuario
+	 * @throws Exception
+	 */
+	public void insertarUsuario(Usuario usuario) throws Exception {
+		String nombre = usuario.getNombre();
+		String password = usuario.getPassword();
+		String email = usuario.getEmail();
+		try {
+			// agrego el usuario
+			String sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) " + "VALUES ('" + nombre + "', '" + password
+					+ "', '" + email + "');";
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.execute();
+			// cierro el statement
+			ps.close();
+		} catch (SQLException e) {
+			switch (e.getErrorCode()) {
+			case 19:
+				throw new Exception("Este nombre de usuario ya existe.");
+			default:
+				lanzarEx(e);
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @param usuario
+	 * @throws Exception
+	 */
+	public void obtenerUsuario(String email, String password) throws Exception {
+		String hashedPassword = Utils.hashPassword(password);
+		try {
+			// Busco el usuario
+			String sql = "SELECT * FROM USUARIOS WHERE EMAIL=" + email + " AND PASSWORD=" + hashedPassword + ";";
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.execute();
+
+			// Cierro el statement
+			ps.close();
+		} catch (SQLException e) {
+			switch (e.getErrorCode()) {
+			case 19:
+				throw new Exception("Este nombre de usuario ya existe.");
+			default:
+				lanzarEx(e);
+			}
+		}
 	}
 }
