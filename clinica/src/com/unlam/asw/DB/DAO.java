@@ -389,7 +389,7 @@ public class DAO {
 	 */
 	public void insertarUsuario(Usuario usuario) throws Exception {
 		String nombre = usuario.getNombre();
-		String password = usuario.getPassword();
+		String password = Utils.hashPassword(usuario.getPassword());
 		String email = usuario.getEmail();
 		try {
 			// agrego el usuario
