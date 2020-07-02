@@ -16,6 +16,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.unlam.asw.DB.DAO;
+import com.unlam.asw.pantallas.access.JLogin;
 import com.unlam.asw.pantallas.general.JInformes;
 import com.unlam.asw.pantallas.general.JIngresos;
 
@@ -111,7 +112,8 @@ public class JInicial extends JFrame {
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Para evitar problemas, se debe detener de forma correcta la base de datos
-				DAO.obtenerInstancia().cerrar();
+				JLogin login = new JLogin();
+				login.setVisible(true);
 				dispose();
 			}
 		});

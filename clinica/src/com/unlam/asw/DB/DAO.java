@@ -393,9 +393,12 @@ public class DAO {
 		String email = usuario.getEmail();
 		try {
 			// agrego el usuario
-			String sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) " + "VALUES ('" + nombre + "', '" + password
-					+ "', '" + email + "');";
+			String sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) VALUES (?,?,?);";
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, nombre);
+			ps.setString(2, password);
+			ps.setString(3, email);
+
 			ps.execute();
 			// cierro el statement
 			ps.close();
@@ -418,8 +421,10 @@ public class DAO {
 		String hashedPassword = Utils.hashPassword(password);
 		try {
 			// Busco el usuario
-			String sql = "SELECT * FROM USUARIOS WHERE EMAIL=" + email + " AND PASSWORD=" + hashedPassword + ";";
+			String sql = "SELECT * FROM USUARIOS WHERE EMAIL=? AND PASSWORD=?;";
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, email);
+			ps.setString(2, hashedPassword);
 			ps.execute();
 
 			// Cierro el statement
@@ -432,5 +437,58 @@ public class DAO {
 				lanzarEx(e);
 			}
 		}
+	}
+
+	public Usuario buscarUsuario(String email, String password) throws Exception {
+		String hashedPassword = Utils.hashPassword(password);
+		Usuario usuario;
+		try {
+			String sql = "SELECT NOMBRE, EMAIL, PASSWORD FROM USUARIOS WHERE EMAIL=? AND PASSWORD=?;";
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, email);
+			ps.setString(2, hashedPassword);
+			ps.execute();
+			ResultSet rs = ps.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+				return null;
+			}
+			// Creo el objeto Usuario correspondiente, con los campos obtenidos de la base
+			// de
+			// datos
+			usuario = new Usuario(rs.getString("NOMBRE"), rs.getString("EMAIL"), rs.getString("PASSWORD"));
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			lanzarEx(e);
+			return null;
+		}
+		return usuario;
+	}
+
+	public Usuario buscarUsuarioPorEmail(String email) throws Exception {
+		Usuario usuario;
+		try {
+			// Obtengo los usuarios dado un mail
+			String sql = "SELECT NOMBRE, EMAIL, PASSWORD FROM USUARIOS WHERE EMAIL=?;";
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, email);
+			
+			ResultSet rs = ps.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+				return null;
+			}
+			// Creo el objeto Usuario correspondiente, con los campos obtenidos de la base
+			// de
+			// datos
+			usuario = new Usuario(rs.getString("NOMBRE"), rs.getString("EMAIL"), rs.getString("PASSWORD"));
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			lanzarEx(e);
+			return null;
+		}
+		return usuario;
 	}
 }

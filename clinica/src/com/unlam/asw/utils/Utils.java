@@ -16,7 +16,7 @@ public class Utils {
 	private static final int KEY_LENGTH = 512;
 	private static final String ALGORITHM = "PBKDF2WithHmacSHA512";
 	private static final String SALT = "Ha97m4oFANostwyoBC_jpzzJWjlrhwu8D";
-	
+
 	public static void actualizarLista(JList<String> lista, String[] elementos) {
 		lista.setModel(new AbstractListModel<String>() {
 			/**
@@ -55,5 +55,86 @@ public class Utils {
 		} finally {
 			spec.clearPassword();
 		}
+	}
+
+	public static boolean esEmailValido(String strEmail) {
+		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+		return strEmail.matches(regex);
+	}
+
+	public static boolean esPasswordValida(String password) throws InvalidPasswordException {
+		// Se verifica que la contraseña tenga entre 8 y 15 caracteres
+		if (!((password.length() >= 8) && (password.length() <= 15))) {
+			throw new InvalidPasswordException(1);
+		}
+
+		// Se verifica que no contenga espacios
+		if (password.contains(" ")) {
+			throw new InvalidPasswordException(2);
+		}
+
+		// A continuación, se verifica la cantidad de digitos en la contraseña
+		int count = 0;
+
+		// Verifico que tenga algun número, del 0 al 9 inclusive
+		for (int i = 0; i <= 9; i++) {
+
+			// Convierto de Integer a String
+			String str1 = Integer.toString(i);
+
+			// En caso de que la contraseña contenga un determinado número, se modificara el
+			// flag count y se detendra la iteración
+			if (password.contains(str1)) {
+				count = 1;
+				break;
+			}
+		}
+
+		// Se requiere que la contraseña tenga al menos un digito
+		if (count == 0) {
+			throw new InvalidPasswordException(3);
+		}
+
+		// En esta oportunidad, se contabiliza la ocurrencia de al menos una letra
+		// mayuscula
+		int countUpperCase = 0;
+
+		// Recorro las letras mayusculas
+		for (int i = 65; i <= 90; i++) {
+
+			// Casteo el int a char
+			char c = (char) i;
+
+			String str1 = Character.toString(c);
+			if (password.contains(str1)) {
+				countUpperCase = 1;
+			}
+		}
+
+		// Se requiere que la contraseña tenga al menos una mayuscula
+		if (countUpperCase == 0) {
+			throw new InvalidPasswordException(4);
+		}
+
+		int countLowerCase = 0;
+
+		// Recorro las letras minusculas
+		for (int i = 90; i <= 122; i++) {
+
+			// Casteo el int a char
+			char c = (char) i;
+			String str1 = Character.toString(c);
+
+			if (password.contains(str1)) {
+				countLowerCase = 1;
+			}
+		}
+
+		// Se requiere que la contraseña tenga al menos una minuscula
+		if (countLowerCase == 0) {
+			throw new InvalidPasswordException(5);
+		}
+
+		return true;
 	}
 }
