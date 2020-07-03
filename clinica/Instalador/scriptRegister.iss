@@ -2,6 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Registro Sistema de Gestión del Centro Asistencial Los Pinares"
+#define MyAppName2 "Sistema de Gestión del Centro Asistencial Los Pinares"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "Grupo 2"
 #define MyAppExeName "Registro Centro Asistencial Los Pinares.exe"
@@ -14,7 +15,7 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
-DefaultDirName={commonpf}\{#MyAppName}
+DefaultDirName={commonpf}\{#MyAppName2}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 ; Remove the following line to run in administrative install mode (install for all users.)

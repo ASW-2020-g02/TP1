@@ -2,6 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Sistema de Gestión del Centro Asistencial Los Pinares"
+#define MyAppNameOG "Sistema de Gestión del Centro Asistencial Los Pinares"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "Grupo 2"
 #define MyAppExeName "Centro Asistencial Los Pinares.exe"
