@@ -173,10 +173,10 @@ public class JRegister extends JFrame {
 		}
 
 		try {
-			// Validación de contraseña y de email
-			if (!Utils.esPasswordValida(strPassword) || Utils.esEmailValido(strEmail)) {
+			// Validaciï¿½n de contraseï¿½a y de email
+			if (!Utils.esPasswordValida(strPassword) || !Utils.esEmailValido(strEmail)) {
 				// Informo que el mail ingresado no es valido
-				JOptionPane.showMessageDialog(null, "El email ingresado no es válido", "Error",
+				JOptionPane.showMessageDialog(null, "El email ingresado no es vï¿½lido", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
@@ -195,7 +195,7 @@ public class JRegister extends JFrame {
 					Usuario usuario = new Usuario(strNombre, strPassword, strEmail);
 					// Hacemos una llamada para insertar al usuario en la DB
 					dao.insertarUsuario(usuario);
-					JOptionPane.showMessageDialog(null, "Usuario registrado con éxito en la base de datos.",
+					JOptionPane.showMessageDialog(null, "Usuario registrado con ï¿½xito en la base de datos.",
 							"Usuario registrado", JOptionPane.INFORMATION_MESSAGE);
 					// Vuelvo a la pantalla de login
 					JLogin login = new JLogin();
@@ -205,14 +205,14 @@ public class JRegister extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 					// Error en la DB
-					JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
+					JOptionPane.showMessageDialog(null, "Ocurriï¿½ un error con la BD.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 
 			} else {
 				// Informe que el nombre no se adecua
-				JOptionPane.showMessageDialog(null, "El nombre se encuentra vacío o es muy grande.", "Error",
+				JOptionPane.showMessageDialog(null, "El nombre se encuentra vacï¿½o o es muy grande.", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {

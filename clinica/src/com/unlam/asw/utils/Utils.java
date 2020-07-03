@@ -66,13 +66,13 @@ public class Utils {
 		return strEmail.matches(regex);
 	}
 
-	private static int obtenerCantContain(String password, int limiteInferior, int limiteSuperior) {
+	private static int obtenerCantContain(String password, int limiteInferior, int limiteSuperior, boolean esLetra) {
 		int count = 0;
 		// Verifico que tenga algun número, del 0 al 9 inclusive
 		for (int i = limiteInferior; i <= limiteSuperior; i++) {
 
 			// Convierto de Integer a String
-			String str1 = Integer.toString(i);
+			String str1 = esLetra ? Character.toString((char) i) : Integer.toString(i);
 
 			// En caso de que la contraseña contenga un determinado número, se modificara el
 			// flag count y se detendra la iteración
@@ -96,17 +96,17 @@ public class Utils {
 		}
 
 		// Se requiere que la contraseña tenga al menos un digito
-		if (obtenerCantContain(password, 0, 9) == 0) {
+		if (obtenerCantContain(password, 0, 9, false) == 0) {
 			throw new InvalidPasswordException(3);
 		}
 
 		// Se requiere que la contraseña tenga al menos una mayuscula
-		if (obtenerCantContain(password, 65, 90) == 0) {
+		if (obtenerCantContain(password, 65, 90, true) == 0) {
 			throw new InvalidPasswordException(4);
 		}
 
 		// Se requiere que la contraseña tenga al menos una minuscula
-		if (obtenerCantContain(password, 90, 122) == 0) {
+		if (obtenerCantContain(password, 90, 122, true) == 0) {
 			throw new InvalidPasswordException(5);
 		}
 
