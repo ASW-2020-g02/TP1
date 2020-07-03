@@ -122,7 +122,6 @@ public class JLogin extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 
 		// Text field de nombre del paciente
 		txtPassword = new JPasswordField();
@@ -176,10 +175,12 @@ public class JLogin extends JFrame {
 	}
 
 	private void ingresarAlSistema() {
+		// Hago un trim de mail y pw
 		String strEmail = txtEmail.getText().trim();
 		String strPassword = txtPassword.getText().trim();
 
 		try {
+			// Primero verifico si el mail es valido
 			if (Utils.esEmailValido(strEmail)) {
 				// Validacón de contraseña y de email
 				if (Utils.esPasswordValida(strPassword)) {

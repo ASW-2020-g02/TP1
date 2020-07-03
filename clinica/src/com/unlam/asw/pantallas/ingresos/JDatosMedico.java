@@ -14,14 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
-import com.unlam.asw.entities.Paciente;
 import com.unlam.asw.pantallas.general.JIngresos;
-import javax.swing.SwingConstants;
 
 public class JDatosMedico extends JFrame {
 
@@ -54,14 +53,14 @@ public class JDatosMedico extends JFrame {
 	 * Create the frame.
 	 */
 	public JDatosMedico() {
-		// Configuración inicial de la ventana
+		// Configuraciï¿½n inicial de la ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Modifico el label del yes button
 		UIManager.put("OptionPane.yesButtonText", "Si");
 		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
+				int confirmed = JOptionPane.showConfirmDialog(null, "Estï¿½ seguro que desea salir?", "Atenciï¿½n",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					// Para evitar problemas, se debe detener de forma correcta la base de datos
@@ -78,45 +77,45 @@ public class JDatosMedico extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		setTitle("Registro de médico");
+		setTitle("Registro de mï¿½dico");
 
-		// Panel que contendrá los distintos elementos
+		// Panel que contendrï¿½ los distintos elementos
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		// Label de código de médico
+		// Label de cï¿½digo de mï¿½dico
 		JLabel lblCodMedico = new JLabel("C\u00F3digo");
 		lblCodMedico.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblCodMedico.setBounds(36, 77, 124, 30);
 		panel.add(lblCodMedico);
 
-		// Text field de código de médico
+		// Text field de cï¿½digo de mï¿½dico
 		txtCodMedico = new JTextField();
 		txtCodMedico.setBounds(183, 85, 189, 20);
 		panel.add(txtCodMedico);
 		txtCodMedico.setColumns(10);
 
-		// Label de registro de médico, funciona como titular de la ventana
+		// Label de registro de mï¿½dico, funciona como titular de la ventana
 		JLabel lblRegistro = new JLabel("Registro de m\u00E9dico");
 		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistro.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblRegistro.setBounds(41, 14, 331, 25);
 		panel.add(lblRegistro);
 
-		// Text field de nombre del médico
+		// Text field de nombre del mï¿½dico
 		txtNombre = new JTextField();
 		txtNombre.setBounds(183, 136, 189, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
-		// Label del nombre del médico
+		// Label del nombre del mï¿½dico
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNombre.setBounds(36, 128, 124, 30);
 		panel.add(lblNombre);
 
-		// Boton para confirmar la creación de un registro de médico
+		// Boton para confirmar la creaciï¿½n de un registro de mï¿½dico
 		JButton btnConfirmar = new JButton("<html><center>Confirmar</center></html>");
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnConfirmar.setFocusPainted(false);
@@ -142,13 +141,13 @@ public class JDatosMedico extends JFrame {
 		btnSalir.setBounds(223, 276, 156, 48);
 		panel.add(btnSalir);
 
-		// Label de especialización del médico
+		// Label de especializaciï¿½n del mï¿½dico
 		JLabel lblEspecializacion = new JLabel("Especializaci\u00F3n");
 		lblEspecializacion.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblEspecializacion.setBounds(36, 182, 137, 30);
 		panel.add(lblEspecializacion);
 
-		// Text field de especialización del médico
+		// Text field de especializaciï¿½n del mï¿½dico
 		txtEspecializacion = new JTextField();
 		txtEspecializacion.setColumns(10);
 		txtEspecializacion.setBounds(183, 190, 189, 20);
@@ -177,28 +176,29 @@ public class JDatosMedico extends JFrame {
 					// Chequeamos la longitud de la especialidad
 					if (strEspe.length() <= 50 && strEspe.length() > 0) {
 						try {
-							// Creamos un objeto del tipo médico con los datos de los textfields
+							// Creamos un objeto del tipo mï¿½dico con los datos de los textfields
 							Medico med = new Medico(strCodMed, strNombre, strEspe);
-							// Hacemos una llamada para insertar al médico en la DB
+							// Hacemos una llamada para insertar al mï¿½dico en la DB
 							dao.insertarMedico(med);
 						} catch (Exception e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
+							JOptionPane.showMessageDialog(null, "Ocurriï¿½ un error con la BD.", "Error",
 									JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
 
-						JOptionPane.showMessageDialog(null, "Medico registrado con éxito en la base de datos.",
-								"Médico registrado", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Medico registrado con ï¿½xito en la base de datos.",
+								"Mï¿½dico registrado", JOptionPane.INFORMATION_MESSAGE);
 						txtCodMedico.setText("");
 						txtNombre.setText("");
 						txtEspecializacion.setText("");
 					} else {
-						JOptionPane.showMessageDialog(null, "La especialización se encuentra vacía o es muy grande.",
-								"Error", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,
+								"La especializaciï¿½n se encuentra vacï¿½a o es muy grande.", "Error",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacía o es muy grande.", "Error",
+					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacï¿½a o es muy grande.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
@@ -206,15 +206,15 @@ public class JDatosMedico extends JFrame {
 				JOptionPane.showMessageDialog(null, "El medico ya existe.", "Error", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
+			JOptionPane.showMessageDialog(null, "ï¿½El cï¿½digo ingresado no es vï¿½lido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
 	public boolean esCodigoValido(String codigo) {
 		try {
-			// Si es posible realizar el parse Int, significa que es un String númerico
-			// válido
+			// Si es posible realizar el parse Int, significa que es un String nï¿½merico
+			// vï¿½lido
 			Integer.parseInt(codigo);
 			return true;
 		} catch (Exception e) {
@@ -225,17 +225,16 @@ public class JDatosMedico extends JFrame {
 	public boolean existeMedico(int cod) {
 		Medico medico = null;
 		try {
-			// Busco en la base de datos el médico por su codigo
+			// Busco en la base de datos el mï¿½dico por su codigo
 			medico = dao.buscarMedicoPorCodigo(cod);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return true;
 		}
-		
+
 		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo
-		// que no existe el médico para dicho codigo
+		// que no existe el mï¿½dico para dicho codigo
 		if (medico == null) {
 			return false;
 		} else {

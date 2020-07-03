@@ -13,20 +13,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.unlam.asw.DB.DAO;
-import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Usuario;
-import com.unlam.asw.pantallas.JInicial;
-import com.unlam.asw.pantallas.general.JIngresos;
 import com.unlam.asw.utils.InvalidPasswordException;
 import com.unlam.asw.utils.Utils;
-
-import javax.swing.JPasswordField;
 
 public class JRegister extends JFrame {
 
@@ -60,14 +56,14 @@ public class JRegister extends JFrame {
 	 * Create the frame.
 	 */
 	public JRegister() {
-		// Configuración inicial de la ventana
+		// Configuraciï¿½n inicial de la ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Modifico el label del yes button
 		UIManager.put("OptionPane.yesButtonText", "Si");
 		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
+				int confirmed = JOptionPane.showConfirmDialog(null, "Estï¿½ seguro que desea salir?", "Atenciï¿½n",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					// Para evitar problemas, se debe detener de forma correcta la base de datos
@@ -86,43 +82,43 @@ public class JRegister extends JFrame {
 		setContentPane(contentPane);
 		setTitle("Registro de usuario");
 
-		// Panel que contendrá los distintos elementos
+		// Panel que contendrï¿½ los distintos elementos
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		// Label de código de médico
+		// Label de cï¿½digo de mï¿½dico
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNombre.setBounds(36, 77, 124, 30);
 		panel.add(lblNombre);
 
-		// Text field de código de médico
+		// Text field de cï¿½digo de mï¿½dico
 		txtNombre = new JTextField();
 		txtNombre.setBounds(183, 85, 189, 20);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
-		// Label de registro de médico, funciona como titular de la ventana
+		// Label de registro de mï¿½dico, funciona como titular de la ventana
 		JLabel lblRegistro = new JLabel("Registro de usuario");
 		lblRegistro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistro.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblRegistro.setBounds(41, 14, 331, 25);
 		panel.add(lblRegistro);
 
-		// Text field de nombre del médico
+		// Text field de nombre del mï¿½dico
 		txtEmail = new JTextField();
 		txtEmail.setBounds(183, 136, 189, 20);
 		panel.add(txtEmail);
 		txtEmail.setColumns(10);
 
-		// Label del nombre del médico
+		// Label del nombre del mï¿½dico
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblEmail.setBounds(36, 128, 124, 30);
 		panel.add(lblEmail);
 
-		// Boton para confirmar la creación de un registro de médico
+		// Boton para confirmar la creaciï¿½n de un registro de mï¿½dico
 		JButton btnConfirmar = new JButton("<html><center>Confirmar</center></html>");
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnConfirmar.setFocusPainted(false);
@@ -148,13 +144,13 @@ public class JRegister extends JFrame {
 		btnSalir.setBounds(223, 276, 156, 48);
 		panel.add(btnSalir);
 
-		// Label de especialización del médico
+		// Label de especializaciï¿½n del mï¿½dico
 		JLabel lblPassword = new JLabel("Contrase\u00F1a");
 		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblPassword.setBounds(36, 182, 137, 30);
 		panel.add(lblPassword);
 
-		// Text field de especialización del médico
+		// Text field de especializaciï¿½n del mï¿½dico
 		txtPassword = new JPasswordField();
 		txtPassword.setColumns(10);
 		txtPassword.setBounds(183, 190, 189, 20);
@@ -170,51 +166,61 @@ public class JRegister extends JFrame {
 		String strNombre = txtNombre.getText().trim();
 		String strEmail = txtEmail.getText().trim();
 		String strPassword = txtPassword.getText().trim();
-		if (strNombre.length() == 0 || strEmail.length() == 0 || strPassword.length() == 0) {
-
+		// Verifico si el mail y el nombre de usuario estan completos
+		if (strNombre.length() == 0 || strEmail.length() == 0) {
 			JOptionPane.showMessageDialog(null, "Complete los campos", "Error", JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			try {
-				// Validacón de contraseña y de email
-				if (Utils.esPasswordValida(strPassword) && Utils.esEmailValido(strEmail)) {
-					// Busca el usuario en una query, si existe devuelve true
-					if (!existeUsuario(strEmail)) {
-						// Si el medico existe, chequeamos que se haya ingresado bien el nombre
-						if (strNombre.length() <= 50 && strNombre.length() > 0) {
-							try {
-								// Creamos un objeto del tipo usuario con los datos de los textfields
-								Usuario usuario = new Usuario(strNombre, strPassword, strEmail);
-								// Hacemos una llamada para insertar al usuario en la DB
-								dao.insertarUsuario(usuario);
-							} catch (Exception e) {
-								e.printStackTrace();
-								JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
-										JOptionPane.INFORMATION_MESSAGE);
-								return;
-							}
+			return;
+		}
 
-							JOptionPane.showMessageDialog(null, "Usuario registrado con éxito en la base de datos.",
-									"Usuario registrado", JOptionPane.INFORMATION_MESSAGE);
-							JLogin login = new JLogin();
-							login.setVisible(true);
-							dispose();
-						} else {
-							JOptionPane.showMessageDialog(null, "El nombre se encuentra vacío o es muy grande.",
-									"Error", JOptionPane.INFORMATION_MESSAGE);
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Ya existe un usuario con el email ingresado",
-								"Error", JOptionPane.INFORMATION_MESSAGE);
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "El email ingresado no es válido", "Error",
+		try {
+			// Validación de contraseña y de email
+			if (!Utils.esPasswordValida(strPassword) || Utils.esEmailValido(strEmail)) {
+				// Informo que el mail ingresado no es valido
+				JOptionPane.showMessageDialog(null, "El email ingresado no es válido", "Error",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+		} catch (InvalidPasswordException ex) {
+			// Muestro un mensaje de error
+			JOptionPane.showMessageDialog(null, ex.printMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+
+		// Busca el usuario en una query, si existe devuelve true
+		if (!existeUsuario(strEmail)) {
+			// Si el medico existe, chequeamos que se haya ingresado bien el nombre
+			if (strNombre.length() <= 50) {
+				try {
+					// Creamos un objeto del tipo usuario con los datos de los textfields
+					Usuario usuario = new Usuario(strNombre, strPassword, strEmail);
+					// Hacemos una llamada para insertar al usuario en la DB
+					dao.insertarUsuario(usuario);
+					JOptionPane.showMessageDialog(null, "Usuario registrado con éxito en la base de datos.",
+							"Usuario registrado", JOptionPane.INFORMATION_MESSAGE);
+					// Vuelvo a la pantalla de login
+					JLogin login = new JLogin();
+					login.setVisible(true);
+					// Destruyo la ventana de Register
+					dispose();
+				} catch (Exception e) {
+					e.printStackTrace();
+					// Error en la DB
+					JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
+					return;
 				}
-			} catch (InvalidPasswordException ex) {
-				JOptionPane.showMessageDialog(null, ex.printMessage(), "Error",
+
+			} else {
+				// Informe que el nombre no se adecua
+				JOptionPane.showMessageDialog(null, "El nombre se encuentra vacío o es muy grande.", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
+		} else {
+			// Informo que ya exist eun usuario con dicho mail
+			JOptionPane.showMessageDialog(null, "Ya existe un usuario con el email ingresado", "Error",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
+
 	}
 
 	public boolean existeUsuario(String email) {
@@ -226,7 +232,6 @@ public class JRegister extends JFrame {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return true;
 		}
 
 		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo

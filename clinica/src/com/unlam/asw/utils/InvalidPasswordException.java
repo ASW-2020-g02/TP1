@@ -11,6 +11,7 @@ public class InvalidPasswordException extends Exception {
 
 	public InvalidPasswordException(int conditionViolated) {
 		super("");
+		// Seteo el int de la excepción para saber de que error se trata
 		passwordConditionViolated = conditionViolated;
 	}
 

@@ -56,7 +56,7 @@ public class JDatosPaciente extends JFrame {
 	 * Create the frame.
 	 */
 	public JDatosPaciente() {
-		// Configuración inicial de la ventana
+		// Configuraciï¿½n inicial de la ventana
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Modifico el label del yes button
@@ -64,7 +64,7 @@ public class JDatosPaciente extends JFrame {
 		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea salir?", "Atención",
+				int confirmed = JOptionPane.showConfirmDialog(null, "ï¿½Estï¿½ seguro que desea salir?", "Atenciï¿½n",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					// Para evitar problemas, se debe detener de forma correcta la base de datos
@@ -82,18 +82,18 @@ public class JDatosPaciente extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
-		// Panel que contendrá todos los elementos
+		// Panel que contendrï¿½ todos los elementos
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		// Label de código del paciente
+		// Label de cï¿½digo del paciente
 		JLabel lblCodPaciente = new JLabel("C\u00F3digo");
 		lblCodPaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblCodPaciente.setBounds(72, 95, 80, 30);
 		panel.add(lblCodPaciente);
 
-		// Text field de código del paciente
+		// Text field de cï¿½digo del paciente
 		txtCodPaciente = new JTextField();
 		txtCodPaciente.setBounds(162, 103, 189, 20);
 		panel.add(txtCodPaciente);
@@ -163,9 +163,9 @@ public class JDatosPaciente extends JFrame {
 			if (!existePaciente(cod)) {
 				// Si el paciente no existe, chequeamos que se haya ingresado bien el nombre
 				if (nombreLength <= 50 && nombreLength > 0) {
-						registrarPaciente(new Paciente(strCod, strNombre));
+					registrarPaciente(new Paciente(strCod, strNombre));
 
-					JOptionPane.showMessageDialog(null, "Paciente registrado con éxito en la base de datos.",
+					JOptionPane.showMessageDialog(null, "Paciente registrado con ï¿½xito en la base de datos.",
 							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 
 					// Reseteo los input
@@ -173,23 +173,23 @@ public class JDatosPaciente extends JFrame {
 					txtNombrePaciente.setText("");
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"El nombre ingresado excede el límite de 50 caracteres, o está vacío.",
+							"El nombre ingresado excede el lï¿½mite de 50 caracteres, o estï¿½ vacï¿½o.",
 							"Paciente registrado", JOptionPane.INFORMATION_MESSAGE);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "¡El paciente ya existe!", "Error",
+				JOptionPane.showMessageDialog(null, "ï¿½El paciente ya existe!", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
+			JOptionPane.showMessageDialog(null, "ï¿½El cï¿½digo ingresado no es vï¿½lido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
 	public boolean esCodigoValido(String codigo) {
 		try {
-			// Si es posible realizar el parse Int, significa que es un String númerico
-			// válido
+			// Si es posible realizar el parse Int, significa que es un String nï¿½merico
+			// vï¿½lido
 			Integer.parseInt(codigo);
 			return true;
 		} catch (Exception e) {
@@ -206,7 +206,6 @@ public class JDatosPaciente extends JFrame {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return true;
 		}
 		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo
 		// que no existe el paciente para dicho codigo

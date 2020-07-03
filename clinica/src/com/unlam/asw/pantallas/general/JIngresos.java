@@ -107,7 +107,7 @@ public class JIngresos extends JFrame {
 		});
 		btnSituPaciente.setBounds(97, 135, 240, 68);
 		panel.add(btnSituPaciente);
-		
+
 		// Boton para acceder a la pantalla de ingreso de datos del médico
 		JButton btnDatosDelMdico = new JButton("<html><center>Datos del m\u00E9dico</center></html>");
 		btnDatosDelMdico.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -121,7 +121,7 @@ public class JIngresos extends JFrame {
 		});
 		btnDatosDelMdico.setBounds(97, 214, 240, 68);
 		panel.add(btnDatosDelMdico);
-		
+
 		// Boton para volver a la pantalla anterior
 		JButton btnAnterior = new JButton("Volver");
 		btnAnterior.addActionListener(new ActionListener() {
@@ -134,7 +134,7 @@ public class JIngresos extends JFrame {
 		btnAnterior.setBounds(329, 332, 74, 22);
 		btnAnterior.setFocusPainted(false);
 		panel.add(btnAnterior);
-		
+
 		// Centro la ventana en el monitor
 		setLocationRelativeTo(null);
 	}

@@ -2,6 +2,7 @@ package com.unlam.asw.pantallas.general;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -18,7 +19,6 @@ import com.unlam.asw.DB.DAO;
 import com.unlam.asw.pantallas.JInicial;
 import com.unlam.asw.pantallas.informes.JEnfermedadesXMedico;
 import com.unlam.asw.pantallas.informes.JPacienteXMedico;
-import java.awt.Font;
 
 public class JInformes extends JFrame {
 

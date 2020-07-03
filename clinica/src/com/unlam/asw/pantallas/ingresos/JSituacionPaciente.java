@@ -55,14 +55,14 @@ public class JSituacionPaciente extends JFrame {
 	 * Create the frame.
 	 */
 	public JSituacionPaciente() {
-		// Configuración inicial de la ventana
+		// Configuraciï¿½n inicial de la ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Modifico el label del yes button
 		UIManager.put("OptionPane.yesButtonText", "Si");
 		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
+				int confirmed = JOptionPane.showConfirmDialog(null, "Estï¿½ seguro que desea salir?", "Atenciï¿½n",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					// Para evitar problemas, se debe detener de forma correcta la base de datos
@@ -79,44 +79,44 @@ public class JSituacionPaciente extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		setTitle("Alta de situación de paciente");
+		setTitle("Alta de situaciï¿½n de paciente");
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		// Label del código de paciente
+		// Label del cï¿½digo de paciente
 		JLabel lblCodPaciente = new JLabel("C\u00F3digo paciente");
 		lblCodPaciente.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblCodPaciente.setBounds(36, 77, 143, 30);
 		panel.add(lblCodPaciente);
 
-		// Text field del código de paciente
+		// Text field del cï¿½digo de paciente
 		txtCodPaciente = new JTextField();
 		txtCodPaciente.setBounds(183, 85, 189, 20);
 		panel.add(txtCodPaciente);
 		txtCodPaciente.setColumns(10);
 
-		// Label de situación, titular de la ventana
+		// Label de situaciï¿½n, titular de la ventana
 		JLabel lblSituacion = new JLabel("Situaci\u00F3n del Paciente");
 		lblSituacion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSituacion.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblSituacion.setBounds(41, 14, 331, 25);
 		panel.add(lblSituacion);
 
-		// Text field de código de médico
+		// Text field de cï¿½digo de mï¿½dico
 		txtCodMed = new JTextField();
 		txtCodMed.setBounds(183, 134, 189, 20);
 		panel.add(txtCodMed);
 		txtCodMed.setColumns(10);
 
-		// Label de código de médico
+		// Label de cï¿½digo de mï¿½dico
 		JLabel lblCodigoMedico = new JLabel("C\u00F3digo m\u00E9dico");
 		lblCodigoMedico.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblCodigoMedico.setBounds(36, 124, 137, 34);
 		panel.add(lblCodigoMedico);
 
-		// Boton para guardar en la base de datos la situación del paciente
+		// Boton para guardar en la base de datos la situaciï¿½n del paciente
 		JButton btnConfirmar = new JButton("<html><center>Confirmar</center></html>");
 		btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnConfirmar.setFocusPainted(false);
@@ -142,13 +142,13 @@ public class JSituacionPaciente extends JFrame {
 		btnSalir.setBounds(223, 276, 156, 48);
 		panel.add(btnSalir);
 
-		// Text field de diagnóstico
+		// Text field de diagnï¿½stico
 		txtDiagnostico = new JTextField();
 		txtDiagnostico.setColumns(10);
 		txtDiagnostico.setBounds(183, 190, 189, 20);
 		panel.add(txtDiagnostico);
 
-		// Label de diagnóstico
+		// Label de diagnï¿½stico
 		JLabel lblDiag = new JLabel("Diagn\u00F3stico");
 		lblDiag.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblDiag.setBounds(36, 182, 137, 30);
@@ -162,8 +162,8 @@ public class JSituacionPaciente extends JFrame {
 
 	public boolean esCodigoValido(String codigo) {
 		try {
-			// Si es posible realizar el parse Int, significa que es un String númerico
-			// válido
+			// Si es posible realizar el parse Int, significa que es un String nï¿½merico
+			// vï¿½lido
 			Integer.parseInt(codigo);
 			return true;
 		} catch (Exception e) {
@@ -180,7 +180,6 @@ public class JSituacionPaciente extends JFrame {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return true;
 		}
 
 		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo
@@ -195,17 +194,16 @@ public class JSituacionPaciente extends JFrame {
 	public boolean existeMedico(int cod) {
 		Medico medico = null;
 		try {
-			// Busco en la base de datos el médico por su codigo
+			// Busco en la base de datos el mï¿½dico por su codigo
 			medico = dao.buscarMedicoPorCodigo(cod);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return true;
 		}
 
 		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo
-		// que no existe el médico para dicho codigo
+		// que no existe el mï¿½dico para dicho codigo
 		if (medico == null) {
 			return false;
 		} else {
@@ -223,15 +221,15 @@ public class JSituacionPaciente extends JFrame {
 		if (esCodigoValido(strCodPac) && esCodigoValido(strCodMed)) {
 			// Parseamos el codigo del paciente
 			int codPac = Integer.parseInt(strCodPac);
-			// Parseamos el código del medico
+			// Parseamos el cï¿½digo del medico
 			int codMed = Integer.parseInt(strCodMed);
 
 			// Busca el paciente y al medico, si existen devuelve true
 			if (existePaciente(codPac) && existeMedico(codMed)) {
-				// Chequeamos que la situacion no está vacia
+				// Chequeamos que la situacion no estï¿½ vacia
 				if (strSituacion.length() > 0) {
 					try {
-						// Llamamos a la BD para obtener el ID de la ultima situación registrada
+						// Llamamos a la BD para obtener el ID de la ultima situaciï¿½n registrada
 						// (por favor esto es algo teorico en la vida real esto seria un desastre
 						// debido a la concurrencia, habria conflictos cada dos segundos)
 						int id = dao.obtenerUltimoIDSituacion() + 1;
@@ -241,26 +239,26 @@ public class JSituacionPaciente extends JFrame {
 						dao.insertarSituacion(situ);
 
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
+						JOptionPane.showMessageDialog(null, "Ocurriï¿½ un error con la BD.", "Error",
 								JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
-					JOptionPane.showMessageDialog(null, "Situación registrada con éxito en la base de datos.",
-							"Situación registrada", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Situaciï¿½n registrada con ï¿½xito en la base de datos.",
+							"Situaciï¿½n registrada", JOptionPane.INFORMATION_MESSAGE);
 					txtCodPaciente.setText("");
 					txtCodMed.setText("");
 					txtDiagnostico.setText("");
 				} else {
-					JOptionPane.showMessageDialog(null, "La situación se encuentra vacía.", "Error",
+					JOptionPane.showMessageDialog(null, "La situaciï¿½n se encuentra vacï¿½a.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
 			} else {
-				JOptionPane.showMessageDialog(null, "El paciente o el médico no existen.", "Error",
+				JOptionPane.showMessageDialog(null, "El paciente o el mï¿½dico no existen.", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
+			JOptionPane.showMessageDialog(null, "ï¿½El cï¿½digo ingresado no es vï¿½lido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

@@ -1,8 +1,6 @@
 package com.unlam.asw.DB;
 
 import java.io.File;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import javax.crypto.NoSuchPaddingException;
 
 import org.sqlite.SQLiteConfig;
 
@@ -140,6 +136,7 @@ public class DAO {
 			// agrego el paciente
 			String sql = "INSERT INTO PACIENTES (CODIGO, NOMBRE) VALUES ( ?, ?);";
 			PreparedStatement ps = c.prepareStatement(sql);
+			// Completo los campos del statement
 			ps.setInt(1, codigo);
 			ps.setString(2, cripto.encrypt(nombre));
 			ps.execute();
@@ -233,6 +230,7 @@ public class DAO {
 			ResultSet rs = stmt.executeQuery(sql);
 			// voy agregando los médicos a la lista
 			while (rs.next()) {
+				// Desencripto los string
 				medicos.add(new Medico(rs.getString("CODIGO"), cripto.decrypt(rs.getString("NOMBRE")),
 						cripto.decrypt(rs.getString("ESPECIALIDAD"))));
 			}
@@ -415,10 +413,11 @@ public class DAO {
 			// agrego el usuario
 			String sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) VALUES (?,?,?);";
 			PreparedStatement ps = c.prepareStatement(sql);
+			// Encritp los distintos campos
 			ps.setString(1, cripto.encrypt(nombre));
 			ps.setString(2, cripto.encrypt(password));
 			ps.setString(3, cripto.encrypt(email));
-
+			// Ejecuto el prepared statemnt
 			ps.execute();
 			// cierro el statement
 			ps.close();

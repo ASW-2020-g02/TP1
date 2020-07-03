@@ -40,6 +40,7 @@ public class Utils {
 
 	public static String hashPassword(String password) {
 		char[] chars = password.toCharArray();
+		// Obtengo el array de bytes del salt
 		byte[] bytes = SALT.getBytes();
 
 		PBEKeySpec spec = new PBEKeySpec(chars, bytes, ITERATIONS, KEY_LENGTH);
@@ -48,7 +49,9 @@ public class Utils {
 
 		try {
 			SecretKeyFactory fac = SecretKeyFactory.getInstance(ALGORITHM);
+			// Obtengo la contraseña, en forma de bytes
 			byte[] securePassword = fac.generateSecret(spec).getEncoded();
+			// Obtengo la contraseña hasheada
 			return Optional.of(Base64.getEncoder().encodeToString(securePassword)).get();
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
 			return "";
@@ -58,8 +61,27 @@ public class Utils {
 	}
 
 	public static boolean esEmailValido(String strEmail) {
+		// Tomo el regex y valido que se ajuste a mi string
 		String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 		return strEmail.matches(regex);
+	}
+
+	private static int obtenerCantContain(String password, int limiteInferior, int limiteSuperior) {
+		int count = 0;
+		// Verifico que tenga algun número, del 0 al 9 inclusive
+		for (int i = limiteInferior; i <= limiteSuperior; i++) {
+
+			// Convierto de Integer a String
+			String str1 = Integer.toString(i);
+
+			// En caso de que la contraseña contenga un determinado número, se modificara el
+			// flag count y se detendra la iteración
+			if (password.contains(str1)) {
+				count = 1;
+				break;
+			}
+		}
+		return count;
 	}
 
 	public static boolean esPasswordValida(String password) throws InvalidPasswordException {
@@ -73,65 +95,18 @@ public class Utils {
 			throw new InvalidPasswordException(2);
 		}
 
-		// A continuación, se verifica la cantidad de digitos en la contraseña
-		int count = 0;
-
-		// Verifico que tenga algun número, del 0 al 9 inclusive
-		for (int i = 0; i <= 9; i++) {
-
-			// Convierto de Integer a String
-			String str1 = Integer.toString(i);
-
-			// En caso de que la contraseña contenga un determinado número, se modificara el
-			// flag count y se detendra la iteración
-			if (password.contains(str1)) {
-				count = 1;
-				break;
-			}
-		}
-
 		// Se requiere que la contraseña tenga al menos un digito
-		if (count == 0) {
+		if (obtenerCantContain(password, 0, 9) == 0) {
 			throw new InvalidPasswordException(3);
 		}
 
-		// En esta oportunidad, se contabiliza la ocurrencia de al menos una letra
-		// mayuscula
-		int countUpperCase = 0;
-
-		// Recorro las letras mayusculas
-		for (int i = 65; i <= 90; i++) {
-
-			// Casteo el int a char
-			char c = (char) i;
-
-			String str1 = Character.toString(c);
-			if (password.contains(str1)) {
-				countUpperCase = 1;
-			}
-		}
-
 		// Se requiere que la contraseña tenga al menos una mayuscula
-		if (countUpperCase == 0) {
+		if (obtenerCantContain(password, 65, 90) == 0) {
 			throw new InvalidPasswordException(4);
 		}
 
-		int countLowerCase = 0;
-
-		// Recorro las letras minusculas
-		for (int i = 90; i <= 122; i++) {
-
-			// Casteo el int a char
-			char c = (char) i;
-			String str1 = Character.toString(c);
-
-			if (password.contains(str1)) {
-				countLowerCase = 1;
-			}
-		}
-
 		// Se requiere que la contraseña tenga al menos una minuscula
-		if (countLowerCase == 0) {
+		if (obtenerCantContain(password, 90, 122) == 0) {
 			throw new InvalidPasswordException(5);
 		}
 

@@ -2,9 +2,6 @@ package com.unlam.asw.utils;
 
 import java.util.Base64;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 public class Criptografia {
 
 	private static Criptografia singleton;
@@ -15,16 +12,17 @@ public class Criptografia {
 		if (singleton == null) {
 			singleton = new Criptografia();
 		}
-
+		// Devuelvo una instancia de la clase
 		return singleton;
 	}
 
 	public String encrypt(String str) throws Exception {
+		// Utilizo base 64 para codificar
 		return Base64.getEncoder().encodeToString(str.getBytes("UTF-8"));
 	}
 
 	public String decrypt(String str) throws Exception {
-
+		// Utilizo base 64 para decodificar
 		return new String(Base64.getDecoder().decode(str));
 	}
 
