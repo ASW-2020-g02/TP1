@@ -1,13 +1,19 @@
 package com.unlam.asw.pantallas.ingresos;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,7 +26,9 @@ import javax.swing.border.EmptyBorder;
 
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
+import com.unlam.asw.pantallas.access.JLogin;
 import com.unlam.asw.pantallas.general.JIngresos;
+import java.awt.Rectangle;
 
 public class JDatosMedico extends JFrame {
 
@@ -60,7 +68,7 @@ public class JDatosMedico extends JFrame {
 		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Estï¿½ seguro que desea salir?", "Atenciï¿½n",
+				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					// Para evitar problemas, se debe detener de forma correcta la base de datos
@@ -77,7 +85,7 @@ public class JDatosMedico extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		setTitle("Registro de mï¿½dico");
+		setTitle("Registro de médico");
 
 		// Panel que contendrï¿½ los distintos elementos
 		JPanel panel = new JPanel();
@@ -157,6 +165,46 @@ public class JDatosMedico extends JFrame {
 		dao = DAO.obtenerInstancia();
 		// Centro la ventana en el monitor
 		setLocationRelativeTo(null);
+
+		try {
+			// Creo el boton
+			JButton botonAyuda = new JButton();
+
+			// Seteo los bounds
+			botonAyuda.setBounds(new Rectangle(371, 14, 32, 32));
+
+			// Obtengo el url de la imagen
+			URL url = JLogin.class.getResource("/informacion.png");
+
+			// Creo el buffer para la imagen
+			BufferedImage img;
+			img = ImageIO.read(url);
+
+			// Creo una variable del tipo ImageIcon
+			ImageIcon image = new ImageIcon(img);
+			// Seteo la imagen como icono
+			botonAyuda.setIcon(image);
+
+			// Pongo el cuadrado del mismo color de fondo
+			botonAyuda.setBackground(new Color(245, 245, 220));
+			botonAyuda.setBorderPainted(false);
+
+			// Lo agrego al panel
+			panel.add(botonAyuda);
+
+			// Agrego el onClick para mostrar el diálogo
+			botonAyuda.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, String.format(
+							"<html>En primer lugar, se debe ingresar el código del médico.<br>Luego, el nombre y por último su especialización.</html>",
+							100, 100), "Información", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+			});
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 	}
 
 	public void registrarMedico() {
@@ -182,23 +230,22 @@ public class JDatosMedico extends JFrame {
 							dao.insertarMedico(med);
 						} catch (Exception e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, "Ocurriï¿½ un error con la BD.", "Error",
+							JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
 									JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
 
-						JOptionPane.showMessageDialog(null, "Medico registrado con ï¿½xito en la base de datos.",
+						JOptionPane.showMessageDialog(null, "Medico registrado con éxito en la base de datos.",
 								"Mï¿½dico registrado", JOptionPane.INFORMATION_MESSAGE);
 						txtCodMedico.setText("");
 						txtNombre.setText("");
 						txtEspecializacion.setText("");
 					} else {
-						JOptionPane.showMessageDialog(null,
-								"La especializaciï¿½n se encuentra vacï¿½a o es muy grande.", "Error",
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La especialización se encuentra vacía o es muy grande.",
+								"Error", JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacï¿½a o es muy grande.", "Error",
+					JOptionPane.showMessageDialog(null, "El nombre se encuentra vacía o es muy grande.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
@@ -206,7 +253,7 @@ public class JDatosMedico extends JFrame {
 				JOptionPane.showMessageDialog(null, "El medico ya existe.", "Error", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "ï¿½El cï¿½digo ingresado no es vï¿½lido!", "Error",
+			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

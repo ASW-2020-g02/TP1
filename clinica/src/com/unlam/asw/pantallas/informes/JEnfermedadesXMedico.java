@@ -1,15 +1,22 @@
 package com.unlam.asw.pantallas.informes;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -27,6 +34,7 @@ import javax.swing.border.EtchedBorder;
 import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
+import com.unlam.asw.pantallas.access.JLogin;
 import com.unlam.asw.pantallas.general.JInformes;
 import com.unlam.asw.utils.Utils;
 
@@ -171,6 +179,46 @@ public class JEnfermedadesXMedico extends JFrame {
 		for (Medico medico : medicos) {
 			cbMedicos.addItem(medico);
 		}
+
+		try {
+			// Creo el boton
+			JButton botonAyuda = new JButton();
+
+			// Seteo los bounds
+			botonAyuda.setBounds(new Rectangle(381, 5, 32, 32));
+
+			// Obtengo el url de la imagen
+			URL url = JLogin.class.getResource("/informacion.png");
+
+			// Creo el buffer para la imagen
+			BufferedImage img;
+			img = ImageIO.read(url);
+
+			// Creo una variable del tipo ImageIcon
+			ImageIcon image = new ImageIcon(img);
+			// Seteo la imagen como icono
+			botonAyuda.setIcon(image);
+
+			// Pongo el cuadrado del mismo color de fondo
+			botonAyuda.setBackground(new Color(245, 245, 220));
+			botonAyuda.setBorderPainted(false);
+
+			// Lo agrego al panel
+			contentPane.add(botonAyuda);
+
+			// Agrego el onClick para mostrar el diálogo
+			botonAyuda.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, String.format(
+							"<html>Seleccione un médico de la lista desplegable para visualizar las enfermedades atendidas por el mismo</html>",
+							100, 100), "Información", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+			});
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 	}
 
 	@SuppressWarnings("unchecked")

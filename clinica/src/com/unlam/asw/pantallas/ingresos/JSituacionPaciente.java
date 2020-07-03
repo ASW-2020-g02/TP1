@@ -1,13 +1,20 @@
 package com.unlam.asw.pantallas.ingresos;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +29,7 @@ import com.unlam.asw.DB.DAO;
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
 import com.unlam.asw.entities.Situacion;
+import com.unlam.asw.pantallas.access.JLogin;
 import com.unlam.asw.pantallas.general.JIngresos;
 
 public class JSituacionPaciente extends JFrame {
@@ -62,7 +70,7 @@ public class JSituacionPaciente extends JFrame {
 		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Estï¿½ seguro que desea salir?", "Atenciï¿½n",
+				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					// Para evitar problemas, se debe detener de forma correcta la base de datos
@@ -158,6 +166,46 @@ public class JSituacionPaciente extends JFrame {
 		dao = DAO.obtenerInstancia();
 		// Centro la ventana en el monitor
 		setLocationRelativeTo(null);
+
+		try {
+			// Creo el boton
+			JButton botonAyuda = new JButton();
+
+			// Seteo los bounds
+			botonAyuda.setBounds(new Rectangle(371, 14, 32, 32));
+
+			// Obtengo el url de la imagen
+			URL url = JLogin.class.getResource("/informacion.png");
+
+			// Creo el buffer para la imagen
+			BufferedImage img;
+			img = ImageIO.read(url);
+
+			// Creo una variable del tipo ImageIcon
+			ImageIcon image = new ImageIcon(img);
+			// Seteo la imagen como icono
+			botonAyuda.setIcon(image);
+
+			// Pongo el cuadrado del mismo color de fondo
+			botonAyuda.setBackground(new Color(245, 245, 220));
+			botonAyuda.setBorderPainted(false);
+
+			// Lo agrego al panel
+			panel.add(botonAyuda);
+
+			// Agrego el onClick para mostrar el diálogo
+			botonAyuda.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, String.format(
+							"<html>En primer lugar, se debe ingresar el código del paciente.<br>Luego, el código del paciente siendo atendido.<br>Por último, el diagónstico obtenido.</html>",
+							100, 100), "Información", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+			});
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 	}
 
 	public boolean esCodigoValido(String codigo) {
@@ -239,26 +287,26 @@ public class JSituacionPaciente extends JFrame {
 						dao.insertarSituacion(situ);
 
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Ocurriï¿½ un error con la BD.", "Error",
+						JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
 								JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
-					JOptionPane.showMessageDialog(null, "Situaciï¿½n registrada con ï¿½xito en la base de datos.",
-							"Situaciï¿½n registrada", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Situación registrada con éxito en la base de datos.",
+							"Situación registrada", JOptionPane.INFORMATION_MESSAGE);
 					txtCodPaciente.setText("");
 					txtCodMed.setText("");
 					txtDiagnostico.setText("");
 				} else {
-					JOptionPane.showMessageDialog(null, "La situaciï¿½n se encuentra vacï¿½a.", "Error",
+					JOptionPane.showMessageDialog(null, "La situación se encuentra vacía.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
 			} else {
-				JOptionPane.showMessageDialog(null, "El paciente o el mï¿½dico no existen.", "Error",
+				JOptionPane.showMessageDialog(null, "El paciente o el médico no existen.", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "ï¿½El cï¿½digo ingresado no es vï¿½lido!", "Error",
+			JOptionPane.showMessageDialog(null, "¡El código ingresado no es válido!", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
