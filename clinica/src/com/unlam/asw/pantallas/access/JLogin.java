@@ -168,27 +168,34 @@ public class JLogin extends JFrame {
 		String strPassword = txtPassword.getText().trim();
 
 		try {
-			// Validacón de contraseña y de email
-			if (Utils.esPasswordValida(strPassword) && Utils.esEmailValido(strEmail)) {
-				// Busca el usuario en una query, si existe devuelve true
-				if (existeUsuario(strEmail, strPassword)) {
-					JInicial pantallaInicial = new JInicial();
-					pantallaInicial.setVisible(true);
-					dispose();
+			if (Utils.esEmailValido(strEmail)) {
+				// Validacón de contraseña y de email
+				if (Utils.esPasswordValida(strPassword)) {
+					// Busca el usuario en una query, si existe devuelve true
+					if (existeUsuario(strEmail, strPassword)) {
+						JInicial pantallaInicial = new JInicial();
+						pantallaInicial.setVisible(true);
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "El email o la contraseña ingresados son incorrectos",
+								"Error", JOptionPane.INFORMATION_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "El email o la contraseña ingresados son incorrectos", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
-			} else {
-				JOptionPane.showMessageDialog(null, "El email o la contraseña ingresados son incorrectos", "Error",
+			}
+
+			else {
+				JOptionPane.showMessageDialog(null, "El email ingresado es inválido", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
+
 		} catch (InvalidPasswordException ex) {
 			JOptionPane.showMessageDialog(null, "La contraseña ingresada es inválida", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
-
 
 	public boolean existeUsuario(String email, String password) {
 		Usuario usuario = null;

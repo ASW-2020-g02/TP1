@@ -1,6 +1,8 @@
 package com.unlam.asw.DB;
 
 import java.io.File;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,12 +11,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.crypto.NoSuchPaddingException;
+
 import org.sqlite.SQLiteConfig;
 
 import com.unlam.asw.entities.Medico;
 import com.unlam.asw.entities.Paciente;
 import com.unlam.asw.entities.Situacion;
 import com.unlam.asw.entities.Usuario;
+import com.unlam.asw.utils.Criptografia;
 import com.unlam.asw.utils.Utils;
 
 /*
@@ -24,10 +29,14 @@ public class DAO {
 	private static DAO singleton = null;
 	final static String DB = "centro-asistencial-los-pinares.db";
 	Connection c = null;
+	Criptografia cripto;
 
 	public DAO() {
 		// Creo una variable de tipo File para la ubicación del archivo de base de datos
 		File archivo = new File(DB);
+
+		cripto = Criptografia.obtenerInstancia();
+
 		try {
 			// En caso de que exista, conecto el SQL
 			if (archivo.exists()) {
@@ -88,12 +97,6 @@ public class DAO {
 					+ " PASSWORD   CHAR(50)       NOT NULL, " + " EMAIL      TEXT)";
 			stmt.executeUpdate(sql);
 
-			String hashedPassword = Utils.hashPassword("admin");
-			// creación del usuario admin
-			sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) " + "VALUES ('admin', '" + hashedPassword
-					+ "', 'admin@admin.com');";
-			stmt.executeUpdate(sql);
-
 			// Cierro el statemnt
 			stmt.close();
 		} catch (SQLException e) {
@@ -135,8 +138,10 @@ public class DAO {
 		String nombre = paciente.getNombre();
 		try {
 			// agrego el paciente
-			String sql = "INSERT INTO PACIENTES (CODIGO, NOMBRE) " + "VALUES ( " + codigo + ", '" + nombre + "');";
+			String sql = "INSERT INTO PACIENTES (CODIGO, NOMBRE) VALUES ( ?, ?);";
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, codigo);
+			ps.setString(2, cripto.encrypt(nombre));
 			ps.execute();
 			// cierro el statement
 			ps.close();
@@ -159,20 +164,22 @@ public class DAO {
 		Paciente paciente;
 		try {
 
-			Statement stmt = c.createStatement();
 			// Escribo la sentencia SQL para obtener todos los pacientes dado un codigo
-			String sql = "SELECT * FROM PACIENTES" + " WHERE CODIGO=" + codigo + ";";
+			String sql = "SELECT * FROM PACIENTES" + " WHERE CODIGO=?;";
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, codigo);
+
 			// Almaceno en una variable el set de resultados
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs = ps.executeQuery();
 
 			if (!rs.isBeforeFirst()) {
 				return null;
 			}
 
 			// Creo el objeto Paciente con los datos obtenidos de la base de datos
-			paciente = new Paciente(rs.getString("CODIGO"), rs.getString("NOMBRE"));
+			paciente = new Paciente(rs.getString("CODIGO"), cripto.decrypt(rs.getString("NOMBRE")));
 
-			stmt.close();
+			ps.close();
 			rs.close();
 		} catch (SQLException e) {
 			lanzarEx(e);
@@ -192,11 +199,13 @@ public class DAO {
 		String especialidad = med.getEspecialidad();
 		try {
 			// Creo la secuencia SQL para insertar el registro en la tabla
-			String sql = "INSERT INTO MEDICOS (CODIGO, NOMBRE, ESPECIALIDAD) " + "VALUES (" + codigo + ", '" + nombre
-					+ "', '" + especialidad + "');";
+			String sql = "INSERT INTO MEDICOS (CODIGO, NOMBRE, ESPECIALIDAD) VALUES (?,?,?);";
 			// Hago un prepared statement, ya que se trata de una query con campos definidos
 			// por el usuario
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, codigo);
+			ps.setString(2, cripto.encrypt(nombre));
+			ps.setString(3, cripto.encrypt(especialidad));
 			ps.execute();
 			// Cierro el statement
 			ps.close();
@@ -224,7 +233,8 @@ public class DAO {
 			ResultSet rs = stmt.executeQuery(sql);
 			// voy agregando los médicos a la lista
 			while (rs.next()) {
-				medicos.add(new Medico(rs.getString("CODIGO"), rs.getString("NOMBRE"), rs.getString("ESPECIALIDAD")));
+				medicos.add(new Medico(rs.getString("CODIGO"), cripto.decrypt(rs.getString("NOMBRE")),
+						cripto.decrypt(rs.getString("ESPECIALIDAD"))));
 			}
 			// cierro el statement
 			stmt.close();
@@ -246,16 +256,17 @@ public class DAO {
 
 		try {
 			String sql = "SELECT DISTINCT CODIGO, NOMBRE " + "FROM PACIENTES "
-					+ "INNER JOIN SITUACIONES ON PACIENTES.CODIGO = SITUACIONES.CODIGOPACIENTE " + "WHERE CODIGOMEDICO="
-					+ String.valueOf(codigoMedico) + ";";
+					+ "INNER JOIN SITUACIONES ON PACIENTES.CODIGO = SITUACIONES.CODIGOPACIENTE "
+					+ "WHERE CODIGOMEDICO=?;";
 
 			// Utilizo un prepared statement
 			PreparedStatement ps = c.prepareStatement(sql);
-
+			ps.setString(1, String.valueOf(codigoMedico));
 			ResultSet rs = ps.executeQuery();
+
 			// Voy agregando los pacientes a la lista
 			while (rs.next()) {
-				pacientes.add(new Paciente(rs.getString("CODIGO"), rs.getString("NOMBRE")));
+				pacientes.add(new Paciente(rs.getString("CODIGO"), cripto.decrypt(rs.getString("NOMBRE"))));
 			}
 
 			// Cierro el statement
@@ -273,16 +284,16 @@ public class DAO {
 		ArrayList<String> diagnosticos = new ArrayList<String>();
 
 		try {
-			String sql = "SELECT DISTINCT DIAGNOSTICO " + "FROM SITUACIONES WHERE CODIGOMEDICO="
-					+ String.valueOf(codigoMedico) + ";";
+			String sql = "SELECT DISTINCT DIAGNOSTICO " + "FROM SITUACIONES WHERE CODIGOMEDICO=?;";
 
 			// Utilizo un prepared statement
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, String.valueOf(codigoMedico));
 
 			ResultSet rs = ps.executeQuery();
 			// Voy agregando los pacientes a la lista
 			while (rs.next()) {
-				diagnosticos.add(rs.getString("DIAGNOSTICO"));
+				diagnosticos.add(cripto.decrypt(rs.getString("DIAGNOSTICO")));
 			}
 
 			// Cierro el statement
@@ -308,11 +319,16 @@ public class DAO {
 		String diag = sit.getDiagnostico();
 		try {
 			// agrego la situación
-			String sql = "INSERT INTO SITUACIONES (ID, CODIGOPACIENTE, CODIGOMEDICO, DIAGNOSTICO) " + "VALUES (" + id
-					+ ", " + codigoPac + ", " + codigoMed + ", '" + diag + "');";
+			String sql = "INSERT INTO SITUACIONES (ID, CODIGOPACIENTE, CODIGOMEDICO, DIAGNOSTICO) "
+					+ "VALUES (?,?,?,?);";
 			// Debido a que estamos frente a la inserción de campos ingresados
 			// por el usuario, es necesario utilizar un prepared statement
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.setInt(2, codigoPac);
+			ps.setInt(3, codigoMed);
+			ps.setString(4, cripto.encrypt(diag));
+
 			ps.execute();
 			// cierro el statement
 			ps.close();
@@ -337,19 +353,21 @@ public class DAO {
 		Medico med;
 		try {
 
-			Statement stmt = c.createStatement();
 			// Obtengo los médicos dado un código
-			String sql = "SELECT * FROM MEDICOS" + " WHERE CODIGO=" + codigo + ";";
-			ResultSet rs = stmt.executeQuery(sql);
+			String sql = "SELECT * FROM MEDICOS" + " WHERE CODIGO=?;";
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, codigo);
+			ResultSet rs = ps.executeQuery();
 
 			if (!rs.isBeforeFirst()) {
 				return null;
 			}
 			// Creo el objeto Medico correspondiente, con los campos obtenidos de la base de
 			// datos
-			med = new Medico(rs.getString("CODIGO"), rs.getString("ESPECIALIDAD"), rs.getString("NOMBRE"));
+			med = new Medico(rs.getString("CODIGO"), cripto.decrypt(rs.getString("ESPECIALIDAD")),
+					cripto.decrypt(rs.getString("NOMBRE")));
 			rs.close();
-			stmt.close();
+			ps.close();
 		} catch (SQLException e) {
 			lanzarEx(e);
 			return null;
@@ -382,6 +400,8 @@ public class DAO {
 		return id;
 	}
 
+	// USUARIOS
+
 	/**
 	 *
 	 * @param usuario
@@ -395,39 +415,12 @@ public class DAO {
 			// agrego el usuario
 			String sql = "INSERT INTO USUARIOS (NOMBRE, PASSWORD, EMAIL) VALUES (?,?,?);";
 			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, nombre);
-			ps.setString(2, password);
-			ps.setString(3, email);
+			ps.setString(1, cripto.encrypt(nombre));
+			ps.setString(2, cripto.encrypt(password));
+			ps.setString(3, cripto.encrypt(email));
 
 			ps.execute();
 			// cierro el statement
-			ps.close();
-		} catch (SQLException e) {
-			switch (e.getErrorCode()) {
-			case 19:
-				throw new Exception("Este nombre de usuario ya existe.");
-			default:
-				lanzarEx(e);
-			}
-		}
-	}
-
-	/**
-	 *
-	 * @param usuario
-	 * @throws Exception
-	 */
-	public void obtenerUsuario(String email, String password) throws Exception {
-		String hashedPassword = Utils.hashPassword(password);
-		try {
-			// Busco el usuario
-			String sql = "SELECT * FROM USUARIOS WHERE EMAIL=? AND PASSWORD=?;";
-			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, email);
-			ps.setString(2, hashedPassword);
-			ps.execute();
-
-			// Cierro el statement
 			ps.close();
 		} catch (SQLException e) {
 			switch (e.getErrorCode()) {
@@ -445,9 +438,8 @@ public class DAO {
 		try {
 			String sql = "SELECT NOMBRE, EMAIL, PASSWORD FROM USUARIOS WHERE EMAIL=? AND PASSWORD=?;";
 			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, email);
-			ps.setString(2, hashedPassword);
-			ps.execute();
+			ps.setString(1, cripto.encrypt(email));
+			ps.setString(2, cripto.encrypt(hashedPassword));
 			ResultSet rs = ps.executeQuery();
 
 			if (!rs.isBeforeFirst()) {
@@ -456,7 +448,8 @@ public class DAO {
 			// Creo el objeto Usuario correspondiente, con los campos obtenidos de la base
 			// de
 			// datos
-			usuario = new Usuario(rs.getString("NOMBRE"), rs.getString("EMAIL"), rs.getString("PASSWORD"));
+			usuario = new Usuario(cripto.decrypt(rs.getString("NOMBRE")), cripto.decrypt(rs.getString("EMAIL")),
+					cripto.decrypt(rs.getString("PASSWORD")));
 			rs.close();
 			ps.close();
 		} catch (SQLException e) {
@@ -472,8 +465,8 @@ public class DAO {
 			// Obtengo los usuarios dado un mail
 			String sql = "SELECT NOMBRE, EMAIL, PASSWORD FROM USUARIOS WHERE EMAIL=?;";
 			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setString(1, email);
-			
+			ps.setString(1, cripto.encrypt(email));
+
 			ResultSet rs = ps.executeQuery();
 
 			if (!rs.isBeforeFirst()) {
@@ -482,7 +475,8 @@ public class DAO {
 			// Creo el objeto Usuario correspondiente, con los campos obtenidos de la base
 			// de
 			// datos
-			usuario = new Usuario(rs.getString("NOMBRE"), rs.getString("EMAIL"), rs.getString("PASSWORD"));
+			usuario = new Usuario(cripto.decrypt(rs.getString("NOMBRE")), cripto.decrypt(rs.getString("EMAIL")),
+					cripto.decrypt(rs.getString("PASSWORD")));
 			rs.close();
 			ps.close();
 		} catch (SQLException e) {
