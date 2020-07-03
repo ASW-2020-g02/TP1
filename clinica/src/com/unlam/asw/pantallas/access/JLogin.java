@@ -7,7 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -105,12 +109,20 @@ public class JLogin extends JFrame {
 		txtEmail.setColumns(10);
 
 		// Label de alta de paciente, titulo de la ventana
-		ImageIcon image = new ImageIcon("assets/hospital.png");
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setIcon(image);
-		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setBounds(10, 11, 393, 80);
-		panel.add(lblLogo);
+		URL url = JLogin.class.getResource("/hospital.png");
+		try {
+			BufferedImage img = ImageIO.read(url);
+			ImageIcon image = new ImageIcon(img);
+			JLabel lblLogo = new JLabel("");
+			lblLogo.setIcon(image);
+			lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+			lblLogo.setBounds(10, 11, 393, 80);
+			panel.add(lblLogo);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 
 		// Text field de nombre del paciente
 		txtPassword = new JPasswordField();
