@@ -219,7 +219,6 @@ public class JLogin extends JFrame {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return true;
 		}
 
 		// En caso de que no devuelva nada, la variable inicial seguira en null, por lo
