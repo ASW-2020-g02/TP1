@@ -145,7 +145,7 @@ public class JLogin extends JFrame {
 				ingresarAlSistema();
 			}
 		});
-		btnIngresar.setBounds(81, 259, 257, 48);
+		btnIngresar.setBounds(81, 271, 257, 48);
 		panel.add(btnIngresar);
 
 		JLabel lblLosPinares = new JLabel("Centro Asistencial Los Pinares");
@@ -155,18 +155,18 @@ public class JLogin extends JFrame {
 		lblLosPinares.setBounds(10, 102, 393, 14);
 		panel.add(lblLosPinares);
 
-		JButton btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnRegistrarse.setBounds(147, 318, 115, 23);
-		btnRegistrarse.setFocusPainted(false);
-		btnRegistrarse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JRegister register = new JRegister();
-				register.setVisible(true);
-				dispose();
-			}
-		});
-		panel.add(btnRegistrarse);
+//		JButton btnRegistrarse = new JButton("Registrarse");
+//		btnRegistrarse.setFont(new Font("Tahoma", Font.PLAIN, 15));
+//		btnRegistrarse.setBounds(147, 318, 115, 23);
+//		btnRegistrarse.setFocusPainted(false);
+//		btnRegistrarse.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				JRegister register = new JRegister();
+//				register.setVisible(true);
+//				dispose();
+//			}
+//		});
+//		panel.add(btnRegistrarse);
 
 		// Obtengo la instancia del DAO
 		dao = DAO.obtenerInstancia();

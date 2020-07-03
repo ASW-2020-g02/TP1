@@ -63,7 +63,7 @@ public class JRegister extends JFrame {
 		// Agrego una ventana de dialogo al intentar cerrar el programa
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				int confirmed = JOptionPane.showConfirmDialog(null, "Estï¿½ seguro que desea salir?", "Atenciï¿½n",
+				int confirmed = JOptionPane.showConfirmDialog(null, "Está seguro que desea salir?", "Atención",
 						JOptionPane.YES_NO_OPTION);
 				if (confirmed == JOptionPane.YES_OPTION) {
 					// Para evitar problemas, se debe detener de forma correcta la base de datos
@@ -127,22 +127,22 @@ public class JRegister extends JFrame {
 				registrarUsuario();
 			}
 		});
-		btnConfirmar.setBounds(36, 276, 156, 48);
+		btnConfirmar.setBounds(36, 276, 336, 48);
 		panel.add(btnConfirmar);
 
 		// Boton para vovler a la pantalla de ingresos
-		JButton btnSalir = new JButton("<html><center>Cancelar</center></html>");
-		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 17));
-		btnSalir.setFocusPainted(false);
-		btnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JLogin login = new JLogin();
-				login.setVisible(true);
-				dispose();
-			}
-		});
-		btnSalir.setBounds(223, 276, 156, 48);
-		panel.add(btnSalir);
+//		JButton btnSalir = new JButton("<html><center>Cancelar</center></html>");
+//		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 17));
+//		btnSalir.setFocusPainted(false);
+//		btnSalir.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				JLogin login = new JLogin();
+//				login.setVisible(true);
+//				dispose();
+//			}
+//		});
+//		btnSalir.setBounds(223, 276, 156, 48);
+//		panel.add(btnSalir);
 
 		// Label de especializaciï¿½n del mï¿½dico
 		JLabel lblPassword = new JLabel("Contrase\u00F1a");
@@ -176,7 +176,7 @@ public class JRegister extends JFrame {
 			// Validaciï¿½n de contraseï¿½a y de email
 			if (!Utils.esPasswordValida(strPassword) || !Utils.esEmailValido(strEmail)) {
 				// Informo que el mail ingresado no es valido
-				JOptionPane.showMessageDialog(null, "El email ingresado no es vï¿½lido", "Error",
+				JOptionPane.showMessageDialog(null, "El email ingresado no es válido", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
@@ -195,24 +195,23 @@ public class JRegister extends JFrame {
 					Usuario usuario = new Usuario(strNombre, strPassword, strEmail);
 					// Hacemos una llamada para insertar al usuario en la DB
 					dao.insertarUsuario(usuario);
-					JOptionPane.showMessageDialog(null, "Usuario registrado con ï¿½xito en la base de datos.",
+					JOptionPane.showMessageDialog(null, "Usuario registrado con éxito en la base de datos.",
 							"Usuario registrado", JOptionPane.INFORMATION_MESSAGE);
-					// Vuelvo a la pantalla de login
-					JLogin login = new JLogin();
-					login.setVisible(true);
-					// Destruyo la ventana de Register
-					dispose();
+
+					txtNombre.setText("");
+					txtEmail.setText("");
+					txtPassword.setText("");
 				} catch (Exception e) {
 					e.printStackTrace();
 					// Error en la DB
-					JOptionPane.showMessageDialog(null, "Ocurriï¿½ un error con la BD.", "Error",
+					JOptionPane.showMessageDialog(null, "Ocurrió un error con la BD.", "Error",
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 
 			} else {
 				// Informe que el nombre no se adecua
-				JOptionPane.showMessageDialog(null, "El nombre se encuentra vacï¿½o o es muy grande.", "Error",
+				JOptionPane.showMessageDialog(null, "El nombre se encuentra vacío o es muy grande.", "Error",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
